@@ -1,0 +1,21 @@
+{
+	"name": "hoa-fight-ts",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"scripts": { 
+		"build": "webpack", 
+		"dev": "webpack-dev-server" 
+	},
+	"devDependencies": {
+		"copy-webpack-plugin": "^5.1.1",
+		"ts-loader": "^6.2.1",
+		"typescript": "^3.7.5",
+		"webpack": "^4.41.6",
+		"webpack-cli": "^3.3.11",
+		"webpack-dev-server": "^3.10.3"
+	},
+	"dependencies": {
+		"phaser": "^3.22.0"
+	}
+}
