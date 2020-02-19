@@ -9,12 +9,21 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 export class GameScene extends Phaser.Scene {
 
 	private controlKeys: Phaser.Types.Input.Keyboard.CursorKeys;
+
+	/******************** Player ***********************************/
 	private player: Phaser.Physics.Arcade.Sprite;
-	private jumpVelocity: number = -600;
-	private vx: number = 150;
-	private jumpSound;
-	private ground;
-	private grid: any[] = [
+	private playerBounce:number = 0.5;
+	private jumpVelocity:number = -600;
+	private vx:number = 150;
+	private jumpSound:any;
+
+	/********************** Bombs **********************************/
+	private bombs:any;
+	private bombCreationInterval:number = 20 * 1000;
+
+	/********************** Map ************************************/
+	private ground:any;
+	private grid:string[][] = [
 		'00000000000000000000000000000000'.split(''),
 		'00000000000000000000000000000000'.split(''),
 		'00000000000000000000000000000000'.split(''),
@@ -44,13 +53,19 @@ export class GameScene extends Phaser.Scene {
 
 	public preload() {
 
+		/******************** Player ***********************************/
+		this.load.audio('jumpSound', 'assets/sounds/jump.wav');
 		this.load.spritesheet('dude','assets/images/dude.png', {
 			frameWidth: 32,
 			frameHeight: 48
 		});
 
+		/********************** Bombs **********************************/
+		this.load.image('bomb', 'assets/images/bomb.png');
+
+		/********************** Map ************************************/
 		this.load.image('ground', 'assets/images/tiles/tile1.png');
-		this.load.audio('jumpSound', 'assets/sounds/jump.wav');
+		
 	}
 
 	public create() {
@@ -68,11 +83,11 @@ export class GameScene extends Phaser.Scene {
 				}
 			}
 		}
-		/**************************************************************/
+		/***************************************************************/
 
-		/******************** Player **********************************/
+		/******************** Player ***********************************/
 		this.player = this.physics.add.sprite(100, 150, 'dude');
-		this.player.setBounce(0.3);
+		this.player.setBounce(this.playerBounce);
 		this.player.setCollideWorldBounds(true);
 		this.player.setGravityY(50);
 		this.physics.add.collider(this.ground, this.player);
@@ -105,7 +120,23 @@ export class GameScene extends Phaser.Scene {
 			frameRate: 10,
 			repeat: -1
 		});
-		/**************************************************************/
+		/***************************************************************/
+
+		/********************** Bombs **********************************/
+		this.bombs = this.physics.add.group();
+		this.physics.add.collider(this.bombs, this.ground);
+
+		function createBomb(player, bombs) {
+			let x = (player.x < 500) ? Phaser.Math.Between(500, 1000) : Phaser.Math.Between(0, 500);
+			let bomb = bombs.create(x, 0, 'bomb');
+			bomb.setBounce(1);
+			bomb.setCollideWorldBounds(true);
+			bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+			bomb.allowGravity = false;
+		}
+		window.setInterval(createBomb, this.bombCreationInterval, this.player, this.bombs);
+		
+		/***************************************************************/
 	}
 
 	public update() {
