@@ -9,7 +9,8 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 		height: 640
 	},
 	input: {
-		gamepad: true
+		gamepad: true,
+		keyboard: true
 	},
 	physics: {
 		default: 'arcade',
