@@ -1,0 +1,34 @@
+{
+	"preload": {
+		"files": [
+
+			{
+				"type": "image",
+				"key": "ground",
+				"url": "assets/images/tiles/tile1.png"
+			},
+
+			{
+				"type": "spritesheet",
+				"key": "dude",
+				"url": "assets/images/dude.png",
+				"frameConfig": {
+					"frameWidth": 32,
+					"frameHeight": 48
+				}
+			},
+
+			{
+				"type": "image",
+				"key": "bomb",
+				"url": "assets/images/bomb.png"
+			},
+
+			{
+				"type": "audio",
+				"key": "jumpSound",
+				"url": "assets/sounds/jump.wav"
+			}
+		]
+	}
+}
