@@ -1,4 +1,5 @@
 import { Input } from 'phaser';
+//import { Player } from '../prefabs/player.ts';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	active: false,
@@ -7,13 +8,14 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 };
 
 export class GameScene extends Phaser.Scene {
-
+	
 	private controlKeys: Phaser.Types.Input.Keyboard.CursorKeys;
 
 	/******************** Player ***********************************/
 	private player: Phaser.Physics.Arcade.Sprite;
 	private playerBounce:number = 0.5;
 	private jumpVelocity:number = -600;
+	private playerGravityY:number = 50;
 	private vx:number = 150;
 	private jumpSound:any;
 
@@ -53,18 +55,12 @@ export class GameScene extends Phaser.Scene {
 
 	public preload() {
 
-		/******************** Player ***********************************/
-		this.load.audio('jumpSound', 'assets/sounds/jump.wav');
-		this.load.spritesheet('dude','assets/images/dude.png', {
-			frameWidth: 32,
-			frameHeight: 48
-		});
-
-		/********************** Bombs **********************************/
-		this.load.image('bomb', 'assets/images/bomb.png');
-
-		/********************** Map ************************************/
-		this.load.image('ground', 'assets/images/tiles/tile1.png');
+		// Load out package
+		this.load.pack(
+			"preload",
+			"assets/pack.json",
+			"preload"
+		);
 		
 	}
 
@@ -89,7 +85,7 @@ export class GameScene extends Phaser.Scene {
 		this.player = this.physics.add.sprite(100, 150, 'dude');
 		this.player.setBounce(this.playerBounce);
 		this.player.setCollideWorldBounds(true);
-		this.player.setGravityY(50);
+		this.player.setGravityY(this.playerGravityY);
 		this.physics.add.collider(this.ground, this.player);
 
 		this.anims.create({
