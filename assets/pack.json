@@ -10,7 +10,7 @@
 
 			{
 				"type": "spritesheet",
-				"key": "dude",
+				"key": "player",
 				"url": "assets/images/dude.png",
 				"frameConfig": {
 					"frameWidth": 32,
