@@ -1,5 +1,6 @@
 import { Input } from 'phaser';
-//import { Player } from '../prefabs/player.ts';
+import { Player } from '../prefabs/player';
+import { GameMap } from '../prefabs/map';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	active: false,
@@ -9,45 +10,20 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class GameScene extends Phaser.Scene {
 	
-	private controlKeys: Phaser.Types.Input.Keyboard.CursorKeys;
-
-	/******************** Player ***********************************/
-	private player: Phaser.Physics.Arcade.Sprite;
-	private playerBounce:number = 0.5;
-	private jumpVelocity:number = -600;
-	private playerGravityY:number = 50;
-	private vx:number = 150;
-	private jumpSound:any;
-
-	/********************** Bombs **********************************/
 	private bombs:any;
-	private bombCreationInterval:number = 20 * 1000;
+	private player1: Player;
+	private player2: Player;
+	private map: GameMap;
 
-	/********************** Map ************************************/
-	private ground:any;
-	private grid:string[][] = [
-		'00000000000000000000000000000000'.split(''),
-		'00000000000000000000000000000000'.split(''),
-		'00000000000000000000000000000000'.split(''),
-		'10000000000000000000000000000000'.split(''),
-		'10000000000000000000000000000000'.split(''),
-		'10000000000000000000000000000000'.split(''),
-		'11111110000000000000000000000000'.split(''),
-		'00000000000000000000000000000000'.split(''),
-		'00000000000000000000000000000000'.split(''),
-		'00000000000000000000000000000000'.split(''),
-		'00000001111100000000110000111111'.split(''),
-		'00000000000000000000000000000000'.split(''),
-		'00000000000000000000000000000000'.split(''),
-		'00011100000000000011000000000000'.split(''),
-		'00000000000000000000000000000000'.split(''),
-		'00000000111000000000000000000000'.split(''),
-		'00000000000000000000000000111111'.split(''),
-		'00000000000000000000000000000000'.split(''),
-		'11110000000000011110000000000000'.split(''),
-		'00000000000000000000000000000000'.split(''),
-		'11111111111111111111111111111111'.split('')
-	];
+	createBomb(params):void {
+		let x = (params.player.x < 500) ? Phaser.Math.Between(500, 1000) : Phaser.Math.Between(0, 500);
+		// The key 'bomb' must be the same as the one used in pack.json
+		let bomb = params.group.create(x, 0, 'bomb');
+		bomb.setBounce(1);
+		bomb.setCollideWorldBounds(true);
+		bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+		bomb.allowGravity = false;
+	}
 
 	constructor() {
 		super(sceneConfig);
@@ -55,7 +31,6 @@ export class GameScene extends Phaser.Scene {
 
 	public preload() {
 
-		// Load out package
 		this.load.pack(
 			"preload",
 			"assets/pack.json",
@@ -66,98 +41,53 @@ export class GameScene extends Phaser.Scene {
 
 	public create() {
 
-		this.controlKeys = this.input.keyboard.createCursorKeys();
+		this.map = new GameMap({
+			scene: this
+		});
 
-		this.jumpSound = this.sound.add('jumpSound');
-
-		/********************** Map ************************************/
-		this.ground = this.physics.add.staticGroup();
-		for (let line = 0; line < this.grid.length; line++) {
-			for (let col = 0; col < this.grid[line].length; col++) {
-				if (this.grid[line][col] !== '0') {
-					this.ground.create(col*32+16, line*32-16, 'ground');
-				}
+		this.player1 = new Player({
+			scene: this,
+			x: 150, 
+			y: 300,
+			key: 'player',
+			controlKeys: {
+				right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+				left: Phaser.Input.Keyboard.KeyCodes.LEFT,
+				jump: Phaser.Input.Keyboard.KeyCodes.UP
 			}
-		}
-		/***************************************************************/
-
-		/******************** Player ***********************************/
-		this.player = this.physics.add.sprite(100, 150, 'dude');
-		this.player.setBounce(this.playerBounce);
-		this.player.setCollideWorldBounds(true);
-		this.player.setGravityY(this.playerGravityY);
-		this.physics.add.collider(this.ground, this.player);
-
-		this.anims.create({
-			key: 'left',
-			frames: this.anims.generateFrameNumbers('dude', {
-				start: 0,
-				end: 3
-			}),
-			frameRate: 10,
-			repeat: -1
 		});
 
-		this.anims.create({
-			key: 'turn',
-			frames: [{
-				key: 'dude',
-				frame: 4
-			}],
-			frameRate: 20
+		this.player2 = new Player({
+			scene: this,
+			x: 600,
+			y: 400,
+			key: 'player',
+			controlKeys: {
+				right: Phaser.Input.Keyboard.KeyCodes.D,
+				left: Phaser.Input.Keyboard.KeyCodes.Q,
+				jump: Phaser.Input.Keyboard.KeyCodes.SPACE
+			}
 		});
 
-		this.anims.create({
-			key: 'right',
-			frames: this.anims.generateFrameNumbers('dude', {
-				start: 5,
-				end: 8
-			}),
-			frameRate: 10,
-			repeat: -1
-		});
-		/***************************************************************/
+		// Temporary collider between the 2 players (which are physics arcade sprites)
+		this.physics.add.collider(this.player1, this.player2);
 
-		/********************** Bombs **********************************/
 		this.bombs = this.physics.add.group();
-		this.physics.add.collider(this.bombs, this.ground);
-
-		function createBomb(player, bombs) {
-			let x = (player.x < 500) ? Phaser.Math.Between(500, 1000) : Phaser.Math.Between(0, 500);
-			let bomb = bombs.create(x, 0, 'bomb');
-			bomb.setBounce(1);
-			bomb.setCollideWorldBounds(true);
-			bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-			bomb.allowGravity = false;
-		}
-		window.setInterval(createBomb, this.bombCreationInterval, this.player, this.bombs);
-		
-		/***************************************************************/
+		/* map.tiles is the public staticGroup declared in the GameMap class 
+		from where each tile texture is drawn (with create() : see map.ts) so 
+		that's the group which is colliding with the bombs */
+		this.physics.add.collider(this.bombs, this.map.tiles);
+		// Creation of a bomb every 30 seconds
+		window.setInterval(this.createBomb, 30*1000, {
+			player: this.player1, 
+			group: this.bombs
+		});
 	}
 
 	public update() {
 
-		if (this.controlKeys.left.isDown) {
-
-			this.player.setVelocityX(-this.vx);
-			this.player.anims.play('left', true);
-
-		} else if (this.controlKeys.right.isDown) {
-
-			this.player.setVelocityX(this.vx);
-			this.player.anims.play('right', true);
-
-		} else {
-
-			this.player.setVelocityX(0);
-			this.player.anims.play('turn');
-
-		}
-
-		if (this.controlKeys.space.isDown && this.player.body.touching.down) {
-			this.player.setVelocityY(this.jumpVelocity);
-			this.jumpSound.play();
-		}
+		this.player1.update();
+		this.player2.update();
 
 	}
 }
