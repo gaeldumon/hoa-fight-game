@@ -10,12 +10,12 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class GameScene extends Phaser.Scene {
 	
-	private bombs:any;
+	private bombs: any;
 	private player1: Player;
 	private player2: Player;
 	private map: GameMap;
 
-	createBomb(params):void {
+	createBomb(params): void {
 		let x = (params.player.x < 500) ? Phaser.Math.Between(500, 1000) : Phaser.Math.Between(0, 500);
 		// The key 'bomb' must be the same as the one used in pack.json
 		let bomb = params.group.create(x, 0, 'bomb');
@@ -85,10 +85,10 @@ export class GameScene extends Phaser.Scene {
 
 		// Creation of a bomb every 30 seconds
 		// 3rd argument is the params for the createBomb() function
-		window.setInterval(this.createBomb, 30*1000, {
+		/*window.setInterval(this.createBomb, 30*1000, {
 			player: this.player1, // Used for the x init position (random) of the bomb
 			group: this.bombs
-		});
+		});*/
 	}
 
 	public update() {
