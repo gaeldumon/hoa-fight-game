@@ -17,6 +17,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private jumpVelocity:number;
 	private bounce:number;
 
+	private jumpSound:any;
+
 	public getDead():boolean {
 		return this.isDead;
 	}
@@ -33,6 +35,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.jumpVelocity = -600;
 		this.vx = 150;
 		this.bounce = 0.5;
+
+		this.jumpSound = params.scene.sound.add('jumpSound');
 
 		// Sets 'this.body' (player body) to not null
 		this.scene.physics.world.enable(this);
@@ -104,6 +108,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 		if (this.jumpKey.isDown && this.body.touching.down) {
 			this.setVelocityY(this.jumpVelocity);
+			this.jumpSound.play();
 		}
 	}
 }
