@@ -8,7 +8,16 @@
 		"target": "es5",
 		"sourceMap": true
 	},
+
 	"include": [
-		"**/*.ts"
+		"src/**/*.ts"
+	],
+
+	"typeRoots": [
+		"./node_modules/phaser/types"
+	],
+	
+	"types": [
+		"Phaser"
 	]
 }
