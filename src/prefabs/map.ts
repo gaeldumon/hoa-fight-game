@@ -1,6 +1,7 @@
 export class GameMap {
 
 	private grid:string[];
+	private rawGrid;
 	private tileWidth:number;
 	private tileHeight:number;
 	public tiles:Phaser.Physics.Arcade.Group;
@@ -29,39 +30,14 @@ export class GameMap {
 
 	constructor(params) {
 
-		console.log(this.loadStrings('assets/levels/level1.txt'));
-
-		this.grid = [
-			'10000000000000000000000000000000',
-			'10000000000000000000000000000000',
-			'10000000000000000000000000000000',
-			'10000000000000000000000000000000',
-			'00000000000000000000000000000000',
-			'00000000000000000000000000000000',
-			'11111110000000000000000000000000',
-			'00000000000000000000000000000000',
-			'00000000000000000000000000000000',
-			'00000000000000000000000000000000',
-			'00000001111100000000001111100000',
-			'00000000000000000000000000000000',
-			'00000000000000001100000000000000',
-			'00000000000000000000000000000000',
-			'00000000000000000000000000000000',
-			'01110000000000000000000000000011',
-			'00000000000001100000000000111111',
-			'00000000000011110000000000000000',
-			'11000000000111111000000000000000',
-			'11110000001111111100000000000000',
-			'11111111111111111111111111111111'
-		];
+		this.rawGrid = this.loadStrings('assets/levels/level1.txt');
+		this.grid = this.rawGrid.split('\n').map(item => item.split(''));
 		
 		this.tileWidth = 32;
 		this.tileHeight = 32;
 		this.tiles = params.scene.physics.add.staticGroup();
 
 		for (let line = 0; line < this.grid.length; line++) {
-
-			this.grid[line].split('');
 
 			for (let col = 0; col < this.grid[line].length; col++) {
 
