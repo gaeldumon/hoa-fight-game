@@ -28,6 +28,18 @@
 				"type": "audio",
 				"key": "jumpSound",
 				"url": "assets/sounds/jump.wav"
+			},
+
+			{
+				"type": "text",
+				"key": "level1",
+				"url": "assets/levels/level1.txt"
+			},
+
+			{
+				"type": "text",
+				"key": "level2",
+				"url": "assets/levels/level2.txt"
 			}
 		]
 	}
