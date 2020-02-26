@@ -73,13 +73,20 @@ export class GameScene extends Phaser.Scene {
 		this.physics.add.collider(this.player1, this.player2);
 
 		this.bombs = this.physics.add.group();
+
 		/* map.tiles is the public staticGroup declared in the GameMap class 
 		from where each tile texture is drawn (with create() : see map.ts) so 
 		that's the group which is colliding with the bombs */
 		this.physics.add.collider(this.bombs, this.map.tiles);
+
+		this.createBomb({
+			player: this.player2, group: this.bombs
+		});
+
 		// Creation of a bomb every 30 seconds
+		// 3rd argument is the params for the createBomb() function
 		window.setInterval(this.createBomb, 30*1000, {
-			player: this.player1, 
+			player: this.player1, // Used for the x init position (random) of the bomb
 			group: this.bombs
 		});
 	}
