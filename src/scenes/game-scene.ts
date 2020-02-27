@@ -1,5 +1,6 @@
 import { Input } from 'phaser';
 import { Player } from '../prefabs/player';
+import { Bomb } from '../prefabs/bomb';
 import { GameMap } from '../prefabs/map';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -14,16 +15,6 @@ export class GameScene extends Phaser.Scene {
 	private player1: Player;
 	private player2: Player;
 	private map: GameMap;
-
-	createBomb(params): void {
-		let x = (params.player.x < 500) ? Phaser.Math.Between(500, 1000) : Phaser.Math.Between(0, 500);
-		// The key 'bomb' must be the same as the one used in pack.json
-		let bomb = params.group.create(x, 0, 'bomb');
-		bomb.setBounce(1);
-		bomb.setCollideWorldBounds(true);
-		bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-		bomb.allowGravity = false;
-	}
 
 	constructor() {
 		super(sceneConfig);
@@ -69,26 +60,17 @@ export class GameScene extends Phaser.Scene {
 			}
 		});
 
-		// Temporary collider between the 2 players (which are physics arcade sprites)
-		this.physics.add.collider(this.player1, this.player2);
-
 		this.bombs = this.physics.add.group();
-
-		/* map.tiles is the public staticGroup declared in the GameMap class 
-		from where each tile texture is drawn (with create() : see map.ts) so 
-		that's the group which is colliding with the bombs */
+		Bomb.create({scene: this, group: this.bombs});
 		this.physics.add.collider(this.bombs, this.map.tiles);
-
-		this.createBomb({
-			player: this.player2, group: this.bombs
-		});
+		this.physics.add.collider(this.player1, this.bombs, Bomb.hit, null, this);
 
 		// Creation of a bomb every 30 seconds
 		// 3rd argument is the params for the createBomb() function
-		/*window.setInterval(this.createBomb, 30*1000, {
-			player: this.player1, // Used for the x init position (random) of the bomb
+		window.setInterval(Bomb.create, 30*1000, {
+			scene: this,
 			group: this.bombs
-		});*/
+		});
 	}
 
 	public update() {

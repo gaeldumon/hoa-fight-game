@@ -17,7 +17,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private jumpVelocity:number;
 	private bounce:number;
 
-	private jumpSound:any;
+	private jumpSound:Phaser.Sound.BaseSound;
 
 	public getDead():boolean {
 		return this.isDead;
