@@ -1,7 +1,5 @@
-import { Input } from 'phaser';
 import { Player } from '../prefabs/player';
 import { GameMap } from '../prefabs/gameMap';
-
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	active: false,

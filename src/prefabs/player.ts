@@ -4,7 +4,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private rightKey: Phaser.Input.Keyboard.Key;
 	private leftKey: Phaser.Input.Keyboard.Key;
 	private isDead: boolean;
-	private life: number;
+	private health: number;
 	private vx: number;
 	private gravityY: number;
 	private jumpVelocity: number;
@@ -25,7 +25,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		super(params.scene, params.x, params.y, params.key, params.frame);
 
 		this.isDead = false;
-		this.life = 100;
+		this.health = 100;
 		this.gravityY = 50;
 		this.jumpVelocity = -600;
 		this.vx = 150;
