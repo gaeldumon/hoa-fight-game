@@ -1,7 +1,7 @@
 import { Input } from 'phaser';
 import { Player } from '../prefabs/player';
-import { Bomb } from '../prefabs/bomb';
-import { GameMap } from '../prefabs/map';
+import { GameMap } from '../prefabs/gameMap';
+
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	active: false,
@@ -9,18 +9,26 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	key: 'Game'
 };
 
+
 export class GameScene extends Phaser.Scene {
 	
-	private bombs: any;
 	private player1: Player;
 	private player2: Player;
-	private map: GameMap;
+	private gameMap: GameMap;
+
+
+	setColliders() {
+		this.physics.add.collider(this.player1, this.player2);
+		this.physics.add.collider( [this.player1, this.player2], this.gameMap.tiles);
+	}
+
 
 	constructor() {
 		super(sceneConfig);
 	}
 
-	public preload() {
+
+	preload() {
 
 		this.load.pack(
 			"preload",
@@ -30,11 +38,10 @@ export class GameScene extends Phaser.Scene {
 		
 	}
 
-	public create() {
 
-		this.map = new GameMap({
-			scene: this
-		});
+	create() {
+
+		this.gameMap = new GameMap( {scene: this} );
 
 		this.player1 = new Player({
 			scene: this,
@@ -60,20 +67,11 @@ export class GameScene extends Phaser.Scene {
 			}
 		});
 
-		this.bombs = this.physics.add.group();
-		Bomb.create({scene: this, group: this.bombs});
-		this.physics.add.collider(this.bombs, this.map.tiles);
-		this.physics.add.collider(this.player1, this.bombs, Bomb.hit, null, this);
+		this.setColliders();
 
-		// Creation of a bomb every 30 seconds
-		// 3rd argument is the params for the createBomb() function
-		window.setInterval(Bomb.create, 30*1000, {
-			scene: this,
-			group: this.bombs
-		});
 	}
 
-	public update() {
+	update() {
 
 		this.player1.update();
 		this.player2.update();
