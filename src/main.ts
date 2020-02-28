@@ -2,16 +2,21 @@ import * as Phaser from 'phaser';
 import Scenes from './scenes';
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
-	title: 'Sample',
+
+	title: 'Hoa Fight',
+
 	type: Phaser.AUTO,
+
 	scale: {
 		width: 1024,
 		height: 640
 	},
+
 	input: {
 		gamepad: true,
 		keyboard: true
 	},
+
 	physics: {
 		default: 'arcade',
 		arcade: {
@@ -21,6 +26,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 			debug: true,
 		},
 	},
+
 	parent: 'game',
 	scene: Scenes,
 	backgroundColor: '#111111',
