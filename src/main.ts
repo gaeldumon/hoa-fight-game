@@ -27,6 +27,10 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 		},
 	},
 
+	dom: {
+		createContainer: true
+	},
+
 	parent: 'game',
 	scene: Scenes,
 	backgroundColor: '#111111',
