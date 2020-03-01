@@ -37,6 +37,7 @@ export class Level {
 		
 		this.tileWidth = 32;
 		this.tileHeight = 32;
+		
 		// Using params cause class doesn't extends to anything so we can't super() the scene and write this.scene
 		this.tiles = params.scene.physics.add.staticGroup();
 
