@@ -3,6 +3,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private jumpKey: Phaser.Input.Keyboard.Key;
 	private rightKey: Phaser.Input.Keyboard.Key;
 	private leftKey: Phaser.Input.Keyboard.Key;
+	private shootKey: Phaser.Input.Keyboard.Key;
+
 	private isDead: boolean;
 	private health: number;
 	private vx: number;
@@ -42,6 +44,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.jumpKey = this.scene.input.keyboard.addKey(params.controlKeys['jump']);
 		this.rightKey = this.scene.input.keyboard.addKey(params.controlKeys['right']);
 		this.leftKey = this.scene.input.keyboard.addKey(params.controlKeys['left']);
+		this.shootKey = this.scene.input.keyboard.addKey(params.controlKeys['shoot']);
 
 		this.scene.anims.create({
 			key: 'left',
@@ -78,14 +81,19 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 	update(): void {
 
-		if (this.leftKey.isDown) {
-			this.setVelocityX(-this.vx);
-			this.anims.play('left', true);
+		if (this.leftKey.isDown || this.rightKey.isDown) {
+			if (this.shootKey.isDown) {
+				//...
+			}
 
-		} else if (this.rightKey.isDown) {
-			this.setVelocityX(this.vx);
-			this.anims.play('right', true);
-			
+			if (this.leftKey.isDown) {
+				this.setVelocityX(-this.vx);
+				this.anims.play('left', true);
+	
+			} else if (this.rightKey.isDown) {
+				this.setVelocityX(this.vx);
+				this.anims.play('right', true);
+			}
 		} else {
 			this.setVelocityX(0);
 			this.anims.play('turn');

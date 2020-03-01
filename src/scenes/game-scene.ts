@@ -1,5 +1,5 @@
 import { Player } from '../prefabs/player';
-import { GameMap } from '../prefabs/gameMap';
+import { Level } from '../prefabs/level';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	active: false,
@@ -12,12 +12,12 @@ export class GameScene extends Phaser.Scene {
 	
 	private player1: Player;
 	private player2: Player;
-	private gameMap: GameMap;
+	private level: Level;
 
 
 	setColliders() {
 		this.physics.add.collider(this.player1, this.player2);
-		this.physics.add.collider( [this.player1, this.player2], this.gameMap.tiles);
+		this.physics.add.collider( [this.player1, this.player2], this.level.tiles);
 	}
 
 
@@ -39,7 +39,7 @@ export class GameScene extends Phaser.Scene {
 
 	create() {
 
-		this.gameMap = new GameMap( {scene: this} );
+		this.level = new Level( {scene: this, id: '1'} );
 
 		this.player1 = new Player({
 			scene: this,
@@ -49,7 +49,8 @@ export class GameScene extends Phaser.Scene {
 			controlKeys: {
 				right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
 				left: Phaser.Input.Keyboard.KeyCodes.LEFT,
-				jump: Phaser.Input.Keyboard.KeyCodes.UP
+				jump: Phaser.Input.Keyboard.KeyCodes.UP,
+				shoot: Phaser.Input.Keyboard.KeyCodes.SHIFT
 			}
 		});
 
@@ -61,7 +62,8 @@ export class GameScene extends Phaser.Scene {
 			controlKeys: {
 				right: Phaser.Input.Keyboard.KeyCodes.D,
 				left: Phaser.Input.Keyboard.KeyCodes.Q,
-				jump: Phaser.Input.Keyboard.KeyCodes.SPACE
+				jump: Phaser.Input.Keyboard.KeyCodes.S,
+				shoot: Phaser.Input.Keyboard.KeyCodes.SPACE
 			}
 		});
 
