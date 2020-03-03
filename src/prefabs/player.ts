@@ -1,11 +1,12 @@
+import { Actions } from "phaser";
+
 export class Player extends Phaser.Physics.Arcade.Sprite {
 
 	private jumpKey: Phaser.Input.Keyboard.Key;
 	private rightKey: Phaser.Input.Keyboard.Key;
 	private leftKey: Phaser.Input.Keyboard.Key;
 	private shootKey: Phaser.Input.Keyboard.Key;
-
-	private isDead: boolean;
+	private _isDead: boolean;
 	private health: number;
 	private vx: number;
 	private gravityY: number;
@@ -13,39 +14,15 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private bounce: number;
 	private jumpSound: Phaser.Sound.BaseSound;
 
-	public getDead(): boolean {
-		return this.isDead;
+	public get isDead(): boolean {
+		return this._isDead;
 	}
 
-	public setDead(pDead: boolean): void {
-		this.isDead = pDead;
+	public set isDead(pDead: boolean) {
+		this._isDead = pDead;
 	}
 
-
-	constructor(params) {
-
-		super(params.scene, params.x, params.y, params.key, params.frame);
-
-		this.isDead = false;
-		this.health = 100;
-		this.gravityY = 50;
-		this.jumpVelocity = -600;
-		this.vx = 150;
-		this.bounce = 0.5;
-		this.jumpSound = this.scene.sound.add('jumpSound');
-
-		// Sets 'this.body' (player body --> used in this.update) to not null
-		this.scene.physics.world.enable(this);
-
-		this.setGravityY(this.gravityY);
-		this.setBounce(this.bounce);
-		this.setCollideWorldBounds(true);
-
-		this.jumpKey = this.scene.input.keyboard.addKey(params.controlKeys['jump']);
-		this.rightKey = this.scene.input.keyboard.addKey(params.controlKeys['right']);
-		this.leftKey = this.scene.input.keyboard.addKey(params.controlKeys['left']);
-		this.shootKey = this.scene.input.keyboard.addKey(params.controlKeys['shoot']);
-
+	private initAnimations(): void {
 		this.scene.anims.create({
 			key: 'left',
 			frames: this.scene.anims.generateFrameNumbers('player', {
@@ -74,26 +51,64 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 			frameRate: 10,
 			repeat: -1
 		});
+	}
 
-		// Responsible for the sprite to be visible on screen
+	private initVitals(): void {
+		this.isDead = false;
+		this.health = 100;
+	}
+	
+	private initPhysics(): void {
+		this.gravityY = 50;
+		this.jumpVelocity = -600;
+		this.vx = 150;
+		this.bounce = 0.5;
+	}
+
+	private handlePhysics(): void {
+		// Sets 'this.body' to not null (player body used in this.update)
+		this.scene.physics.world.enable(this);
+		this.setGravityY(this.gravityY);
+		this.setBounce(this.bounce);
+		this.setCollideWorldBounds(true);
+	}
+
+	private makeVisible(): void {
 		this.scene.add.existing(this);
 	}
 
-	update(): void {
+	private initControls(params): void {
+		this.jumpKey = this.scene.input.keyboard.addKey(params.controlKeys['jump']);
+		this.rightKey = this.scene.input.keyboard.addKey(params.controlKeys['right']);
+		this.leftKey = this.scene.input.keyboard.addKey(params.controlKeys['left']);
+		this.shootKey = this.scene.input.keyboard.addKey(params.controlKeys['shoot']);
+	}
 
+	constructor(params) {
+		super(params.scene, params.x, params.y, params.key, params.frame);
+
+		this.jumpSound = this.scene.sound.add('jumpSound');
+
+		this.initVitals();
+		this.initAnimations();
+		this.initPhysics();
+		this.handlePhysics();
+		this.initControls(params);
+		this.makeVisible();
+	}
+
+	update(): void {
 		if (this.leftKey.isDown || this.rightKey.isDown) {
-			if (this.shootKey.isDown) {
-				//...
-			}
+			if (this.shootKey.isDown) {}
 
 			if (this.leftKey.isDown) {
 				this.setVelocityX(-this.vx);
 				this.anims.play('left', true);
-	
 			} else if (this.rightKey.isDown) {
 				this.setVelocityX(this.vx);
 				this.anims.play('right', true);
 			}
+
 		} else {
 			this.setVelocityX(0);
 			this.anims.play('turn');
@@ -103,6 +118,5 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 			this.setVelocityY(this.jumpVelocity);
 			this.jumpSound.play();
 		}
-		
 	}
 }
