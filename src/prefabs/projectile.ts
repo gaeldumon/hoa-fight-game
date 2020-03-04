@@ -1,4 +1,4 @@
-import { getGameWidth } from '../helpers';
+import { getGameWidth, getGameHeight } from '../helpers';
 
 export class Projectile extends Phaser.Physics.Arcade.Image {
 	private speed: number;
@@ -10,14 +10,17 @@ export class Projectile extends Phaser.Physics.Arcade.Image {
 
 		this.scene.physics.world.enable(this);
 		
-		this.setVelocityY(this.speed);
+		this.setVelocityX(this.speed);
+
+		//this.body.allowGravity = false;
 
 		this.scene.add.existing(this);
 	}
 
 	update(): void {
-		if (this.x > getGameWidth(this.scene) || this.x < 0) {
+		if (this.x > getGameWidth(this.scene) || this.x < 0 || this.y > getGameHeight(this.scene) || this.y < 0) {
 			this.destroy();
+			console.log('Projectile destroyed');
 		}
 	}
 }
