@@ -20,6 +20,12 @@
 
 			{
 				"type": "image",
+				"key": "projectile",
+				"url": "assets/images/projectile.png"
+			},
+
+			{
+				"type": "image",
 				"key": "bomb",
 				"url": "assets/images/bomb.png"
 			},
