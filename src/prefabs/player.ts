@@ -1,4 +1,4 @@
-import { Actions } from "phaser";
+import { Projectile } from "./projectile";
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
 
@@ -6,6 +6,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private rightKey: Phaser.Input.Keyboard.Key;
 	private leftKey: Phaser.Input.Keyboard.Key;
 	private shootKey: Phaser.Input.Keyboard.Key;
+	private lastShoot: number;
+	private projectiles: Phaser.GameObjects.Group;
 	private _isDead: boolean;
 	private health: number;
 	private vx: number;
@@ -57,6 +59,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.isDead = false;
 		this.health = 100;
 	}
+
+	private initShooting(): void {
+		this.lastShoot = 0;
+		this.projectiles = this.scene.add.group({
+			runChildUpdate: true
+		});
+	}
 	
 	private initPhysics(): void {
 		this.gravityY = 50;
@@ -90,6 +99,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.jumpSound = this.scene.sound.add('jumpSound');
 
 		this.initVitals();
+		this.initShooting();
 		this.initAnimations();
 		this.initPhysics();
 		this.handlePhysics();
@@ -97,9 +107,24 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.makeVisible();
 	}
 
+	private handleShooting(): void {
+		if (this.shootKey.isDown && this.scene.time.now > this.lastShoot) {
+			this.projectiles.add(
+				new Projectile({
+					scene: this.scene,
+					x: this.x,
+					y: this.y - this.height/2,
+					key: "projectile"
+				})
+			);
+			this.lastShoot = this.scene.time.now + 500;
+		}
+	}
+
 	update(): void {
 		if (this.leftKey.isDown || this.rightKey.isDown) {
-			if (this.shootKey.isDown) {}
+
+			this.handleShooting();
 
 			if (this.leftKey.isDown) {
 				this.setVelocityX(-this.vx);
