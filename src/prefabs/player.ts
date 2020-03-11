@@ -78,6 +78,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private applyPhysics(): void {
 		// Sets 'this.body' to not null (player body used in this.update)
 		this.scene.physics.world.enable(this);
+
 		this.setGravityY(this.gravityY);
 		this.setBounce(this.bounce);
 		this.setCollideWorldBounds(true);
@@ -113,7 +114,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 					x: this.x,
 					y: this.y - this.height/2,
 					textureKey: "projectile",
-					speed: -500
+					speed: (this.lastPressedKey === this.leftKey) ? -500 : 500
 				})
 			);
 			this.lastShoot = this.scene.time.now + 500;
