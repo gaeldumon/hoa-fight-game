@@ -6,4 +6,4 @@ export const getGameWidth = (scene: Phaser.Scene) => {
 
 export const getGameHeight = (scene: Phaser.Scene) => {
 	return scene.game.scale.height;
-};
+}; 
