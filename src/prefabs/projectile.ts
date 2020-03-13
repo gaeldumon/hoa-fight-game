@@ -1,22 +1,28 @@
 import { getGameWidth, getGameHeight } from '../helpers';
 
 export class Projectile extends Phaser.Physics.Arcade.Image {
-	private speed: number;
+	private vx: number;
+	private vy: number;
+	private accelX: number;
+
+	private initPhysics(params): void {
+		this.vx = params.vx;
+		this.vy = params.vy;
+		this.accelX = 400;
+	}
+
+	private applyPhysics(): void {
+		// Sets projectile body to not null
+		this.scene.physics.world.enable(this);
+		this.setAccelerationX(this.accelX);
+		this.setVelocityX(this.vx);
+		this.setVelocityY(this.vy);
+	}
 
 	constructor(params) {
 		super(params.scene, params.x, params.y, params.textureKey);
-
-		this.speed = params.speed;
-
-		// Sets projectile body to not null
-		this.scene.physics.world.enable(this);
-
-		this.setAccelerationX(400);
-		this.setVelocityX(this.speed);
-
-		// Should extend to .Body to use allowGravity
-		//this.allowGravity = false;
-
+		this.initPhysics(params);
+		this.applyPhysics();
 		this.scene.add.existing(this);
 	}
 

@@ -60,13 +60,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.setIsDead(false);
 		this.health = 100;
 	}
-
-	private initShooting(): void {
-		this.lastShoot = 0;
-		this.projectiles = this.scene.add.group({
-			runChildUpdate: true
-		});
-	}
 	
 	private initPhysics(): void {
 		this.gravityY = 50;
@@ -78,7 +71,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private applyPhysics(): void {
 		// Sets 'this.body' to not null (player body used in this.update)
 		this.scene.physics.world.enable(this);
-
 		this.setGravityY(this.gravityY);
 		this.setBounce(this.bounce);
 		this.setCollideWorldBounds(true);
@@ -91,19 +83,11 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.shootKey = this.scene.input.keyboard.addKey(params.controlKeys['shoot'])
 	}
 
-	constructor(params) {
-		super(params.scene, params.x, params.y, params.key, params.frame);
-
-		this.jumpSound = this.scene.sound.add('jumpSound');
-
-		this.initVitals();
-		this.initShooting();
-		this.initAnimations();
-		this.initPhysics();
-		this.applyPhysics();
-		this.initControls(params);
-
-		this.scene.add.existing(this);
+	private initShooting(): void {
+		this.lastShoot = 0;
+		this.projectiles = this.scene.add.group({
+			runChildUpdate: true
+		});
 	}
 
 	private handleShooting(): void {
@@ -112,9 +96,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 				new Projectile({
 					scene: this.scene,
 					x: this.x,
-					y: this.y - this.height/2,
+					y: this.y,
 					textureKey: "projectile",
-					speed: (this.lastPressedKey === this.leftKey) ? -500 : 500
+					vx: (this.lastPressedKey === this.leftKey) ? -500 : 500,
+					vy: -300
 				})
 			);
 			this.lastShoot = this.scene.time.now + 500;
@@ -128,9 +113,22 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		}
 	}
 
+	constructor(params) {
+		super(params.scene, params.x, params.y, params.key, params.frame);
+		this.jumpSound = this.scene.sound.add('jumpSound');
+		this.initVitals();
+		this.initShooting();
+		this.initAnimations();
+		this.initPhysics();
+		this.applyPhysics();
+		this.initControls(params);
+		this.scene.add.existing(this);
+	}
+
 	update(): void {
 		this.handleShooting();
-
+		this.handleJumping();
+		
 		if (this.leftKey.isDown) {
 
 			this.lastPressedKey = this.leftKey;
@@ -154,7 +152,5 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 				this.anims.play('turn');
 			}
 		}
-
-		this.handleJumping();
 	}
 }
