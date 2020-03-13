@@ -6,7 +6,7 @@ export class Level {
 	private tileHeight: number;
 	public tiles: Phaser.Physics.Arcade.Group;
 
-
+	/* Need to put this static in a tools class or something */
 	loadStrings(file: string) {
 		let rawFile = new XMLHttpRequest();
 		let result: any;
