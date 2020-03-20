@@ -1,5 +1,5 @@
-import { Player } from '../prefabs/player';
-import { Level } from '../prefabs/level';
+import { Player } from '../objects/player';
+import { Level } from '../objects/level';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	active: false,
