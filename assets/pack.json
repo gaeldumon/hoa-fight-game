@@ -19,6 +19,16 @@
 			},
 
 			{
+				"type": "spritesheet",
+				"key": "graveyardTilesheet",
+				"url": "assets/images/graveyard-tilesheet.png",
+				"frameConfig": {
+					"frameWidth": 32,
+					"frameHeight": 32
+				}
+			},
+
+			{
 				"type": "image",
 				"key": "projectile",
 				"url": "assets/images/projectile.png"
@@ -46,6 +56,12 @@
 				"type": "text",
 				"key": "level2",
 				"url": "assets/levels/level2.txt"
+			},
+
+			{
+				"type": "tilemapCSV",
+				"key": "level1",
+				"url": "assets/levels/level1.csv"
 			}
 		]
 	}
