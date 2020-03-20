@@ -3,9 +3,9 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"license": "MIT",
-	"scripts": { 
-		"build": "webpack", 
-		"dev": "webpack-dev-server" 
+	"scripts": {
+		"build": "webpack",
+		"dev": "webpack-dev-server"
 	},
 	"devDependencies": {
 		"copy-webpack-plugin": "^5.1.1",
