@@ -114,7 +114,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	constructor(params) {
-		super(params.scene, params.x, params.y, params.key, params.frame);
+		super(params.scene, params.x, params.y, params.textureKey, params.frame);
 		this.jumpSound = this.scene.sound.add('jumpSound');
 		this.initVitals();
 		this.initShooting();
