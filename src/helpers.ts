@@ -22,7 +22,7 @@ export const getGameHeight = (scene: Phaser.Scene) => {
  * Load a file in ajax and return its response text.
  * @param pFilePath 
  */
-export const loadFile = (pFilePath: string) => {
+export const loadFile = (pFilePath: string): string => {
 	let rawFile = new XMLHttpRequest();
 	let result: string;
 
@@ -42,4 +42,15 @@ export const loadFile = (pFilePath: string) => {
 	rawFile.send(null);
 
 	return result;
+}
+
+/**
+ * Returns a 2d-array of strings from a whole text file given as input.
+ * Works best if the input text is only composed of single chars and '\n'.
+ * Each final array element would be one character of the text input.
+ * @param pFilePath 
+ */
+export const loadStrings = (pFilePath: string): string[][] => {
+	let rawGrid = this.loadFile(pFilePath);
+	return rawGrid.split('\n').map(item => item.split(''));
 }
