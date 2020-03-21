@@ -1,17 +1,10 @@
 {
 	"preload": {
 		"files": [
-
-			{
-				"type": "image",
-				"key": "ground",
-				"url": "assets/images/tiles/tile1.png"
-			},
-
 			{
 				"type": "spritesheet",
 				"key": "player",
-				"url": "assets/images/dude.png",
+				"url": "assets/images/characters/dude.png",
 				"frameConfig": {
 					"frameWidth": 32,
 					"frameHeight": 48
@@ -20,8 +13,8 @@
 
 			{
 				"type": "spritesheet",
-				"key": "graveyardTilesheet",
-				"url": "assets/images/graveyard-tilesheet.png",
+				"key": "tilesheet1",
+				"url": "assets/images/tilesheets/graveyard/graveyard-tilesheet-32x32.png",
 				"frameConfig": {
 					"frameWidth": 32,
 					"frameHeight": 32
@@ -30,32 +23,26 @@
 
 			{
 				"type": "image",
+				"key": "background1",
+				"url": "assets/images/backgrounds/graveyard-background.png"
+			},
+
+			{
+				"type": "image",
 				"key": "projectile",
-				"url": "assets/images/projectile.png"
+				"url": "assets/images/objects/projectile.png"
 			},
 
 			{
 				"type": "image",
 				"key": "bomb",
-				"url": "assets/images/bomb.png"
+				"url": "assets/images/objects/bomb-grey.png"
 			},
 
 			{
 				"type": "audio",
 				"key": "jumpSound",
 				"url": "assets/sounds/jump.wav"
-			},
-
-			{
-				"type": "text",
-				"key": "level1",
-				"url": "assets/levels/level1.txt"
-			},
-
-			{
-				"type": "text",
-				"key": "level2",
-				"url": "assets/levels/level2.txt"
 			},
 
 			{
