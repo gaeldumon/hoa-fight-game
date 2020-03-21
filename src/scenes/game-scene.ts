@@ -45,7 +45,7 @@ export class GameScene extends Phaser.Scene {
 			scene: this,
 			x: 150, 
 			y: 300,
-			key: 'player',
+			textureKey: 'player',
 			controlKeys: {
 				right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
 				left: Phaser.Input.Keyboard.KeyCodes.LEFT,
@@ -58,7 +58,7 @@ export class GameScene extends Phaser.Scene {
 			scene: this,
 			x: 600,
 			y: 400,
-			key: 'player',
+			textureKey: 'player',
 			controlKeys: {
 				right: Phaser.Input.Keyboard.KeyCodes.D,
 				left: Phaser.Input.Keyboard.KeyCodes.Q,
