@@ -23,6 +23,6 @@ export class Level {
 
 		this.tileset = this.map.addTilesetImage(`tilesheet${params.id}`);
 		this.layer = this.map.createStaticLayer(0, this.tileset, 0, 0);
-		this.layer.setCollisionBetween(0, 14);
+		this.layer.setCollisionBetween(0, 15);
 	}
 }
