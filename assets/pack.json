@@ -22,9 +22,25 @@
 			},
 
 			{
+				"type": "spritesheet",
+				"key": "tilesheet2",
+				"url": "assets/images/tilesheets/woods/woods-tilesheet-32x32.png",
+				"frameConfig": {
+					"frameWidth": 32,
+					"frameHeight": 32
+				}
+			},
+
+			{
 				"type": "image",
 				"key": "background1",
 				"url": "assets/images/backgrounds/graveyard-background.png"
+			},
+
+			{
+				"type": "image",
+				"key": "background2",
+				"url": "assets/images/backgrounds/woods-background.png"
 			},
 
 			{
@@ -49,6 +65,12 @@
 				"type": "tilemapCSV",
 				"key": "level1",
 				"url": "assets/levels/level1.csv"
+			},
+
+			{
+				"type": "tilemapCSV",
+				"key": "level2",
+				"url": "assets/levels/level2.csv"
 			}
 		]
 	}
