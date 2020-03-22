@@ -24,7 +24,7 @@
 			{
 				"type": "tilemapTiledJSON",
 				"key": "level1",
-				"url": "assets/levels/graveyard-tiled.json"
+				"url": "assets/levels/graveyard.json"
 			},
 
 			{
