@@ -17,7 +17,7 @@ export class GameScene extends Phaser.Scene {
 
 	setColliders() {
 		this.physics.add.collider(this.player1, this.player2);
-		this.physics.add.collider([this.player1, this.player2], this.level.layer);
+		this.physics.add.collider([this.player1, this.player2], this.level.getMainLayer());
 	}
 
 
