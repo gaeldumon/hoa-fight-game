@@ -14,7 +14,7 @@
 			{
 				"type": "spritesheet",
 				"key": "tilesheet1",
-				"url": "assets/images/tilesheets/graveyard-tilesheet-32x32.png",
+				"url": "assets/images/tilesheets/tilesheet1-32x32.png",
 				"frameConfig": {
 					"frameWidth": 32,
 					"frameHeight": 32
