@@ -15,14 +15,8 @@ export class Level {
 			`background${params.id}`
 		);
 
-		this.map = params.scene.make.tilemap({
-			key: `level${params.id}`,
-			tileWidth: 32, 
-			tileHeight: 32
-		});
-
+		this.map = params.scene.make.tilemap({ key: `level${params.id}` });
 		this.tileset = this.map.addTilesetImage(`tilesheet${params.id}`);
 		this.layer = this.map.createStaticLayer(0, this.tileset, 0, 0);
-		this.layer.setCollisionBetween(0, 15);
 	}
 }
