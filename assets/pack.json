@@ -14,7 +14,7 @@
 			{
 				"type": "spritesheet",
 				"key": "tilesheet1",
-				"url": "assets/images/tilesheets/graveyard/graveyard-tilesheet-32x32.png",
+				"url": "assets/images/tilesheets/graveyard-tilesheet-32x32.png",
 				"frameConfig": {
 					"frameWidth": 32,
 					"frameHeight": 32
@@ -22,13 +22,9 @@
 			},
 
 			{
-				"type": "spritesheet",
-				"key": "tilesheet2",
-				"url": "assets/images/tilesheets/woods/woods-tilesheet-32x32.png",
-				"frameConfig": {
-					"frameWidth": 32,
-					"frameHeight": 32
-				}
+				"type": "tilemapTiledJSON",
+				"key": "level1",
+				"url": "assets/levels/graveyard-tiled.json"
 			},
 
 			{
@@ -59,18 +55,6 @@
 				"type": "audio",
 				"key": "jumpSound",
 				"url": "assets/sounds/jump.wav"
-			},
-
-			{
-				"type": "tilemapCSV",
-				"key": "level1",
-				"url": "assets/levels/level1.csv"
-			},
-
-			{
-				"type": "tilemapCSV",
-				"key": "level2",
-				"url": "assets/levels/level2.csv"
 			}
 		]
 	}
