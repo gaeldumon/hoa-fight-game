@@ -107,7 +107,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	private handleJumping(): void {
-		if (this.jumpKey.isDown && this.body.touching.down) {
+		// this.body.touching.down is used for physics body collision.
+		// But here the ground is made of Tiles not physics bodies so we use
+		// the more generic body.blocked.down, as the doc suggests.
+		// The docs mention onFloor() which returns this.body.blocked.down
+		// but it doesn't work here, it doesn't seem to belong to body
+		// but it's in the arcade physics body Docs...
+		if (this.jumpKey.isDown && this.body.blocked.down) {
 			this.setVelocityY(this.jumpVelocity);
 			this.jumpSound.play();
 		}
