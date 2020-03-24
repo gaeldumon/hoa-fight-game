@@ -16,8 +16,33 @@ export class GameScene extends Phaser.Scene {
 
 
 	setColliders() {
-		this.physics.add.collider(this.player1, this.player2);
-		this.physics.add.collider([this.player1, this.player2], this.level.getMainLayer());
+		this.physics.add.collider(
+			this.player1,
+			this.player2
+		);
+
+		this.physics.add.collider(
+			[this.player1, this.player2], 
+			this.level.getMainLayer()
+		);
+
+		// Callback: Destroy projectile, player hurt, player tinted, explosion anim
+		this.physics.add.collider(
+			this.player1, 
+			this.player2.getProjectiles()
+		);
+		
+		// Callback: Destroy projectile, player hurt, player tinted, explosion anim 
+		this.physics.add.collider(
+			this.player2, 
+			this.player1.getProjectiles()
+		);
+
+		// Callback: Destroy projectile, explosion anim
+		this.physics.add.collider(
+			[this.player1.getProjectiles(), this.player2.getProjectiles()], 
+			this.level.getMainLayer()
+		);
 	}
 
 
