@@ -17,6 +17,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private bounce: number;
 	private jumpSound: Phaser.Sound.BaseSound;
 
+	public getProjectiles(): Phaser.GameObjects.Group {
+		return this.projectiles;
+	}
+
 	public getIsDead(): boolean {
 		return this.isDead;
 	}
@@ -71,6 +75,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private applyPhysics(): void {
 		// Sets 'this.body' to not null (player body used in this.update)
 		this.scene.physics.world.enable(this);
+
 		this.setGravityY(this.gravityY);
 		this.setBounce(this.bounce);
 		this.setCollideWorldBounds(true);
@@ -85,6 +90,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 	private initShooting(): void {
 		this.lastShoot = 0;
+		
 		this.projectiles = this.scene.add.group({
 			runChildUpdate: true
 		});
@@ -92,16 +98,19 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 	private handleShooting(): void {
 		if (this.shootKey.isDown && this.scene.time.now > this.lastShoot) {
+
 			this.projectiles.add(
 				new Projectile({
 					scene: this.scene,
 					x: this.x,
 					y: this.y,
-					textureKey: "projectile",
-					vx: (this.lastPressedKey === this.leftKey) ? -500 : 500,
-					vy: -300
+					// Bullet direction (left/right) based on last pressed key
+					// (i.e direction of the player). Default: goes right.
+					direction: (this.lastPressedKey === this.leftKey) ? -1 : 1,
+					textureKey: 'projectile'
 				})
 			);
+
 			this.lastShoot = this.scene.time.now + 500;
 		}
 	}
