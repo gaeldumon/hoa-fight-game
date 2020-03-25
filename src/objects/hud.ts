@@ -17,13 +17,25 @@ export class Hud {
 				<li>
 					<img src="${params.websiteUser.avatar}">
 				</li>
-				<li>${params.websiteUser.rank}</li>
+				<li>Rang: ${params.websiteUser.rank}</li>
+				<br>
+				<li>Santé: ${params.websiteUser.playerInstance.health}</li>
 			</ul>
-			<p>${params.player.health}</p>
+			<style>
+				ul {
+					border: 4px solid ${params.color};
+					color: white;
+					font-weight: bold;
+					font-family: arial;
+					list-style-type: none;
+					padding: 0;
+				}
+			</style>
 		`;
 
 		// 2nd argument is where phaser will put the html in, it's the container. 
 		// It's a div by default but I specify it anyway for clarity.
-		params.scene.add.dom().createFromHTML(this.htmlStruct, 'div');
+		params.scene.add.dom(params.x, params.y)
+						.createFromHTML(this.htmlStruct, 'div');
 	}
 }
