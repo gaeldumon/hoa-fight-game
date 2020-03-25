@@ -1,5 +1,8 @@
 import { Player } from '../objects/player';
 import { Level } from '../objects/level';
+import { Hud } from '../objects/hud';
+import { WebsiteUser } from '../objects/websiteUser';
+import { getGameWidth, getGameHeight } from '../helpers';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	active: false,
@@ -12,8 +15,11 @@ export class GameScene extends Phaser.Scene {
 	
 	private player1: Player;
 	private player2: Player;
+	private hud1: Hud;
+	private hud2: Hud;
+	private user1: WebsiteUser;
+	private user2: WebsiteUser;
 	private level: Level;
-
 
 	setColliders() {
 		this.physics.add.collider(
@@ -90,6 +96,42 @@ export class GameScene extends Phaser.Scene {
 				jump: Phaser.Input.Keyboard.KeyCodes.S,
 				shoot: Phaser.Input.Keyboard.KeyCodes.SPACE
 			}
+		});
+
+		this.user1 = new WebsiteUser({
+			id: 0,
+			avatar: '',
+			username: 'Woopix12',
+			rank: 0,
+			score: 0,
+			ratio: 0,
+			playerInstance: this.player1
+		});
+
+		this.user2 = new WebsiteUser({
+			id: 1,
+			avatar: '',
+			username: 'Steph45',
+			rank: 0,
+			score: 0,
+			ratio: 0,
+			playerInstance: this.player2
+		});
+
+		this.hud1 = new Hud({
+			scene: this,
+			x: 50,
+			y: 60,
+			color: 'red',
+			websiteUser: this.user1
+		});
+
+		this.hud2 = new Hud({
+			scene: this,
+			x: getGameWidth(this) - 50,
+			y: 60,
+			color: 'blue',
+			websiteUser: this.user2
 		});
 
 		this.setColliders();
