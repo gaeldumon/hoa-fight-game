@@ -8,8 +8,22 @@ export class Hud {
 	private opacity: number;
 	private textSize: number;
 	private textColor: string;
+	private htmlStruct: string;
 
 	constructor(params) {
+
+		this.htmlStruct = `
+			<ul>
+				<li>${params.player.username}</li>
+				<li>
+					<img src="${params.player.avatar}">
+				</li>
+				<li>${params.player.rank}</li>
+			</ul>
+			<p>${params.player.health}</p>
+		`;
+
+		params.scene.add.dom().createFromHTML(this.htmlStruct, 'div');
 
 	}
 }
