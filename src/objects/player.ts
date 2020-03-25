@@ -17,6 +17,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private bounce: number;
 	private jumpSound: Phaser.Sound.BaseSound;
 
+	public getHealth(): number {
+		return this.health;
+	}
+
 	public getProjectiles(): Phaser.GameObjects.Group {
 		return this.projectiles;
 	}
