@@ -1,6 +1,7 @@
 /**
  * This class will hold the website-user data and will be linked to 
- * a player instance.
+ * a player instance and piped to a HUD.
+ * 
  * The game will be hosted inside a website, the only way to play it will be
  * to first register into the website so the game can update your score, and
  * therefore your rank, inside the general ranking system of the website.
@@ -26,17 +27,33 @@ import { Player } from "./player";
 	private avatar: string;
 	private username: string;
 	private rank: number;
-	private score: number;
-	private ratio: number;
 	private playerInstance: Player;
 
-	constructor(params) {
+	public getId(): number {
+		return this.id;
+	}
+
+	public getAvatar(): string {
+		return this.avatar;
+	}
+
+	public getUsername(): string {
+		return this.username;
+	}
+
+	public getRank(): number {
+		return this.rank;
+	}
+
+	public getPlayerInstance(): Player {
+		return this.playerInstance;
+	}
+
+	constructor(params: { id: number; avatar: string; username: string; rank: number; score: number; ratio: number; playerInstance: Player; }) {
 		this.id = params.id;
 		this.avatar = params.avatar;
 		this.username = params.username;
 		this.rank = params.rank;
-		this.score = params.score;
-		this.ratio = params.ratio;
 		this.playerInstance = params.playerInstance;
 	}
 
