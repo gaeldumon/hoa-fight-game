@@ -29,6 +29,11 @@ export class Hud {
 					font-family: arial;
 					list-style-type: none;
 					padding: 0;
+					text-align: center;
+				}
+
+				img {
+					opacity: .5;
 				}
 			</style>
 		`;
