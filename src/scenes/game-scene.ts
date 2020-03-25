@@ -100,7 +100,7 @@ export class GameScene extends Phaser.Scene {
 
 		this.user1 = new WebsiteUser({
 			id: 0,
-			avatar: '',
+			avatar: 'assets/images/from-website/default-avatar.png',
 			username: 'Woopix12',
 			rank: 0,
 			score: 0,
@@ -110,7 +110,7 @@ export class GameScene extends Phaser.Scene {
 
 		this.user2 = new WebsiteUser({
 			id: 1,
-			avatar: '',
+			avatar: 'assets/images/from-website/default-avatar.png',
 			username: 'Steph45',
 			rank: 0,
 			score: 0,
