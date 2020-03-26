@@ -1,4 +1,5 @@
-import { Projectile } from "./projectile";
+import { Projectile } from './projectile';
+import { HealthBar } from './healthBar';
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
 
@@ -15,6 +16,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private gravityY: number;
 	private jumpVelocity: number;
 	private bounce: number;
+	private healthBar: HealthBar;
 	private jumpSound: Phaser.Sound.BaseSound;
 
 	public getHealth(): number {
@@ -114,8 +116,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 					textureKey: 'projectile'
 				})
 			);
-			this.health -= 10;
-			//console.log(`Aouch hurt! Santé : ${this.health}`);
+			
+			this.healthBar.decrease(10);
 			this.lastShoot = this.scene.time.now + 500;
 		}
 	}
@@ -142,6 +144,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.initPhysics();
 		this.applyPhysics();
 		this.initControls(params);
+
+		this.healthBar = new HealthBar({
+			scene: this.scene,
+			x: this.x,
+			y: this.y
+		})
+
 		this.scene.add.existing(this);
 	}
 
