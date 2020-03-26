@@ -114,7 +114,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 					textureKey: 'projectile'
 				})
 			);
-
+			this.health -= 10;
+			//console.log(`Aouch hurt! Santé : ${this.health}`);
 			this.lastShoot = this.scene.time.now + 500;
 		}
 	}
