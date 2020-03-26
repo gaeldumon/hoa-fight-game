@@ -4,6 +4,7 @@ import { Hud } from '../objects/hud';
 import { WebsiteUser } from '../objects/websiteUser';
 import { getGameWidth, getGameHeight } from '../helpers';
 
+
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	active: false,
 	visible: false,
@@ -98,6 +99,7 @@ export class GameScene extends Phaser.Scene {
 			}
 		});
 
+		// Holds website-user (who uses a player) data
 		this.user1 = new WebsiteUser({
 			id: 0,
 			avatar: 'assets/images/from-website/default-avatar.png',
@@ -118,18 +120,20 @@ export class GameScene extends Phaser.Scene {
 			playerInstance: this.player2
 		});
 
+		// Displays website-user data
 		this.hud1 = new Hud({
 			scene: this,
-			x: 50,
-			y: 60,
+			x: 70,
+			y: 50,
 			color: 'red',
+			// HUD linked to a user of the website linked to a player/character on the screen
 			websiteUser: this.user1
 		});
 
 		this.hud2 = new Hud({
 			scene: this,
-			x: getGameWidth(this) - 50,
-			y: 60,
+			x: getGameWidth(this) - 70,
+			y: 50,
 			color: 'blue',
 			websiteUser: this.user2
 		});
