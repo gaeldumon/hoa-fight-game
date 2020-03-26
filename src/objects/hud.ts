@@ -37,7 +37,9 @@ export class Hud {
 
 		// 2nd argument is where phaser will put the html in, it's the container. 
 		// It's a div by default but I specify it anyway for clarity.
-		params.scene.add.dom(params.x, params.y)
-						.createFromHTML(this.htmlStruct, 'div');
+		params.scene.add.dom(params.x, params.y).createFromHTML(this.htmlStruct, 'div');
+		
+		// Purpose of add.existing for a dom element?
+		//params.scene.add.existing(this);
 	}
 }
