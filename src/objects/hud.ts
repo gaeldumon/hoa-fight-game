@@ -9,8 +9,6 @@ export class Hud {
 
 	constructor(params) {
 
-		// I'm temporary including the health information here for now
-		// but ultimately a health bar will be implemented in Player class.
 		this.htmlStruct = `
 			<ul>
 				<li>${params.websiteUser.username}</li>
@@ -18,17 +16,16 @@ export class Hud {
 					<img src="${params.websiteUser.avatar}">
 				</li>
 				<li>Rang: ${params.websiteUser.rank}</li>
-				<br>
-				<li>Santé: ${params.websiteUser.playerInstance.health}</li>
 			</ul>
 			<style>
 				ul {
+					width: 90px;
+					padding: 10px;
 					border: 4px solid ${params.color};
 					color: white;
 					font-weight: bold;
 					font-family: arial;
 					list-style-type: none;
-					padding: 0;
 					text-align: center;
 				}
 
