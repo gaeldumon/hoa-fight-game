@@ -16,7 +16,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 		gamepad: true,
 		keyboard: true
 	},
-
+	
 	physics: {
 		default: 'arcade',
 		arcade: {
