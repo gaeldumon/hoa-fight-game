@@ -47,5 +47,8 @@ export class Level {
 			'subLayer', 
 			this.tileset, 0, 0
 		);
+		
+		// Purpose of add.existing for a tilemap?
+		//params.scene.add.existing(this);
 	}
 }
