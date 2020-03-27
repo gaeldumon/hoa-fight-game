@@ -1,8 +1,9 @@
 import { Player } from '../objects/player';
 import { Level } from '../objects/level';
 import { Hud } from '../objects/hud';
+import { HealthBar } from '../objects/healthBar';
 import { WebsiteUser } from '../objects/websiteUser';
-import { getGameWidth, getGameHeight } from '../helpers';
+import { getGameWidth } from '../helpers';
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -18,8 +19,6 @@ export class GameScene extends Phaser.Scene {
 	private player2: Player;
 	private hud1: Hud;
 	private hud2: Hud;
-	private user1: WebsiteUser;
-	private user2: WebsiteUser;
 	private level: Level;
 
 	setColliders() {
@@ -36,18 +35,18 @@ export class GameScene extends Phaser.Scene {
 		// Callback: Destroy projectile, player hurt, player tinted, explosion anim
 		this.physics.add.collider(
 			this.player1, 
-			this.player2.getProjectiles()
+			this.player2.projectiles
 		);
 		
 		// Callback: Destroy projectile, player hurt, player tinted, explosion anim 
 		this.physics.add.collider(
 			this.player2, 
-			this.player1.getProjectiles()
+			this.player1.projectiles
 		);
 
 		// Callback: Destroy projectile, explosion anim
 		this.physics.add.collider(
-			[this.player1.getProjectiles(), this.player2.getProjectiles()], 
+			[this.player1.projectiles, this.player2.projectiles], 
 			this.level.getMainLayer()
 		);
 	}
@@ -65,7 +64,7 @@ export class GameScene extends Phaser.Scene {
 			"assets/pack.json",
 			"preload"
 		);
-		
+
 	}
 
 
@@ -75,9 +74,14 @@ export class GameScene extends Phaser.Scene {
 
 		this.player1 = new Player({
 			scene: this,
-			x: 150, 
+			x: 140, 
 			y: 300,
 			textureKey: 'player',
+			healthBar: new HealthBar({
+				scene: this,
+				x: 25,
+				y: 130
+			}),
 			controlKeys: {
 				right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
 				left: Phaser.Input.Keyboard.KeyCodes.LEFT,
@@ -91,6 +95,11 @@ export class GameScene extends Phaser.Scene {
 			x: 600,
 			y: 400,
 			textureKey: 'player',
+			healthBar: new HealthBar({
+				scene: this,
+				x: getGameWidth(this) - 115,
+				y: 130,
+			}),
 			controlKeys: {
 				right: Phaser.Input.Keyboard.KeyCodes.D,
 				left: Phaser.Input.Keyboard.KeyCodes.Q,
@@ -99,35 +108,16 @@ export class GameScene extends Phaser.Scene {
 			}
 		});
 
-		// Holds website-user (who uses a player) data
-		this.user1 = new WebsiteUser({
-			id: 0,
-			avatar: 'assets/images/from-website/default-avatar.png',
-			username: 'Woopix12',
-			rank: 0,
-			score: 0,
-			ratio: 0,
-			playerInstance: this.player1
-		});
-
-		this.user2 = new WebsiteUser({
-			id: 1,
-			avatar: 'assets/images/from-website/default-avatar.png',
-			username: 'Steph45',
-			rank: 0,
-			score: 0,
-			ratio: 0,
-			playerInstance: this.player2
-		});
-
-		// Displays website-user data
 		this.hud1 = new Hud({
 			scene: this,
 			x: 70,
 			y: 50,
 			color: 'red',
-			// HUD linked to a user of the website linked to a player/character on the screen
-			websiteUser: this.user1
+			websiteUser: new WebsiteUser({
+				avatar: 'assets/images/from-website/default-avatar.png',
+				username: 'Marco45',
+				rank: 0
+			})
 		});
 
 		this.hud2 = new Hud({
@@ -135,7 +125,11 @@ export class GameScene extends Phaser.Scene {
 			x: getGameWidth(this) - 70,
 			y: 50,
 			color: 'blue',
-			websiteUser: this.user2
+			websiteUser: new WebsiteUser({
+				avatar: 'assets/images/from-website/default-avatar.png',
+				username: 'Woopix12',
+				rank: 0
+			})
 		});
 
 		this.setColliders();
@@ -146,6 +140,6 @@ export class GameScene extends Phaser.Scene {
 
 		this.player1.update();
 		this.player2.update();
-
+		
 	}
 }
