@@ -19,42 +19,28 @@
  * 	|=> win/lose(score)
  */
 
-import { Player } from "./player";
-
  export class WebsiteUser {
-	 
-	private id: number;
-	private avatar: string;
-	private username: string;
-	private rank: number;
-	private playerInstance: Player;
+	
+	private _avatar: string;
+	private _username: string;
+	private _rank: number;
 
-	public getId(): number {
-		return this.id;
+	get avatar(): string {
+		return this._avatar;
 	}
 
-	public getAvatar(): string {
-		return this.avatar;
+	get username(): string {
+		return this._username;
 	}
 
-	public getUsername(): string {
-		return this.username;
+	get rank(): number {
+		return this._rank;
 	}
-
-	public getRank(): number {
-		return this.rank;
-	}
-
-	public getPlayerInstance(): Player {
-		return this.playerInstance;
-	}
-
-	constructor(params: { id: number; avatar: string; username: string; rank: number; score: number; ratio: number; playerInstance: Player; }) {
-		this.id = params.id;
-		this.avatar = params.avatar;
-		this.username = params.username;
-		this.rank = params.rank;
-		this.playerInstance = params.playerInstance;
+	
+	constructor(params: { avatar: string; username: string; rank: number; }) {
+		this._avatar = params.avatar;
+		this._username = params.username;
+		this._rank = params.rank;
 	}
 
  }
