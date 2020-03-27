@@ -3,36 +3,26 @@ import { HealthBar } from './healthBar';
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
 
+	private _projectiles: Phaser.GameObjects.Group;
+	private healthBar: HealthBar;
+
 	private jumpKey: Phaser.Input.Keyboard.Key;
 	private rightKey: Phaser.Input.Keyboard.Key;
 	private leftKey: Phaser.Input.Keyboard.Key;
 	private shootKey: Phaser.Input.Keyboard.Key;
 	private lastPressedKey: Phaser.Input.Keyboard.Key;
+
+	private jumpSound: Phaser.Sound.BaseSound;
+
 	private lastShoot: number;
-	private projectiles: Phaser.GameObjects.Group;
-	private isDead: boolean;
 	private health: number;
 	private vx: number;
 	private gravityY: number;
 	private jumpVelocity: number;
 	private bounce: number;
-	private healthBar: HealthBar;
-	private jumpSound: Phaser.Sound.BaseSound;
 
-	public getHealth(): number {
-		return this.health;
-	}
-
-	public getProjectiles(): Phaser.GameObjects.Group {
-		return this.projectiles;
-	}
-
-	public getIsDead(): boolean {
-		return this.isDead;
-	}
-
-	public setIsDead(pDead: boolean): void {
-		this.isDead = pDead;
+	public get projectiles(): Phaser.GameObjects.Group {
+		return this._projectiles;
 	}
 
 	private initAnimations(): void {
@@ -67,7 +57,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	private initVitals(): void {
-		this.setIsDead(false);
 		this.health = 100;
 	}
 	
@@ -79,9 +68,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	private applyPhysics(): void {
-		// Sets 'this.body' to not null (player body used in this.update)
+		// Sets 'this.body' to not null
 		this.scene.physics.world.enable(this);
-
 		this.setGravityY(this.gravityY);
 		this.setBounce(this.bounce);
 		this.setCollideWorldBounds(true);
@@ -94,18 +82,25 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.shootKey = this.scene.input.keyboard.addKey(params.controlKeys['shoot'])
 	}
 
+	private initHealthBar(params): void {
+		this.healthBar = params.healthBar;
+	}
+
+	private hurt(): void {
+		this.health -= 10;
+		this.healthBar.decrease(10);
+	}
+
 	private initShooting(): void {
 		this.lastShoot = 0;
-		
-		this.projectiles = this.scene.add.group({
+		this._projectiles = this.scene.add.group({
 			runChildUpdate: true
 		});
 	}
 
 	private handleShooting(): void {
 		if (this.shootKey.isDown && this.scene.time.now > this.lastShoot) {
-
-			this.projectiles.add(
+			this._projectiles.add(
 				new Projectile({
 					scene: this.scene,
 					x: this.x,
@@ -116,8 +111,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 					textureKey: 'projectile'
 				})
 			);
-			
-			this.healthBar.decrease(10);
+			this.hurt();
 			this.lastShoot = this.scene.time.now + 500;
 		}
 	}
@@ -139,18 +133,12 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		super(params.scene, params.x, params.y, params.textureKey, params.frame);
 		this.jumpSound = this.scene.sound.add('jumpSound');
 		this.initVitals();
+		this.initHealthBar(params);
 		this.initShooting();
 		this.initAnimations();
 		this.initPhysics();
 		this.applyPhysics();
 		this.initControls(params);
-
-		this.healthBar = new HealthBar({
-			scene: this.scene,
-			x: this.x,
-			y: this.y
-		})
-
 		this.scene.add.existing(this);
 	}
 
@@ -173,6 +161,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		} else {
 
 			this.setVelocityX(0);
+
 			if (this.lastPressedKey === this.leftKey) {
 				this.anims.play('left');
 			} else if (this.lastPressedKey === this.rightKey) {
