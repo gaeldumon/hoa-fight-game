@@ -39,6 +39,7 @@ export class HealthBar {
     }
 
     constructor(params) {
+        // Equivalent to this.bar = params.scene.add.graphics()
         this.bar = new Phaser.GameObjects.Graphics(params.scene);
         this.x = params.x;
         this.y = params.y;
@@ -51,7 +52,4 @@ export class HealthBar {
 
         params.scene.add.existing(this.bar);
     }
-
-
-
 }
