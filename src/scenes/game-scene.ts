@@ -4,6 +4,7 @@ import { Hud } from '../objects/hud';
 import { HealthBar } from '../objects/healthBar';
 import { WebsiteUser } from '../objects/websiteUser';
 import { getGameWidth } from '../helpers';
+import { COLORS } from '../helpers';
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -121,7 +122,7 @@ export class GameScene extends Phaser.Scene {
 			scene: this,
 			x: 70,
 			y: 50,
-			color: 'red',
+			color: COLORS.customGreen.string,
 			websiteUser: new WebsiteUser({
 				avatar: 'assets/images/from-website/default-avatar.png',
 				username: 'Marco45',
@@ -133,7 +134,7 @@ export class GameScene extends Phaser.Scene {
 			scene: this,
 			x: getGameWidth(this) - 70,
 			y: 50,
-			color: 'blue',
+			color: COLORS.customBlue.string,
 			websiteUser: new WebsiteUser({
 				avatar: 'assets/images/from-website/default-avatar.png',
 				username: 'Woopix12',
