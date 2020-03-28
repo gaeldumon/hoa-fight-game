@@ -32,7 +32,6 @@ export class GameScene extends Phaser.Scene {
 			this.level.mainLayer
 		);
 
-		// Callback: Destroy projectile, player hurt, player tinted, explosion anim
 		this.physics.add.collider(
 			this.player1, 
 			this.player2.projectiles,
@@ -44,7 +43,6 @@ export class GameScene extends Phaser.Scene {
 			this
 		);
 		
-		// Callback: Destroy projectile, player hurt, player tinted, explosion anim 
 		this.physics.add.collider(
 			this.player2, 
 			this.player1.projectiles,
@@ -56,7 +54,6 @@ export class GameScene extends Phaser.Scene {
 			this 
 		);
 
-		// Callback: Destroy projectile, explosion anim
 		this.physics.add.collider(
 			[this.player1.projectiles, this.player2.projectiles], 
 			this.level.mainLayer
