@@ -14,7 +14,7 @@ export class Projectile extends Phaser.Physics.Arcade.Image {
 	constructor(params) {
 		super(params.scene, params.x, params.y, params.textureKey);
 
-		this.vx = 1500;
+		this.vx = 1000;
 		this.direction = params.direction;
 
 		this.scene.physics.world.enable(this);
