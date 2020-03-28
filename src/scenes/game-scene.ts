@@ -29,25 +29,37 @@ export class GameScene extends Phaser.Scene {
 
 		this.physics.add.collider(
 			[this.player1, this.player2], 
-			this.level.getMainLayer()
+			this.level.mainLayer
 		);
 
 		// Callback: Destroy projectile, player hurt, player tinted, explosion anim
 		this.physics.add.collider(
 			this.player1, 
-			this.player2.projectiles
+			this.player2.projectiles,
+			(player, projectile) => { 
+				this.player1.hurt();
+				projectile.destroy();
+			},
+			null,
+			this
 		);
 		
 		// Callback: Destroy projectile, player hurt, player tinted, explosion anim 
 		this.physics.add.collider(
 			this.player2, 
-			this.player1.projectiles
+			this.player1.projectiles,
+			(player, projectile) => { 
+				this.player2.hurt();
+				projectile.destroy();
+			},
+			null,
+			this 
 		);
 
 		// Callback: Destroy projectile, explosion anim
 		this.physics.add.collider(
 			[this.player1.projectiles, this.player2.projectiles], 
-			this.level.getMainLayer()
+			this.level.mainLayer
 		);
 	}
 
@@ -98,7 +110,7 @@ export class GameScene extends Phaser.Scene {
 			healthBar: new HealthBar({
 				scene: this,
 				x: getGameWidth(this) - 115,
-				y: 130,
+				y: 130
 			}),
 			controlKeys: {
 				right: Phaser.Input.Keyboard.KeyCodes.D,
