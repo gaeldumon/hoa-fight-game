@@ -24,6 +24,8 @@ export class Projectile extends Phaser.Physics.Arcade.Image {
 	}
 
 	update(): void {
+		// this.body.blocked collision check only works with static stuff, like
+		// tiles, static bodies etc.
 		if (this.isOut() || !this.body.blocked.none) {
 			this.destroy(true);
 			console.log("Projectile destroyed");
