@@ -5,16 +5,16 @@ export class Level {
 	private background: Phaser.GameObjects.Image;
 	private map: Phaser.Tilemaps.Tilemap;
 	private tileset: Phaser.Tilemaps.Tileset;
-	// mainLayer is the layer that collides with its environment: players etc.
-	private mainLayer: Phaser.Tilemaps.StaticTilemapLayer;
+	// _mainLayer is the layer that collides with its environment: players etc.
+	private _mainLayer: Phaser.Tilemaps.StaticTilemapLayer;
 	// subLayer is the "decorative" layer, cosmetic only
 	private subLayer: Phaser.Tilemaps.StaticTilemapLayer
 
 	/**
 	 * Getter for the layer that collides: collides set to true in Tiled.
 	 */
-	getMainLayer(): Phaser.Tilemaps.StaticTilemapLayer {
-		return this.mainLayer;
+	get mainLayer(): Phaser.Tilemaps.StaticTilemapLayer {
+		return this._mainLayer;
 	}
 
 	constructor(params: { scene: any; id: string; }) {
@@ -34,12 +34,12 @@ export class Level {
 			`tilesheet${params.id}`
 		);
 
-		this.mainLayer = this.map.createStaticLayer(
+		this._mainLayer = this.map.createStaticLayer(
 			'mainLayer', 
 			this.tileset, 0, 0
 		);
 
-		this.mainLayer.setCollisionByProperty({ 
+		this._mainLayer.setCollisionByProperty({ 
 			collides: true 
 		});
 
