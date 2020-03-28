@@ -25,6 +25,11 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		return this._projectiles;
 	}
 
+	public hurt(): void {
+		this.health -= 10;
+		this.healthBar.decrease(10);
+	}
+
 	private initAnimations(): void {
 		this.scene.anims.create({
 			key: 'left',
@@ -86,11 +91,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.healthBar = params.healthBar;
 	}
 
-	private hurt(): void {
-		this.health -= 10;
-		this.healthBar.decrease(10);
-	}
-
 	private initShooting(): void {
 		this.lastShoot = 0;
 		this._projectiles = this.scene.add.group({
@@ -111,7 +111,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 					textureKey: 'projectile'
 				})
 			);
-			this.hurt();
 			this.lastShoot = this.scene.time.now + 500;
 		}
 	}
