@@ -5,9 +5,7 @@ export class Projectile extends Phaser.Physics.Arcade.Image {
 	private direction: number;
 
 	private isOut(): boolean {
-		if (this.x > getGameWidth(this.scene) || 
-		this.y > getGameHeight(this.scene) || 
-		this.x < 0 || this.y < 0) {
+		if (this.x > getGameWidth(this.scene) || this.y > getGameHeight(this.scene) || this.x < 0 || this.y < 0) {
 			return true;
 		}
 		return false;
@@ -26,7 +24,7 @@ export class Projectile extends Phaser.Physics.Arcade.Image {
 	}
 
 	update(): void {
-		if (this.isOut()) {
+		if (this.isOut() || !this.body.blocked.none) {
 			this.destroy(true);
 			console.log("Projectile destroyed");
 		}
