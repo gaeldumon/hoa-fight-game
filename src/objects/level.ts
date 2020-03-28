@@ -48,7 +48,7 @@ export class Level {
 			this.tileset, 0, 0
 		);
 		
-		// Purpose of add.existing for a tilemap?
-		//params.scene.add.existing(this);
+		// Purpose of adding the tilemap to the scene?
+		params.scene.add.existing(this);
 	}
 }
