@@ -1,3 +1,5 @@
+import { COLORS } from '../helpers';
+
 export class HealthBar {
 
 	private bar: Phaser.GameObjects.Graphics;
@@ -24,13 +26,13 @@ export class HealthBar {
         this.bar.clear();
 
         // Background
-        this.bar.fillStyle(0xffffff);
+        this.bar.fillStyle(COLORS.white.hex);
         this.bar.fillRect(this.x, this.y, this.width, this.height);
 
         if (this.healthValue > 30) {
-            this.bar.fillStyle(0x00ff00);
+            this.bar.fillStyle(COLORS.vibrantGreen.hex);
         } else {
-            this.bar.fillStyle(0xff0000);
+            this.bar.fillStyle(COLORS.customRed.hex);
         }
 
         let healthWidth = Math.floor(this.percentage * this.healthValue);
