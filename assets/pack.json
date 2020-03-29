@@ -3,7 +3,7 @@
 		"files": [
 			{
 				"type": "spritesheet",
-				"key": "player",
+				"key": "dude",
 				"url": "assets/images/characters/dude.png",
 				"frameConfig": {
 					"frameWidth": 32,
@@ -42,7 +42,7 @@
 			{
 				"type": "image",
 				"key": "projectile",
-				"url": "assets/images/objects/projectile.png"
+				"url": "assets/images/objects/kunai.png"
 			},
 
 			{
