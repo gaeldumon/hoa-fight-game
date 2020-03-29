@@ -32,32 +32,24 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 	private initAnimations(): void {
 		this.scene.anims.create({
-			key: 'left',
-			frames: this.scene.anims.generateFrameNumbers('player', {
+			key: 'running',
+			frames: this.scene.anims.generateFrameNames('character1', {
+				prefix: 'Run_',
 				start: 0,
-				end: 3
+				end: 9,
+				zeroPad: 3
 			}),
-			frameRate: 10,
 			repeat: -1
 		});
 
 		this.scene.anims.create({
-			key: 'turn',
-			frames: [{
-				key: 'player',
-				frame: 4
-			}],
-			frameRate: 20
-		});
-
-		this.scene.anims.create({
-			key: 'right',
-			frames: this.scene.anims.generateFrameNumbers('player', {
-				start: 5,
-				end: 8
-			}),
-			frameRate: 10,
-			repeat: -1
+			key: 'idling',
+			frames: this.scene.anims.generateFrameNames('character1', {
+				prefix: 'Idle_',
+				start: 0,
+				end: 0,
+				zeroPad: 3
+			})
 		});
 	}
 
@@ -116,16 +108,11 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	private handleJumping(): void {
-		// this.body.touching.down is used for physics body collision.
-		// But here the ground is made of Tiles not physics bodies so we use
-		// the more generic body.blocked.down, as the doc suggests.
-		// The docs mention onFloor() which returns this.body.blocked.down
-		// but it doesn't work here, it doesn't seem to belong to body
-		// but it's in the arcade physics body Docs...
+		// Allowing jump only if jump key is pressed and if on a static body
 		if (this.jumpKey.isDown && this.body.blocked.down) {
 			this.setVelocityY(this.jumpVelocity);
 			this.jumpSound.play();
-		}
+		}	
 	}
 
 	constructor(params) {
@@ -145,29 +132,31 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.handleShooting();
 		this.handleJumping();
 		
-		if (this.leftKey.isDown) {
+		if (this.leftKey.isDown || this.rightKey.isDown) {
 
-			this.lastPressedKey = this.leftKey;
-			this.setVelocityX(-this.vx);
-			this.anims.play('left', true);
+			this.anims.play('running', true);
 
-		} else if (this.rightKey.isDown) {
+			if (this.leftKey.isDown) {
+				this.lastPressedKey = this.leftKey;
+				this.setVelocityX(-this.vx);
 
-			this.lastPressedKey = this.rightKey;
-			this.setVelocityX(this.vx);
-			this.anims.play('right', true);
+			} else if (this.rightKey.isDown) {
+				this.lastPressedKey = this.rightKey;
+				this.setVelocityX(this.vx);
+			}
 
 		} else {
 
 			this.setVelocityX(0);
+			this.anims.play('idling');
 
-			if (this.lastPressedKey === this.leftKey) {
-				this.anims.play('left');
-			} else if (this.lastPressedKey === this.rightKey) {
-				this.anims.play('right');
-			} else {
-				this.anims.play('turn');
-			}
+		}
+
+		if (this.lastPressedKey === this.leftKey) {
+			this.flipX = true;
+		} else if (this.lastPressedKey === this.rightKey) {
+			this.flipX = false;
 		}
 	}
+
 }
