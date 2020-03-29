@@ -75,6 +75,12 @@ export class GameScene extends Phaser.Scene {
 			"preload"
 		);
 
+		this.load.atlas(
+			'character1', 
+			'assets/images/characters/character1-spritesheet.png', 
+			'assets/images/characters/character1-atlas.json'
+		);
+
 	}
 
 
@@ -86,7 +92,7 @@ export class GameScene extends Phaser.Scene {
 			scene: this,
 			x: 140, 
 			y: 300,
-			textureKey: 'player',
+			textureKey: 'character1',
 			healthBar: new HealthBar({
 				scene: this,
 				x: 25,
@@ -104,7 +110,7 @@ export class GameScene extends Phaser.Scene {
 			scene: this,
 			x: 600,
 			y: 400,
-			textureKey: 'player',
+			textureKey: 'character1',
 			healthBar: new HealthBar({
 				scene: this,
 				x: getGameWidth(this) - 115,
