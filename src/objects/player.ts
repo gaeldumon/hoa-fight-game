@@ -30,26 +30,51 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.healthBar.decrease(10);
 	}
 
-	private initAnimations(): void {
+	private initAnimations(params): void {
 		this.scene.anims.create({
-			key: 'running',
-			frames: this.scene.anims.generateFrameNames('character1', {
-				prefix: 'Run_',
-				start: 0,
-				end: 9,
-				zeroPad: 3
+			key: 'walking',
+			frames: this.scene.anims.generateFrameNames(params.textureKey, {
+				prefix: 'walk_',
+				start: 1,
+				end: 4,
+				zeroPad: 2
+			}),
+			frameRate: 10,
+			repeat: -1
+		});
+
+		this.scene.anims.create({
+			key: 'walkingShooting',
+			frames: this.scene.anims.generateFrameNames(params.textureKey, {
+				prefix: 'walk_shoot_',
+				start: 1,
+				end: 4,
+				zeroPad: 2
 			}),
 			repeat: -1
 		});
 
 		this.scene.anims.create({
 			key: 'idling',
-			frames: this.scene.anims.generateFrameNames('character1', {
-				prefix: 'Idle_',
+			frames: this.scene.anims.generateFrameNames(params.textureKey, {
+				prefix: 'idle_',
+				start: 1,
+				end: 4,
+				zeroPad: 2
+			}),
+			frameRate: 10,
+			repeat: -1
+		});
+
+		this.scene.anims.create({
+			key: 'idlingShooting',
+			frames: this.scene.anims.generateFrameNames(params.textureKey, {
+				prefix: 'idle_shoot_',
 				start: 0,
 				end: 0,
-				zeroPad: 3
-			})
+				zeroPad: 2
+			}),
+			repeat: -1
 		});
 	}
 
@@ -107,34 +132,44 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		}
 	}
 
-	private handleJumping(): void {
-		// Allowing jump only if jump key is pressed and if on a static body
-		if (this.jumpKey.isDown && this.body.blocked.down) {
-			this.setVelocityY(this.jumpVelocity);
-			this.jumpSound.play();
-		}	
-	}
-
 	constructor(params) {
-		super(params.scene, params.x, params.y, params.textureKey, params.frame);
+		super(params.scene, params.x, params.y, params.textureKey);
 		this.jumpSound = this.scene.sound.add('jumpSound');
 		this.initVitals();
 		this.initHealthBar(params);
 		this.initShooting();
-		this.initAnimations();
+		this.initAnimations(params);
 		this.initPhysics();
 		this.applyPhysics();
 		this.initControls(params);
+
+		// Restrain the boundingBox
+		this.setSize(20, 60);
+
 		this.scene.add.existing(this);
 	}
 
+	// Player's states (shooting, walking etc) will be subject to complete
+	// refactoring by using the State Design Pattern. This is provisory.
 	update(): void {
-		this.handleShooting();
-		this.handleJumping();
-		
-		if (this.leftKey.isDown || this.rightKey.isDown) {
+		//this.handleShooting();
 
-			this.anims.play('running', true);
+		// JUMPING STATE
+		// Allowing jump only if jump key is pressed and if on a static body
+		if (this.jumpKey.isDown && this.body.blocked.down) {
+			this.setVelocityY(this.jumpVelocity);
+			this.jumpSound.play();
+		}
+
+		// WALKING STATE
+		if (this.leftKey.isDown || this.rightKey.isDown) {
+			
+			// SHOOTING STATE while walking
+			if (this.shootKey.isDown) {
+				this.anims.play('walkingShooting', true);
+			} else {
+				this.anims.play('walking', true);
+			}
 
 			if (this.leftKey.isDown) {
 				this.lastPressedKey = this.leftKey;
@@ -145,16 +180,25 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 				this.setVelocityX(this.vx);
 			}
 
+		// IDLING STATE
 		} else {
 
 			this.setVelocityX(0);
-			this.anims.play('idling');
-
+			
+			// SHOOTING STATE while idling
+			if (this.shootKey.isDown) {
+				this.anims.play('idlingShooting', true)
+			} else {
+				this.anims.play('idling', true);
+			}
+			
 		}
 
 		if (this.lastPressedKey === this.leftKey) {
 			this.flipX = true;
 		} else if (this.lastPressedKey === this.rightKey) {
+			this.flipX = false;
+		} else {
 			this.flipX = false;
 		}
 	}
