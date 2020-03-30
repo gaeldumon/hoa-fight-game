@@ -1,15 +1,6 @@
 {
 	"preload": {
 		"files": [
-			{
-				"type": "spritesheet",
-				"key": "dude",
-				"url": "assets/images/characters/dude.png",
-				"frameConfig": {
-					"frameWidth": 32,
-					"frameHeight": 48
-				}
-			},
 
 			{
 				"type": "spritesheet",
