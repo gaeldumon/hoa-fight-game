@@ -81,6 +81,12 @@ export class GameScene extends Phaser.Scene {
 			'assets/images/characters/character1-atlas.json'
 		);
 
+		this.load.atlas(
+			'character2', 
+			'assets/images/characters/character2-spritesheet.png', 
+			'assets/images/characters/character2-atlas.json'
+		);
+
 	}
 
 
@@ -88,11 +94,14 @@ export class GameScene extends Phaser.Scene {
 
 		this.level = new Level( {scene: this, id: '1'} );
 
+		// The texture key of this player seems to overrride the texture of
+		// the other one. Here the character2 texture will be drawn for both players !
+		// Can't it be TWO different textures ??
 		this.player1 = new Player({
 			scene: this,
 			x: 140, 
 			y: 300,
-			textureKey: 'character1',
+			textureKey: 'character2',
 			healthBar: new HealthBar({
 				scene: this,
 				x: 25,
@@ -136,6 +145,8 @@ export class GameScene extends Phaser.Scene {
 			})
 		});
 
+		// The color of this HUD seems to override the first one
+		// It's kind of the same issue I have with player's textures
 		this.hud2 = new Hud({
 			scene: this,
 			x: getGameWidth(this) - 70,
