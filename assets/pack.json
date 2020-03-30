@@ -7,7 +7,7 @@
 				"url": "assets/images/characters/dude.png",
 				"frameConfig": {
 					"frameWidth": 32,
-					"frameHeight": 42
+					"frameHeight": 48
 				}
 			},
 
@@ -31,12 +31,6 @@
 				"type": "image",
 				"key": "background1",
 				"url": "assets/images/backgrounds/graveyard-background.png"
-			},
-
-			{
-				"type": "image",
-				"key": "background2",
-				"url": "assets/images/backgrounds/woods-background.png"
 			},
 
 			{
