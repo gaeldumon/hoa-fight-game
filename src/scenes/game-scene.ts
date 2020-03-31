@@ -22,7 +22,7 @@ export class GameScene extends Phaser.Scene {
 	private hud2: Hud;
 	private level: Level;
 
-	setColliders() {
+	private setColliders(): void {
 		this.physics.add.collider(
 			this.player1,
 			this.player2
@@ -38,7 +38,7 @@ export class GameScene extends Phaser.Scene {
 			this.player2.projectiles,
 			(player, projectile) => { 
 				this.player1.hurt();
-				projectile.destroy();
+				projectile.destroy(true);
 			},
 			null,
 			this
@@ -49,7 +49,7 @@ export class GameScene extends Phaser.Scene {
 			this.player1.projectiles,
 			(player, projectile) => { 
 				this.player2.hurt();
-				projectile.destroy();
+				projectile.destroy(true);
 			},
 			null,
 			this 
@@ -97,11 +97,11 @@ export class GameScene extends Phaser.Scene {
 			scene: this,
 			x: 140, 
 			y: 300,
-			textureKey: 'character1',
+			textureKey: 'character2',
 			healthBar: new HealthBar({
 				scene: this,
-				x: 25,
-				y: 130
+				x: 86,
+				y: 56
 			}),
 			controlKeys: {
 				right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
@@ -115,11 +115,11 @@ export class GameScene extends Phaser.Scene {
 			scene: this,
 			x: 600,
 			y: 400,
-			textureKey: 'character1',
+			textureKey: 'character2',
 			healthBar: new HealthBar({
 				scene: this,
-				x: getGameWidth(this) - 115,
-				y: 130
+				x: getGameWidth(this) - 126,
+				y: 56
 			}),
 			controlKeys: {
 				right: Phaser.Input.Keyboard.KeyCodes.D,
@@ -132,12 +132,12 @@ export class GameScene extends Phaser.Scene {
 		this.hud1 = new Hud({
 			scene: this,
 			x: 70,
-			y: 50,
+			y: 20,
 			color: COLORS.customGreen.string,
 			websiteUser: new WebsiteUser({
-				avatar: 'assets/images/from-website/default-avatar.png',
+				avatar: 'assets/images/characters/character2-avatar.png',
 				username: 'Marco45',
-				rank: 0
+				rank: 14
 			})
 		});
 
@@ -145,13 +145,13 @@ export class GameScene extends Phaser.Scene {
 		// It's kind of the same issue I have with player's textures
 		this.hud2 = new Hud({
 			scene: this,
-			x: getGameWidth(this) - 70,
-			y: 50,
+			x: getGameWidth(this) - 140,
+			y: 20,
 			color: COLORS.customBlue.string,
 			websiteUser: new WebsiteUser({
-				avatar: 'assets/images/from-website/default-avatar.png',
+				avatar: 'assets/images/characters/character2-avatar.png',
 				username: 'Woopix12',
-				rank: 0
+				rank: 47
 			})
 		});
 
