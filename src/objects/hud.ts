@@ -20,24 +20,24 @@ export class Hud {
 
 		this.htmlStruct = `
 			<ul>
-				<li>${params.websiteUser.username}</li>
 				<li><img src="${params.websiteUser.avatar}"></li>
-				<li>Rang: ${params.websiteUser.rank}</li>
+				<li>${params.websiteUser.username} | Rang: ${params.websiteUser.rank}</li>
+				
+				
 			</ul>
 			<style>
 				ul {
-					width: 80px;
+					font-size: 12px;
 					padding: 5px;
-					border: 3px solid ${params.color};
 					color: white;
 					font-weight: bold;
 					font-family: arial;
 					list-style-type: none;
 					text-align: center;
 				}
-				img {
-					opacity: .5;
-					padding: 5px 0px 5px 0px;
+				li {
+					display: inline-block;
+					vertical-align: middle;
 				}
 			</style>`;
 
