@@ -34,7 +34,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.scene.anims.create({
 			key: 'walking',
 			frames: this.scene.anims.generateFrameNames(params.textureKey, {
-				prefix: 'walk_',
+				prefix: 'walk-side-armed',
 				start: 1,
 				end: 4,
 				zeroPad: 2
@@ -46,7 +46,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.scene.anims.create({
 			key: 'walkingShooting',
 			frames: this.scene.anims.generateFrameNames(params.textureKey, {
-				prefix: 'walk_shoot_',
+				prefix: 'walk-side-shoot',
 				start: 1,
 				end: 4,
 				zeroPad: 2
@@ -57,7 +57,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.scene.anims.create({
 			key: 'idling',
 			frames: this.scene.anims.generateFrameNames(params.textureKey, {
-				prefix: 'idle_',
+				prefix: 'idle-front-armed',
 				start: 1,
 				end: 4,
 				zeroPad: 2
@@ -69,13 +69,14 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.scene.anims.create({
 			key: 'idlingShooting',
 			frames: this.scene.anims.generateFrameNames(params.textureKey, {
-				prefix: 'idle_shoot_',
-				start: 0,
-				end: 0,
+				prefix: 'idle-front-shoot',
+				start: 1,
+				end: 1,
 				zeroPad: 2
 			}),
 			repeat: -1
 		});
+
 	}
 
 	private initVitals(): void {
@@ -83,7 +84,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	}
 	
 	private initPhysics(): void {
-		this.gravityY = 50;
+		this.gravityY = 1000;
 		this.jumpVelocity = -600;
 		this.vx = 150;
 		this.bounce = 0.5;
@@ -120,8 +121,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 			this._projectiles.add(
 				new Projectile({
 					scene: this.scene,
-					x: this.x,
-					y: this.y,
+					x: this.x+15,
+					y: this.y+10,
 					// Bullet direction (left/right) based on last pressed key
 					// (i.e direction of the player). Default: goes right.
 					direction: (this.lastPressedKey === this.leftKey) ? -1 : 1,
@@ -152,7 +153,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	// Player's states (shooting, walking etc) will be subject to complete
 	// refactoring by using the State Design Pattern. This is provisory.
 	update(): void {
-		//this.handleShooting();
+		this.handleShooting();
 
 		// JUMPING STATE
 		// Allowing jump only if jump key is pressed and if on a static body
