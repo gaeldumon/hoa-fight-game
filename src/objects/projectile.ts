@@ -1,6 +1,6 @@
 import { getGameWidth, getGameHeight } from '../helpers';
 
-export class Projectile extends Phaser.Physics.Arcade.Image {
+export class Projectile extends Phaser.Physics.Arcade.Sprite {
 	private vx: number;
 	private direction: number;
 
@@ -11,24 +11,37 @@ export class Projectile extends Phaser.Physics.Arcade.Image {
 		return false;
 	}
 
+	private initAnimations(): void {
+		this.scene.anims.create({
+			key: 'collisionEffect1',
+			frames: this.scene.anims.generateFrameNumbers('collisionEffect1', {
+				start: 0,
+				end: 1
+			}),
+			repeat: 1
+		});
+	}
+
 	constructor(params) {
 		super(params.scene, params.x, params.y, params.textureKey);
 
-		this.vx = 1000;
+		this.vx = 700;
 		this.direction = params.direction;
 
 		this.scene.physics.world.enable(this);
 		this.scene.add.existing(this);
 
+		this.initAnimations();
+
 		this.setVelocityX(this.direction * this.vx);
 	}
 
 	update(): void {
-		// this.body.blocked collision check only works with static stuff, like
-		// tiles, static bodies etc.
 		if (this.isOut() || !this.body.blocked.none) {
+
 			this.destroy(true);
-			console.log("Projectile destroyed");
+			console.log('Projectile destroyed');
+			
 		}
 	}
 }
