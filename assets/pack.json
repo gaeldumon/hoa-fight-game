@@ -27,13 +27,13 @@
 			{
 				"type": "image",
 				"key": "projectile",
-				"url": "assets/images/objects/kunai.png"
+				"url": "assets/images/objects/projectile.png"
 			},
 
 			{
 				"type": "image",
 				"key": "bomb",
-				"url": "assets/images/objects/bomb-grey.png"
+				"url": "assets/images/objects/bomb.png"
 			},
 
 			{
