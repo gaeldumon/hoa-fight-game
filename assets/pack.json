@@ -13,6 +13,16 @@
 			},
 
 			{
+				"type": "spritesheet",
+				"key": "collisionEffect1",
+				"url": "assets/images/effects/collision-effect.png",
+				"frameConfig": {
+					"frameWidth": 32,
+					"frameHeight": 32
+				}
+			},
+
+			{
 				"type": "tilemapTiledJSON",
 				"key": "level1",
 				"url": "assets/levels/graveyard.json"
