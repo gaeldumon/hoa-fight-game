@@ -21,7 +21,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 		default: 'arcade',
 		arcade: {
 			gravity: {
-				y: 1000
+				y: 0
 			},
 			debug: true,
 		},
@@ -32,8 +32,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 	},
 
 	parent: 'game',
-	scene: Scenes,
-	backgroundColor: '#111111',
+	scene: Scenes
 };
 
 export const game = new Phaser.Game(gameConfig);
