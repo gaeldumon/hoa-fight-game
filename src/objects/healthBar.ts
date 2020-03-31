@@ -45,10 +45,10 @@ export class HealthBar {
         this.bar = new Phaser.GameObjects.Graphics(params.scene);
         this.x = params.x;
         this.y = params.y;
-        this.width = 90;
+        this.width = 100;
         this.height = 12;
         this.healthValue = 100;
-        this.percentage = 90/100;
+        this.percentage = 100/100;
 
         this.draw();
 
