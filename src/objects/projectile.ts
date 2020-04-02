@@ -37,10 +37,10 @@ export class Projectile extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	update(): void {
-		if (this.isOut() || !this.body.blocked.none) {
+		if (this.isOut()) {
 
 			this.destroy(true);
-			console.log('Projectile destroyed');
+			console.log('Projectile destroyed cause out of world bounds');
 			
 		}
 	}

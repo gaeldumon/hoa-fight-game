@@ -26,10 +26,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	public hurt(): void {
-		if (this.health > 0) {
-			this.health -= 20;
-		}
+		if (this.health > 0) this.health -= 20;
 		this.healthBar.decrease(20);
+		
 		console.log(`Health: ${this.health}`);
 	}
 
@@ -80,6 +79,17 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 			repeat: -1
 		});
 
+		this.scene.anims.create({
+			key: 'hit',
+			frames: this.scene.anims.generateFrameNames(params.textureKey, {
+				prefix: 'hit',
+				start: 1,
+				end: 1,
+				zeroPad: 2,
+			}),
+			repeat: 1
+		});
+
 	}
 
 	private initVitals(): void {
@@ -119,23 +129,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		});
 	}
 
-	private handleShooting(): void {
-		if (this.shootKey.isDown && this.scene.time.now > this.lastShoot) {
-			this._projectiles.add(
-				new Projectile({
-					scene: this.scene,
-					x: this.x + 20,
-					y: this.y + 11,
-					// Bullet direction (left/right) based on last pressed key
-					// (i.e direction of the player). Default: goes right.
-					direction: (this.lastPressedKey === this.leftKey) ? -1 : 1,
-					textureKey: 'projectile'
-				})
-			);
-			this.lastShoot = this.scene.time.now + 1400;
-		}
-	}
-
 	constructor(params) {
 		super(params.scene, params.x, params.y, params.textureKey);
 		this.jumpSound = this.scene.sound.add('jumpSound');
@@ -156,10 +149,24 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	// Player's states (shooting, walking etc) will be subject to complete
 	// refactoring by using the State Design Pattern. This is provisory.
 	update(): void {
-		this.handleShooting();
+
+		if (this.shootKey.isDown && this.scene.time.now > this.lastShoot) {
+			this._projectiles.add(
+				new Projectile({
+					scene: this.scene,
+					x: this.x + 20,
+					y: this.y + 11,
+					// Bullet direction (left/right) based on last pressed key
+					// (i.e direction of the player). Default: goes right.
+					direction: (this.lastPressedKey === this.leftKey) ? -1 : 1,
+					textureKey: 'projectile'
+				})
+			);
+			this.lastShoot = this.scene.time.now + 500;
+		}
 
 		// JUMPING STATE
-		// Allowing jump only if jump key is pressed and if on a static body
+		// Allowing jump only if jump key is pressed and if ON a static body
 		if (this.jumpKey.isDown && this.body.blocked.down) {
 			this.setVelocityY(this.jumpVelocity);
 			this.jumpSound.play();

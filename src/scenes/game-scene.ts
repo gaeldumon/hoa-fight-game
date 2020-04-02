@@ -34,30 +34,25 @@ export class GameScene extends Phaser.Scene {
 		);
 
 		this.physics.add.collider(
-			this.player1, 
+			this.player1,
 			this.player2.projectiles,
-			(player, projectile) => { 
+			() => { 
+				this.player2.projectiles.getFirstAlive().disableBody(true, true);
+				//this.player2.projectiles.getFirstAlive().destroy(true);
 				this.player1.hurt();
-				projectile.destroy(true);
-			},
-			null,
-			this
-		);
-		
-		this.physics.add.collider(
-			this.player2, 
-			this.player1.projectiles,
-			(player, projectile) => { 
-				this.player2.hurt();
-				projectile.destroy(true);
-			},
-			null,
-			this 
+				this.player1.setState('HIT');
+			}
 		);
 
 		this.physics.add.collider(
-			[this.player1.projectiles, this.player2.projectiles], 
-			this.level.mainLayer
+			this.player2,
+			this.player1.projectiles,
+			() => { 
+				this.player1.projectiles.getFirstAlive().disableBody(true, true);
+				//this.player1.projectiles.getFirstAlive().destroy(true);
+				this.player2.hurt();
+				this.player2.setState('HIT');
+			}
 		);
 	}
 
@@ -95,8 +90,8 @@ export class GameScene extends Phaser.Scene {
 		// Can't it be TWO different textures ??
 		this.player1 = new Player({
 			scene: this,
-			x: 140, 
-			y: 300,
+			x: 750, 
+			y: 450,
 			textureKey: 'character2',
 			healthBar: new HealthBar({
 				scene: this,
