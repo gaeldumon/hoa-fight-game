@@ -21,6 +21,15 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private jumpVelocity: number;
 	private bounce: number;
 
+	public static readonly STATES = {
+		HIT: 'HIT',
+		DEAD: 'DEAD',
+		JUMPING: 'JUMPING',
+		WALKING: 'WALKING',
+		SHOOTING: 'SHOOTING',
+		IDLING: 'IDLING'
+	}
+
 	public get projectiles(): Phaser.GameObjects.Group {
 		return this._projectiles;
 	}
@@ -150,6 +159,20 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	// refactoring by using the State Design Pattern. This is provisory.
 	update(): void {
 
+		if (this.state === Player.STATES.HIT) {
+			//this.anims.play('hit', true);
+		} else if (this.state === Player.STATES.DEAD) {
+
+		} else if (this.state === Player.STATES.JUMPING) {
+
+		} else if (this.state === Player.STATES.SHOOTING) {
+
+		} else if (this.state === Player.STATES.WALKING) {
+
+		} else if (this.state === Player.STATES.IDLING) {
+			
+		}
+
 		if (this.shootKey.isDown && this.scene.time.now > this.lastShoot) {
 			this._projectiles.add(
 				new Projectile({
@@ -212,6 +235,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		} else {
 			this.flipX = false;
 		}
+
 	}
 
 }
