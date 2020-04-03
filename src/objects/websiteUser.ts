@@ -20,7 +20,8 @@
  */
 
  export class WebsiteUser {
-	
+	private id: number;
+	private score: number;
 	private _avatar: string;
 	private _username: string;
 	private _rank: number;
