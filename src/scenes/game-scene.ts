@@ -1,4 +1,5 @@
 import { Player } from '../objects/player';
+import { Bomb } from '../objects/bomb';
 import { Level } from '../objects/level';
 import { Hud } from '../objects/hud';
 import { HealthBar } from '../objects/healthBar';
@@ -22,7 +23,36 @@ export class GameScene extends Phaser.Scene {
 	private hud2: Hud;
 	private level: Level;
 
+	private bombs: Phaser.GameObjects.Group;
+	private bombCreationEvent: Phaser.Time.TimerEvent;
+
+	// This is WAY too big, have to find a way to shorten this, maybe create a
+	// player group or put some colliders inside 'its' classes... idk
 	private setColliders(): void {
+
+		this.physics.add.collider(
+			this.bombs,
+			this.level.mainLayer
+		);
+
+		this.physics.add.collider(
+			this.bombs,
+			this.player1,
+			() => {
+				this.bombs.getFirstAlive().destroy(true);
+				this.player1.hurt();
+			}
+		);
+
+		this.physics.add.collider(
+			this.bombs,
+			this.player2,
+			() => {
+				this.bombs.getFirstAlive().destroy(true);
+				this.player2.hurt();
+			}
+		);
+
 		this.physics.add.collider(
 			this.player1,
 			this.player2
@@ -54,6 +84,7 @@ export class GameScene extends Phaser.Scene {
 				this.player2.setState(Player.States.HIT);
 			}
 		);
+
 	}
 
 
@@ -82,6 +113,24 @@ export class GameScene extends Phaser.Scene {
 
 
 	create() {
+
+		this.bombs = this.add.group();
+
+		this.bombCreationEvent = this.time.addEvent({
+			delay: 10000,
+			loop: true,
+			callback: () => {
+				this.bombs.add(
+					new Bomb({
+						scene: this, 
+						x: Phaser.Math.Between(50, getGameWidth(this) - 50),
+						y: 0,
+						textureKey: 'bomb'
+					})
+				);
+			},
+			callbackScope: this
+		});
 
 		this.level = new Level( {scene: this, id: '1'} );
 
