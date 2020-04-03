@@ -21,9 +21,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private jumpVelocity: number;
 	private bounce: number;
 
-	public static readonly STATES = {
+	public static readonly States = {
 		HIT: 'HIT',
-		DEAD: 'DEAD',
+		DIE: 'DIE',
 		JUMPING: 'JUMPING',
 		WALKING: 'WALKING',
 		SHOOTING: 'SHOOTING',
@@ -34,16 +34,23 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		return this._projectiles;
 	}
 
+	public isDead(): boolean {
+		return this.health <= 0;
+	}
+
 	public hurt(): void {
-		if (this.health > 0) this.health -= 20;
-		this.healthBar.decrease(20);
-		
+		if (this.health > 0) {
+			this.health -= 20;
+			this.healthBar.decrease(20);
+		} else {
+			this.setState(Player.States.DIE);
+		}
 		console.log(`Health: ${this.health}`);
 	}
 
 	private initAnimations(params): void {
 		this.scene.anims.create({
-			key: 'walking',
+			key: 'WALK',
 			frames: this.scene.anims.generateFrameNames(params.textureKey, {
 				prefix: 'walk-side-armed',
 				start: 1,
@@ -55,7 +62,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		});
 
 		this.scene.anims.create({
-			key: 'walkingShooting',
+			key: 'WALK_SHOOT',
 			frames: this.scene.anims.generateFrameNames(params.textureKey, {
 				prefix: 'walk-side-shoot',
 				start: 1,
@@ -66,7 +73,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		});
 
 		this.scene.anims.create({
-			key: 'idling',
+			key: 'IDLE',
 			frames: this.scene.anims.generateFrameNames(params.textureKey, {
 				prefix: 'idle-front-armed',
 				start: 1,
@@ -78,7 +85,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		});
 
 		this.scene.anims.create({
-			key: 'idlingShooting',
+			key: 'IDLE_SHOOT',
 			frames: this.scene.anims.generateFrameNames(params.textureKey, {
 				prefix: 'idle-front-shoot',
 				start: 1,
@@ -89,9 +96,20 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		});
 
 		this.scene.anims.create({
-			key: 'hit',
+			key: 'HIT',
 			frames: this.scene.anims.generateFrameNames(params.textureKey, {
 				prefix: 'hit',
+				start: 1,
+				end: 1,
+				zeroPad: 2,
+			}),
+			repeat: -1
+		});
+
+		this.scene.anims.create({
+			key: 'DIE',
+			frames: this.scene.anims.generateFrameNames(params.textureKey, {
+				prefix: 'dead',
 				start: 1,
 				end: 1,
 				zeroPad: 2,
@@ -138,6 +156,24 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		});
 	}
 
+	private shoot(): void {
+		if (this.scene.time.now > this.lastShoot) {
+			this._projectiles.add(
+				new Projectile({
+					scene: this.scene,
+					// Changing bullet starting point if sprite is flipped on X axis
+					x: (!this.flipX) ? this.x + 20 : this.x - 20,
+					y: this.y + 11,
+					// Bullet direction (left/right) based on last pressed key
+					// (i.e direction of the player). Default: goes right.
+					direction: (this.lastPressedKey === this.leftKey) ? -1 : 1,
+					textureKey: 'projectile'
+				})
+			);
+			this.lastShoot = this.scene.time.now + 500;
+		}
+	}
+
 	constructor(params) {
 		super(params.scene, params.x, params.y, params.textureKey);
 		this.jumpSound = this.scene.sound.add('jumpSound');
@@ -155,84 +191,59 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.scene.add.existing(this);
 	}
 
-	// Player's states (shooting, walking etc) will be subject to complete
-	// refactoring by using the State Design Pattern. This is provisory.
 	update(): void {
 
-		if (this.state === Player.STATES.HIT) {
-			//this.anims.play('hit', true);
-		} else if (this.state === Player.STATES.DEAD) {
-
-		} else if (this.state === Player.STATES.JUMPING) {
-
-		} else if (this.state === Player.STATES.SHOOTING) {
-
-		} else if (this.state === Player.STATES.WALKING) {
-
-		} else if (this.state === Player.STATES.IDLING) {
-			
-		}
-
-		if (this.shootKey.isDown && this.scene.time.now > this.lastShoot) {
-			this._projectiles.add(
-				new Projectile({
-					scene: this.scene,
-					x: this.x + 20,
-					y: this.y + 11,
-					// Bullet direction (left/right) based on last pressed key
-					// (i.e direction of the player). Default: goes right.
-					direction: (this.lastPressedKey === this.leftKey) ? -1 : 1,
-					textureKey: 'projectile'
-				})
-			);
-			this.lastShoot = this.scene.time.now + 500;
-		}
-
-		// JUMPING STATE
-		// Allowing jump only if jump key is pressed and if ON a static body
-		if (this.jumpKey.isDown && this.body.blocked.down) {
-			this.setVelocityY(this.jumpVelocity);
-			this.jumpSound.play();
-		}
-
-		// WALKING STATE
-		if (this.leftKey.isDown || this.rightKey.isDown) {
-			
-			// SHOOTING STATE while walking
-			if (this.shootKey.isDown) {
-				this.anims.play('walkingShooting', true);
-			} else {
-				this.anims.play('walking', true);
+		// Jumping
+		if (this.jumpKey.isDown) {
+			if (this.body.blocked.down) {
+				this.setVelocityY(this.jumpVelocity);
+				this.jumpSound.play();
+				this.setState(Player.States.JUMPING);
 			}
-
-			if (this.leftKey.isDown) {
-				this.lastPressedKey = this.leftKey;
-				this.setVelocityX(-this.vx);
-
-			} else if (this.rightKey.isDown) {
+		// Walking
+		} else if (this.rightKey.isDown || this.leftKey.isDown) {
+			// Shooting while walking => Warning: double state at once!
+			if (this.shootKey.isDown) {
+				this.anims.play('WALK_SHOOT', true);
+				this.shoot();
+			// Just walking
+			} else {
+				this.anims.play('WALK', true);
+				// Okay now one state: only walking
+				this.setState(Player.States.WALKING);
+			}
+			// Walking : going right
+			if (this.rightKey.isDown) {
 				this.lastPressedKey = this.rightKey;
 				this.setVelocityX(this.vx);
 			}
-
-		// IDLING STATE
-		} else {
-
-			this.setVelocityX(0);
-			
-			// SHOOTING STATE while idling
-			if (this.shootKey.isDown) {
-				this.anims.play('idlingShooting', true)
-			} else {
-				this.anims.play('idling', true);
+			// Walking : going left
+			if (this.leftKey.isDown) {
+				this.lastPressedKey = this.leftKey;
+				this.setVelocityX(-this.vx);
 			}
-			
+		// Not walking (idling)
+		} else {
+			this.setVelocityX(0);
+			// Shooting while idling => Warning: double state at once!
+			if (this.shootKey.isDown) {
+				this.anims.play('IDLE_SHOOT', true);
+				this.shoot();
+			// Just not walking
+			} else {
+				this.anims.play('IDLE', true);
+				this.setState(Player.States.IDLING);
+			}
 		}
 
 		if (this.lastPressedKey === this.leftKey) {
+			// Changed sprite orientation: facing left
 			this.flipX = true;
 		} else if (this.lastPressedKey === this.rightKey) {
+			// Original sprite orientation: facing right
 			this.flipX = false;
 		} else {
+			// Original sprite orientation: facing right
 			this.flipX = false;
 		}
 
