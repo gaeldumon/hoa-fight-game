@@ -38,7 +38,9 @@ export class GameScene extends Phaser.Scene {
 			this.player2.projectiles,
 			() => { 
 				this.player2.projectiles.getFirstAlive().destroy(true);
-				this.player1.setState(Player.STATES.HIT);
+				console.log('Projectile destroyed cause collide with player');
+				this.player1.hurt();
+				this.player1.setState(Player.States.HIT);
 			}
 		);
 
@@ -47,7 +49,9 @@ export class GameScene extends Phaser.Scene {
 			this.player1.projectiles,
 			() => { 
 				this.player1.projectiles.getFirstAlive().destroy(true);
-				this.player2.setState(Player.STATES.HIT);
+				console.log('Projectile destroyed cause collide with player');
+				this.player2.hurt();
+				this.player2.setState(Player.States.HIT);
 			}
 		);
 	}
