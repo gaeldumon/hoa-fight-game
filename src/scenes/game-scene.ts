@@ -22,7 +22,6 @@ export class GameScene extends Phaser.Scene {
 	private hud1: Hud;
 	private hud2: Hud;
 	private level: Level;
-
 	private bombs: Phaser.GameObjects.Group;
 	private bombCreationEvent: Phaser.Time.TimerEvent;
 
@@ -68,7 +67,6 @@ export class GameScene extends Phaser.Scene {
 			this.player2.projectiles,
 			() => { 
 				this.player2.projectiles.getFirstAlive().destroy(true);
-				console.log('Projectile destroyed cause collide with player');
 				this.player1.hurt();
 				this.player1.setState(Player.States.HIT);
 			}
@@ -79,7 +77,6 @@ export class GameScene extends Phaser.Scene {
 			this.player1.projectiles,
 			() => { 
 				this.player1.projectiles.getFirstAlive().destroy(true);
-				console.log('Projectile destroyed cause collide with player');
 				this.player2.hurt();
 				this.player2.setState(Player.States.HIT);
 			}
@@ -115,7 +112,6 @@ export class GameScene extends Phaser.Scene {
 	create() {
 
 		this.bombs = this.add.group();
-
 		this.bombCreationEvent = this.time.addEvent({
 			delay: 10000,
 			loop: true,
@@ -207,6 +203,11 @@ export class GameScene extends Phaser.Scene {
 
 		this.player1.update();
 		this.player2.update();
+
+		// Good idea to put this inside update() ?
+		if (this.player1.isDead() || this.player2.isDead()) {
+			this.scene.start('Gameover');
+		}
 		
 	}
 }
