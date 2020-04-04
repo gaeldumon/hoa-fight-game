@@ -18,15 +18,12 @@ export class GameoverScene extends Phaser.Scene {
 	}
 
 	create() {
-		this.add.text(
-			getGameWidth(this)/2 - 155, 
-			getGameHeight(this)/2,
-			'Fin de Partie',
-			{
-				fontSize: '40px',
-				fontStyle: 'bold',
-				fill: COLORS.white.string
-			}
+		this.add.dom(
+			getGameWidth(this)/2,
+			50,
+			'h3',
+			'color: white; font-size: 45px; font-weight: bold; font-family: Grobold, Arial',
+			"Fin de partie"
 		);
 	}
 
