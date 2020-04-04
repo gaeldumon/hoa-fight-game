@@ -19,29 +19,56 @@
  * 	|=> win/lose(score)
  */
 
+import { Player } from "./player";
+import { Hud } from "./hud";
+
  export class WebsiteUser {
 	private id: number;
 	private score: number;
-	private _avatar: string;
+	private avatar: string;
 	private _username: string;
 	private _rank: number;
-
-	get avatar(): string {
-		return this._avatar;
-	}
-
-	get username(): string {
+	private _characterChoice: string;
+	private _playerInstance: Player;
+	private _hudInstance: Hud;
+	
+	public get username(): string {
 		return this._username;
 	}
-
-	get rank(): number {
+	
+	public get rank(): number {
 		return this._rank;
 	}
 	
-	constructor(params: { avatar: string; username: string; rank: number; }) {
-		this._avatar = params.avatar;
-		this._username = params.username;
-		this._rank = params.rank;
+	public get characterChoice(): string {
+		return this._characterChoice;
+	}
+	
+	public set characterChoice(v: string) {
+		this._characterChoice = v;
 	}
 
+	public get playerInstance(): Player {
+		return this._playerInstance;
+	}
+
+	public set playerInstance(v: Player) {
+		this._playerInstance = v;
+	}
+	
+	public get hudInstance(): Hud {
+		return this._hudInstance;
+	}
+	
+	public set hudInstance(v: Hud) {
+		this._hudInstance = v;
+	}
+	
+	constructor(params: { avatar: string; username: string; rank: number; id: number; score: number; }) {
+		this.id = params.id;
+		this._username = params.username;
+		this._rank = params.rank;
+		this.score = params.score;
+		this.avatar = params.avatar;
+	}
  }
