@@ -24,6 +24,7 @@ export class GameScene extends Phaser.Scene {
 	private level: Level;
 	private bombs: Phaser.GameObjects.Group;
 	private bombCreationEvent: Phaser.Time.TimerEvent;
+	private newSceneTimedEvent: Phaser.Time.TimerEvent;
 
 	// This is WAY too big, have to find a way to shorten this, maybe create a
 	// player group or put some colliders inside 'its' classes... idk
@@ -206,7 +207,10 @@ export class GameScene extends Phaser.Scene {
 
 		// Good idea to put this inside update() ?
 		if (this.player1.isDead() || this.player2.isDead()) {
-			this.scene.start('Gameover');
+			this.newSceneTimedEvent = this.time.addEvent({
+				delay: 3000,
+				callback: () => this.scene.start('Gameover')
+			});
 		}
 		
 	}
