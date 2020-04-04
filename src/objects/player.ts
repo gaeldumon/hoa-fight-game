@@ -42,8 +42,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		if (this.health > 0) {
 			this.health -= 20;
 			this.healthBar.decrease(20);
-		} else {
-			this.setState(Player.States.DIE);
 		}
 		console.log(`Health: ${this.health}`);
 	}
