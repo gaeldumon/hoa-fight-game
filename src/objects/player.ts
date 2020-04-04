@@ -43,6 +43,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 			this.health -= 20;
 			this.healthBar.decrease(20);
 		}
+		// Debug
 		console.log(`Health: ${this.health}`);
 	}
 
@@ -114,7 +115,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 			}),
 			repeat: 1
 		});
+	}
 
+	private initSounds(): void {
+		this.jumpSound = this.scene.sound.add('jumpSound');
 	}
 
 	private initVitals(): void {
@@ -129,7 +133,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	private applyPhysics(): void {
-		// Sets 'this.body' to not null
 		this.scene.physics.world.enable(this);
 		this.setGravityY(this.gravityY);
 		this.setBounce(this.bounce);
@@ -174,7 +177,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 	constructor(params) {
 		super(params.scene, params.x, params.y, params.textureKey);
-		this.jumpSound = this.scene.sound.add('jumpSound');
+
+		this.scene.add.existing(this);
+
+		this.initSounds();
 		this.initVitals();
 		this.initHealthBar(params);
 		this.initShooting();
@@ -186,7 +192,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		// Restrain the boundingBox
 		this.setSize(20, 60);
 
-		this.scene.add.existing(this);
 	}
 
 	update(): void {
