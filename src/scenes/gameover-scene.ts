@@ -19,7 +19,7 @@ export class GameoverScene extends Phaser.Scene {
 
 	create() {
 		this.add.text(
-			getGameWidth(this)/2, 
+			getGameWidth(this)/2 - 155, 
 			getGameHeight(this)/2,
 			'Fin de Partie',
 			{
