@@ -3,9 +3,7 @@ import { Bomb } from '../objects/bomb';
 import { Level } from '../objects/level';
 import { Hud } from '../objects/hud';
 import { HealthBar } from '../objects/healthBar';
-import { WebsiteUser } from '../objects/websiteUser';
 import { getGameWidth } from '../helpers';
-import { COLORS } from '../helpers';
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -170,32 +168,6 @@ export class GameScene extends Phaser.Scene {
 			}
 		});
 
-		this.hud1 = new Hud({
-			scene: this,
-			x: 70,
-			y: 20,
-			color: COLORS.customGreen.string,
-			websiteUser: new WebsiteUser({
-				avatar: 'assets/images/characters/character2-avatar.png',
-				username: 'Marco45',
-				rank: 14
-			})
-		});
-
-		// The color of this HUD seems to override the first one
-		// It's kind of the same issue I have with player's textures
-		this.hud2 = new Hud({
-			scene: this,
-			x: getGameWidth(this) - 140,
-			y: 20,
-			color: COLORS.customBlue.string,
-			websiteUser: new WebsiteUser({
-				avatar: 'assets/images/characters/character2-avatar.png',
-				username: 'Woopix12',
-				rank: 47
-			})
-		});
-
 		this.setColliders();
 
 	}
@@ -208,7 +180,7 @@ export class GameScene extends Phaser.Scene {
 		// Good idea to put this inside update() ?
 		if (this.player1.isDead() || this.player2.isDead()) {
 			this.newSceneTimedEvent = this.time.addEvent({
-				delay: 3000,
+				delay: 2000,
 				callback: () => this.scene.start('Gameover')
 			});
 		}
