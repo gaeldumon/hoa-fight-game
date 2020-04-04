@@ -20,10 +20,8 @@ export class Hud {
 
 		this.htmlStruct = `
 			<ul>
-				<li><img src="${params.websiteUser.avatar}"></li>
+				<li><img src=""></li>
 				<li>${params.websiteUser.username} | Rang: ${params.websiteUser.rank}</li>
-				
-				
 			</ul>
 			<style>
 				ul {
