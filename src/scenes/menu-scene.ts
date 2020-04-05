@@ -1,4 +1,5 @@
-import { getGameWidth, getGameHeight, COLORS } from '../helpers';
+import { getGameWidth, getGameHeight, LEVEL_MIN, LEVEL_MAX, 
+CHARACTER_MIN, CHARACTER_MAX } from '../helpers';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	active: false,
@@ -13,10 +14,17 @@ export class MenuScene extends Phaser.Scene {
 	private background: Phaser.GameObjects.Image;
 	private title: Phaser.GameObjects.DOMElement;
 	private sectionTitle: Phaser.GameObjects.DOMElement;
-	private levelImage: Phaser.GameObjects.Image;
-	private nextBtn: Phaser.GameObjects.DOMElement;
 
-	constructor() {
+	private currentLevelImg: Phaser.GameObjects.Image;
+	private currentLevelId: number;
+
+	private currentCharacterImg: Phaser.GameObjects.Image;
+	private currentCharacterId: number;
+
+	private levelsBtn: Phaser.GameObjects.DOMElement;
+	private charactersBtn: Phaser.GameObjects.DOMElement;
+
+	constructor() {		
 		super(sceneConfig);
 	}
 
@@ -36,19 +44,23 @@ export class MenuScene extends Phaser.Scene {
 		}
 	}
 
+	// Temporary code that will benefit a huge refactoring very soon
 	create() {
-		
+
+		this.currentLevelId = LEVEL_MIN;
+		this.currentCharacterId = CHARACTER_MIN;
+
 		this.background = this.add.image(
 			getGameWidth(this)/2, 
 			getGameHeight(this)/2,
-			'background2'
+			'backgroundForGUIScenes'
 		);
 
 		this.title = this.add.dom(
 			getGameWidth(this)/2,
 			30,
 			'h3',
-			'color:#d2d2d2; font-size: 55px; font-family: Grobold, Arial',
+			'color:#fff; font-size: 55px; font-family: Grobold, Arial',
 			"HOA FIGHT"
 		);
 
@@ -56,11 +68,39 @@ export class MenuScene extends Phaser.Scene {
 			getGameWidth(this)/2,
 			120,
 			'h4',
-			'color:#d2d2d2; font-size: 30px; font-family: Grobold, Arial',
+			'color:#fff; font-size: 30px; font-family: Grobold, Arial',
 			"Menu"
 		);
 
-		this.levelImage = this.add.image(250, 350, 'background1Thumbnail');
+		this.currentLevelImg = this.add.image(
+			250, 
+			350, 
+			`background${this.currentLevelId}Thumbnail`
+		);
+
+		this.levelsBtn = this.add.dom(250, 465, 'button', '', 'NEXT');
+		this.levelsBtn.addListener('click').on('click', () => {
+			if (this.currentLevelId < LEVEL_MAX) 
+				this.currentLevelId++;
+			else 
+				this.currentLevelId = LEVEL_MIN;
+			this.currentLevelImg.setTexture(`background${this.currentLevelId}Thumbnail`);
+		});
+
+		this.currentCharacterImg = this.add.image(
+			650,
+			350,
+			`character${this.currentCharacterId}Avatar`
+		);
+
+		this.charactersBtn = this.add.dom(650, 460, 'button', '', 'NEXT');
+		this.charactersBtn.addListener('click').on('click', () => {
+			if (this.currentCharacterId < CHARACTER_MAX) 
+				this.currentCharacterId++;
+			else 
+				this.currentCharacterId = CHARACTER_MIN;
+			this.currentCharacterImg.setTexture(`character${this.currentCharacterId}Avatar`);
+		});
 
 		this.startBtn = this.add.dom(
 			(getGameWidth(this)/2),
@@ -69,8 +109,11 @@ export class MenuScene extends Phaser.Scene {
 			`width:150px; height:45px; font-family:Grobold,Arial; 
 			color:#000; font-size:25px; background-color:#d2d2d2; border:none`,
 			"Start"
+
 		).addListener('click').on('click', () => {
-			this.scene.start('Game');
+
+			//this.scene.start('Game');
+
 		});
 	}
 
