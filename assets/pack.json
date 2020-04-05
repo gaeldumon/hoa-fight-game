@@ -41,14 +41,8 @@
 
 			{
 				"type": "image",
-				"key": "background2",
+				"key": "backgroundForGUIScenes",
 				"url": "assets/images/backgrounds/winter-background.png"
-			},
-
-			{
-				"type": "image",
-				"key": "background2Thumbnail",
-				"url": "assets/images/backgrounds/winter-background-thumbnail.png"
 			},
 
 			{
