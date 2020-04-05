@@ -35,6 +35,24 @@
 
 			{
 				"type": "image",
+				"key": "background1Thumbnail",
+				"url": "assets/images/backgrounds/graveyard-background-thumbnail.png"
+			},
+
+			{
+				"type": "image",
+				"key": "background2",
+				"url": "assets/images/backgrounds/winter-background.png"
+			},
+
+			{
+				"type": "image",
+				"key": "background2Thumbnail",
+				"url": "assets/images/backgrounds/winter-background-thumbnail.png"
+			},
+
+			{
+				"type": "image",
 				"key": "projectile",
 				"url": "assets/images/objects/projectile.png"
 			},
@@ -49,7 +67,39 @@
 				"type": "audio",
 				"key": "jumpSound",
 				"url": "assets/sounds/jump.wav"
+			},
+
+			{
+				"type": "image",
+				"key": "character1Avatar",
+				"url": "assets/images/characters/character1-avatar.png"
+			},
+			{
+				"type": "image",
+				"key": "character2Avatar",
+				"url": "assets/images/characters/character2-avatar.png"
+			},
+			{
+				"type": "image",
+				"key": "character3Avatar",
+				"url": "assets/images/characters/character3-avatar.png"
+			},
+			{
+				"type": "image",
+				"key": "character4Avatar",
+				"url": "assets/images/characters/character4-avatar.png"
+			},
+			{
+				"type": "image",
+				"key": "character5Avatar",
+				"url": "assets/images/characters/character5-avatar.png"
+			},
+			{
+				"type": "image",
+				"key": "character6Avatar",
+				"url": "assets/images/characters/character6-avatar.png"
 			}
+			
 		]
 	}
 }
