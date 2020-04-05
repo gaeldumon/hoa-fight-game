@@ -91,7 +91,7 @@ export class GameScene extends Phaser.Scene {
 
 	preload() {
 
-		this.load.pack(
+		/*this.load.pack(
 			"preload",
 			"assets/pack.json",
 			"preload"
@@ -103,7 +103,7 @@ export class GameScene extends Phaser.Scene {
 				`assets/images/characters/character${i}-spritesheet.png`,
 				`assets/images/characters/character${i}-atlas.json`
 			);
-		}
+		}*/
 
 	}
 
