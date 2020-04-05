@@ -62,3 +62,8 @@ export const COLORS = {
 	customRed: { string: '#ea2d23', hex: 0xea2d23 },
 	white: { string: '#ffffff', hex: 0xffffff }
 }
+
+export const LEVEL_MIN = 1;
+export const LEVEL_MAX = 1;
+export const CHARACTER_MIN = 1;
+export const CHARACTER_MAX = 6;
