@@ -14,8 +14,9 @@ export class BootScene extends Phaser.Scene {
 	private websiteUser1: WebsiteUser;
 	private websiteUser2: WebsiteUser;
 
-	private startBtn: Phaser.GameObjects.DOMElement;
 	private title: Phaser.GameObjects.DOMElement;
+	private btn: Phaser.GameObjects.DOMElement;
+	private background: Phaser.GameObjects.Image;
 
 	constructor() {
 		super(sceneConfig);
@@ -55,26 +56,31 @@ export class BootScene extends Phaser.Scene {
 			score: 18
 		});
 
+		/****************************************************/
+
+		this.background = this.add.image(
+			getGameWidth(this)/2, 
+			getGameHeight(this)/2,
+			'background2'
+		);
+
 		this.title = this.add.dom(
-			(getGameWidth(this)/2)-20,
+			getGameWidth(this)/2,
 			50,
 			'h3',
-			'color: white; font-size: 45px; font-weight: bold; font-family: Grobold, Arial',
+			'color:#d2d2d2; font-size: 55px; font-family: Grobold, Arial',
 			"HOA FIGHT"
 		);
 
-		this.startBtn = this.add.dom(
-			(getGameWidth(this)/2)-20,
+		this.btn = this.add.dom(
+			(getGameWidth(this)/2),
 			(getGameHeight(this)/2),
 			'button',
-			'',
+			`width:150px; height:45px; font-family:Grobold,Arial; 
+			color:#000; font-size:25px; background-color:#d2d2d2; border:none`,
 			"Menu"
 		).addListener('click').on('click', () => {
 			this.scene.start('Menu');
 		});
-	}
-
-	update() {
-
 	}
 }
