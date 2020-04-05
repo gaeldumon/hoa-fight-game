@@ -61,14 +61,14 @@ export class BootScene extends Phaser.Scene {
 		this.background = this.add.image(
 			getGameWidth(this)/2, 
 			getGameHeight(this)/2,
-			'background2'
+			'backgroundForGUIScenes'
 		);
 
 		this.title = this.add.dom(
 			getGameWidth(this)/2,
 			50,
 			'h3',
-			'color:#d2d2d2; font-size: 55px; font-family: Grobold, Arial',
+			'color:#fff; font-size: 55px; font-family: Grobold, Arial',
 			"HOA FIGHT"
 		);
 
