@@ -1,6 +1,4 @@
-import { getGameWidth, getGameHeight, 
-	LEVEL_MIN, LEVEL_MAX, 
-	CHARACTER_MIN, CHARACTER_MAX } from '../helpers';
+import { getGameWidth, getGameHeight, GAMEDATA} from '../helpers';
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -12,7 +10,15 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class MenuScene extends Phaser.Scene {
 
+	private levelThumb: Phaser.GameObjects.Image;
+	private levelsThumbsTextures: Array<string>;
+	private characterThumbPlayer1: Phaser.GameObjects.Image;
+	private characterThumbPlayer2: Phaser.GameObjects.Image;
+	private charactersAvatarsTextures: Array<string>;
 
+	/**
+	 * Draws/Add the background (a Phaser Image)
+	 */
 	private background(): void {
 		this.add.image(
 			getGameWidth(this)/2, 
@@ -21,6 +27,9 @@ export class MenuScene extends Phaser.Scene {
 		);
 	}
 
+	/**
+	 * Add the logo (for now, a Phaser DOM Element)
+	 */
 	private logo(): void {
 		this.add.dom(
 			getGameWidth(this)/2,
@@ -31,6 +40,9 @@ export class MenuScene extends Phaser.Scene {
 		);
 	}
 
+	/**
+	 * Add the section title, for example: Menu (a Phaser DOM Element)
+	 */
 	private title(): void {
 		this.add.dom(
 			getGameWidth(this)/2,
@@ -41,13 +53,16 @@ export class MenuScene extends Phaser.Scene {
 		);
 	}
 
+	/**
+	 * Add the Start Button that starts the GameScene (and stops this one)
+	 */
 	private startBtn(): void {
 		this.add.dom(
 			getGameWidth(this)/2,
 			getGameHeight(this)-50,
 			'button',
 			`width: 150px; 
-			height: 45px; 
+			height: 49px; 
 			font-family: Grobold,Arial; 
 			color: #000; 
 			font-size:25px; 
@@ -56,6 +71,26 @@ export class MenuScene extends Phaser.Scene {
 			"Start"
 		).addListener('click').on('click', () => {
 			//this.scene.start('Game');
+		});
+	}
+
+	private nextBtn(x, y, max, img: Phaser.GameObjects.Image, textures: Array<string>): void {
+		let i = 0;
+		this.add.dom(
+			x,
+			y,
+			'button',
+			`width: 100px; 
+			height: 33px; 
+			font-family: Grobold,Arial; 
+			color: #000; 
+			font-size: 17px; 
+			background-color: #d2d2d2; 
+			border:none`,
+			"Next"
+		).addListener('click').on('click', () => {
+			(i < max-1) ? i++ : i = 0;
+			img.setTexture(textures[i]);
 		});
 	}
 
@@ -81,14 +116,45 @@ export class MenuScene extends Phaser.Scene {
 
 	create() {
 
+		this.levelsThumbsTextures = [];
+		for (let nLevel = 1; nLevel <= GAMEDATA.LEVELS.MAX; nLevel++) {
+			this.levelsThumbsTextures.push(`background${nLevel}Thumbnail`);
+		}
+
+		this.charactersAvatarsTextures = [];
+		for (let nCharacter = 1; nCharacter <= GAMEDATA.CHARACTERS.MAX; nCharacter++) {
+			this.charactersAvatarsTextures.push(`character${nCharacter}Avatar`);
+		}
+
 		this.background();
 		this.logo();
 		this.title();
 		this.startBtn();
-
-	}
-
-	update() {
+		
+		this.levelThumb = this.add.image(300, 340, this.levelsThumbsTextures[0]);
+		this.nextBtn(
+			300, 
+			470, 
+			GAMEDATA.LEVELS.MAX,
+			this.levelThumb,
+			this.levelsThumbsTextures
+		);
+		this.characterThumbPlayer1 = this.add.image(600, 340, this.charactersAvatarsTextures[0]);
+		this.nextBtn(
+			600,
+			470,
+			GAMEDATA.CHARACTERS.MAX,
+			this.characterThumbPlayer1,
+			this.charactersAvatarsTextures
+		);
+		this.characterThumbPlayer2 = this.add.image(750, 340, this.charactersAvatarsTextures[0]);
+		this.nextBtn(
+			750,
+			470,
+			GAMEDATA.CHARACTERS.MAX,
+			this.characterThumbPlayer2,
+			this.charactersAvatarsTextures
+		);
 
 	}
 
