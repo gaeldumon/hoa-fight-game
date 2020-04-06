@@ -41,15 +41,36 @@ export class MenuScene extends Phaser.Scene {
 	}
 
 	/**
-	 * Add the section title, for example: Menu (a Phaser DOM Element)
+	 * Add the scene title, for example: Menu (a Phaser DOM Element)
 	 */
 	private title(): void {
 		this.add.dom(
 			getGameWidth(this)/2,
-			120,
+			24,
+			'h3',
+			'color:#fff; font-size: 40px; font-family: Grobold, Arial',
+			"MENU"
+		);
+	}
+
+	private subTitle(x, y, text): void {
+		this.add.dom(
+			x,
+			y,
 			'h4',
 			'color:#fff; font-size: 30px; font-family: Grobold, Arial',
-			"Menu"
+			text
+		);
+	}
+
+	
+	private hoaText(x, y, text): void {
+		this.add.dom(
+			x,
+			y,
+			'p',
+			'color:#fff; font-size: 20px; font-family: Grobold, Arial',
+			text
 		);
 	}
 
@@ -87,7 +108,7 @@ export class MenuScene extends Phaser.Scene {
 			font-size: 17px; 
 			background-color: #d2d2d2; 
 			border:none`,
-			"Next"
+			"Suivant"
 		).addListener('click').on('click', () => {
 			(i < max-1) ? i++ : i = 0;
 			img.setTexture(textures[i]);
@@ -118,7 +139,7 @@ export class MenuScene extends Phaser.Scene {
 
 		this.levelsThumbsTextures = [];
 		for (let nLevel = 1; nLevel <= GAMEDATA.LEVELS.MAX; nLevel++) {
-			this.levelsThumbsTextures.push(`background${nLevel}Thumbnail`);
+			this.levelsThumbsTextures.push(`level${nLevel}Thumbnail`);
 		}
 
 		this.charactersAvatarsTextures = [];
@@ -127,30 +148,37 @@ export class MenuScene extends Phaser.Scene {
 		}
 
 		this.background();
-		this.logo();
+		//this.logo();
 		this.title();
 		this.startBtn();
 		
-		this.levelThumb = this.add.image(300, 340, this.levelsThumbsTextures[0]);
+		this.subTitle(240, 170, "Terrain");
+		this.levelThumb = this.add.image(240, 340, this.levelsThumbsTextures[0]);
 		this.nextBtn(
-			300, 
+			240, 
 			470, 
 			GAMEDATA.LEVELS.MAX,
 			this.levelThumb,
 			this.levelsThumbsTextures
 		);
-		this.characterThumbPlayer1 = this.add.image(600, 340, this.charactersAvatarsTextures[0]);
+
+		this.subTitle(getGameWidth(this)-240, 170, "Personnages");
+
+		this.hoaText(700, 260, "Joueur 1");
+		this.characterThumbPlayer1 = this.add.image(700, 340, this.charactersAvatarsTextures[0]);
 		this.nextBtn(
-			600,
-			470,
+			700,
+			400,
 			GAMEDATA.CHARACTERS.MAX,
 			this.characterThumbPlayer1,
 			this.charactersAvatarsTextures
 		);
-		this.characterThumbPlayer2 = this.add.image(750, 340, this.charactersAvatarsTextures[0]);
+
+		this.hoaText(850, 260, "Joueur2");
+		this.characterThumbPlayer2 = this.add.image(850, 340, this.charactersAvatarsTextures[0]);
 		this.nextBtn(
-			750,
-			470,
+			850,
+			400,
 			GAMEDATA.CHARACTERS.MAX,
 			this.characterThumbPlayer2,
 			this.charactersAvatarsTextures
