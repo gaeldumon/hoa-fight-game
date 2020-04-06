@@ -63,7 +63,13 @@ export const COLORS = {
 	white: { string: '#ffffff', hex: 0xffffff }
 }
 
-export const LEVEL_MIN = 1;
-export const LEVEL_MAX = 1;
-export const CHARACTER_MIN = 1;
-export const CHARACTER_MAX = 6;
+export const GAMEDATA = {
+	LEVELS: {
+		MIN: 1,
+		MAX: 1
+	},
+	CHARACTERS: {
+		MIN: 1,
+		MAX: 6
+	}
+}
