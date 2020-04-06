@@ -35,8 +35,8 @@
 
 			{
 				"type": "image",
-				"key": "background1Thumbnail",
-				"url": "assets/images/backgrounds/graveyard-background-thumbnail.png"
+				"key": "level1Thumbnail",
+				"url": "assets/levels/level1-thumbnail.png"
 			},
 
 			{
