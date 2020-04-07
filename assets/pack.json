@@ -1,20 +1,36 @@
 {
 	"preload": {
 		"files": [
+
+			{
+				"type": "tilemapTiledJSON",
+				"key": "level0",
+				"url": "assets/levels/level0/level0.json"
+			},
 			{
 				"type": "spritesheet",
-				"key": "tilesheet1",
-				"url": "assets/images/tilesheets/tilesheet1-32x32.png",
+				"key": "level0Tilesheet",
+				"url": "assets/images/levels/level0/level0-tilesheet.png",
 				"frameConfig": {
 					"frameWidth": 32,
 					"frameHeight": 32
 				}
 			},
+			{
+				"type": "image",
+				"key": "level0Background",
+				"url": "assets/images/levels/level0/level0-background.png"
+			},
+			{
+				"type": "image",
+				"key": "level0Thumbnail",
+				"url": "assets/levels/level0/level0-thumbnail.png"
+			},
 
 			{
-				"type": "tilemapTiledJSON",
-				"key": "level1",
-				"url": "assets/levels/graveyard.json"
+				"type": "image",
+				"key": "backgroundForGUIScenes",
+				"url": "assets/images/backgrounds/background-for-gui-scenes.png"
 			},
 
 			{
@@ -25,24 +41,6 @@
 					"frameWidth": 32,
 					"frameHeight": 32
 				}
-			},
-
-			{
-				"type": "image",
-				"key": "background1",
-				"url": "assets/images/backgrounds/graveyard-background.png"
-			},
-
-			{
-				"type": "image",
-				"key": "level1Thumbnail",
-				"url": "assets/levels/level1-thumbnail.png"
-			},
-
-			{
-				"type": "image",
-				"key": "backgroundForGUIScenes",
-				"url": "assets/images/backgrounds/winter-background.png"
 			},
 
 			{
@@ -65,33 +63,33 @@
 
 			{
 				"type": "image",
+				"key": "character0Avatar",
+				"url": "assets/images/characters/character0/character0-avatar.png"
+			},
+			{
+				"type": "image",
 				"key": "character1Avatar",
-				"url": "assets/images/characters/character1-avatar.png"
+				"url": "assets/images/characters/character1/character1-avatar.png"
 			},
 			{
 				"type": "image",
 				"key": "character2Avatar",
-				"url": "assets/images/characters/character2-avatar.png"
+				"url": "assets/images/characters/character2/character2-avatar.png"
 			},
 			{
 				"type": "image",
 				"key": "character3Avatar",
-				"url": "assets/images/characters/character3-avatar.png"
+				"url": "assets/images/characters/character3/character3-avatar.png"
 			},
 			{
 				"type": "image",
 				"key": "character4Avatar",
-				"url": "assets/images/characters/character4-avatar.png"
+				"url": "assets/images/characters/character4/character4-avatar.png"
 			},
 			{
 				"type": "image",
 				"key": "character5Avatar",
-				"url": "assets/images/characters/character5-avatar.png"
-			},
-			{
-				"type": "image",
-				"key": "character6Avatar",
-				"url": "assets/images/characters/character6-avatar.png"
+				"url": "assets/images/characters/character5/character5-avatar.png"
 			}
 			
 		]
