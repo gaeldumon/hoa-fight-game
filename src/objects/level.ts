@@ -22,7 +22,7 @@ export class Level {
 		this.background = params.scene.add.image(
 			getGameWidth(params.scene)/2, 
 			getGameHeight(params.scene)/2, 
-			`background${params.id}`
+			`level${params.id}Background`
 		);
 
 		this.map = params.scene.make.tilemap({ 
@@ -30,8 +30,8 @@ export class Level {
 		});
 
 		this.tileset = this.map.addTilesetImage(
-			`tilesheet${params.id}-32x32`, 
-			`tilesheet${params.id}`
+			`level${params.id}Tilesheet`, 
+			`level${params.id}Tilesheet`
 		);
 
 		this._mainLayer = this.map.createStaticLayer(
