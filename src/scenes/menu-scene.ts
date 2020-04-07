@@ -1,4 +1,5 @@
-import { getGameWidth, getGameHeight, GAMEDATA} from '../helpers';
+import { getGameWidth, getGameHeight, GAMEDATA } from '../helpers';
+import { BootScene } from './boot-scene';
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
