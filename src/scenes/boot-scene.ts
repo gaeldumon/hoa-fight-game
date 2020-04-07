@@ -11,8 +11,8 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class BootScene extends Phaser.Scene {
 
-	private websiteUser1: WebsiteUser;
-	private websiteUser2: WebsiteUser;
+	public static websiteUser1: WebsiteUser;
+	public static websiteUser2: WebsiteUser;
 
 	private title: Phaser.GameObjects.DOMElement;
 	private btn: Phaser.GameObjects.DOMElement;
@@ -40,7 +40,7 @@ export class BootScene extends Phaser.Scene {
 
 	create() {
 
-		this.websiteUser1 = new WebsiteUser({
+		BootScene.websiteUser1 = new WebsiteUser({
 			avatar: '',
 			username: 'Stan45',
 			rank: 1,
@@ -48,7 +48,7 @@ export class BootScene extends Phaser.Scene {
 			score: 20
 		});
 
-		this.websiteUser2 = new WebsiteUser({
+		BootScene.websiteUser2 = new WebsiteUser({
 			avatar: '',
 			username: 'Beth347',
 			rank: 2,
