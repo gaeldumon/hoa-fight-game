@@ -65,11 +65,9 @@ export const COLORS = {
 
 export const GAMEDATA = {
 	LEVELS: {
-		MIN: 1,
-		MAX: 1
+		NUMBER: 1
 	},
 	CHARACTERS: {
-		MIN: 1,
-		MAX: 6
+		NUMBER: 6
 	}
 }
