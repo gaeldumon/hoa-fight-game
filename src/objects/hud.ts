@@ -1,47 +1,33 @@
-/**
- * This hud class will display the player's information in-game: its health,
- * its avatar and rank (from website personal account).
- * Each HUD will be linked to its corresponding player (1 HUD instance per player).
- */
-
-import { WebsiteUser } from './websiteUser';
-
 export class Hud {
 
-	private htmlStruct: string;
+	private avatar: Phaser.GameObjects.Image;
+	private username: Phaser.GameObjects.DOMElement;
+	private rank: Phaser.GameObjects.DOMElement;
 
-	constructor(params: { 
-		scene: Phaser.Scene;
-		x: number; 
-		y: number; 
-		color: string; 
-		websiteUser: WebsiteUser	
-	}) {
+	constructor(params) {
 
-		this.htmlStruct = `
-			<ul>
-				<li><img src=""></li>
-				<li>${params.websiteUser.username} | Rang: ${params.websiteUser.rank}</li>
-			</ul>
-			<style>
-				ul {
-					font-size: 12px;
-					padding: 5px;
-					color: white;
-					font-weight: bold;
-					font-family: arial;
-					list-style-type: none;
-					text-align: center;
-				}
-				li {
-					display: inline-block;
-					vertical-align: middle;
-				}
-			</style>`;
+		this.avatar = params.scene.add.image(
+			params.x, 
+			params.y, 
+			params.textureKey
+		);
 
-		// 2nd argument is where phaser will put the html in, it's the container. 
-		// It's a div by default but I specify it anyway for clarity.
-		params.scene.add.dom(params.x, params.y)
-		.createFromHTML(this.htmlStruct, 'div');
+		this.username = params.scene.add.dom(
+			// Relative positioning with the avatar
+			this.avatar.x + 10,
+			this.avatar.y,
+			'h5',
+			`font-family: Grobold, Arial; font-size: 14px; color: #fff`,
+			`${params.username} | `
+		);
+
+		this.rank = params.scene.add.dom(
+			// Relative positioning with the username
+			this.username.x + 50,
+			this.username.y,
+			'h5',
+			`font-family: Grobold, Arial; font-size: 14px; color: #fff`,
+			`Rang: ${params.rank}`
+		);
 	}
 }
