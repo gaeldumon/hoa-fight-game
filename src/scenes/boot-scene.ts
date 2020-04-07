@@ -1,4 +1,4 @@
-import { getGameWidth, getGameHeight } from '../helpers';
+import { getGameWidth, getGameHeight, GAMEDATA } from '../helpers';
 import { WebsiteUser } from '../objects/websiteUser';
 
 
@@ -40,20 +40,19 @@ export class BootScene extends Phaser.Scene {
 	}
 
 	preload() {
-		// This is commented out for now, due to 'Scene testing' purposes.
-		/*this.load.pack(
+		this.load.pack(
 			"preload",
 			"assets/pack.json",
 			"preload"
 		);
 
-		for (let i = 1; i <= 6; i++) {
+		for (let n = 0; n < GAMEDATA.CHARACTERS.NUMBER; n++) {
 			this.load.atlas(
-				`character${i}`,
-				`assets/images/characters/character${i}-spritesheet.png`,
-				`assets/images/characters/character${i}-atlas.json`
+				`character${n}`,
+				`assets/images/characters/character${n}/character${n}-spritesheet.png`,
+				`assets/images/characters/character${n}/character${n}-atlas.json`
 			);
-		}*/
+		}
 	}
 
 	create() {
