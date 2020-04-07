@@ -1,7 +1,7 @@
 import { getGameWidth, getGameHeight, GAMEDATA } from '../helpers';
 // To access the 2 public-static WebsiteUser instances of the Boot Scene.
 import { BootScene } from './boot-scene';
-// To declare expected "Choosing Buttons" argument type.
+// Only to declare expected "Choosing Buttons" argument type.
 import { WebsiteUser } from '../objects/websiteUser';
 
 
