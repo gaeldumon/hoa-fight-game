@@ -1,4 +1,4 @@
-import { getGameWidth, getGameHeight, COLORS } from '../helpers';
+import { getGameWidth, getGameHeight } from '../helpers';
 import { WebsiteUser } from '../objects/websiteUser';
 
 
@@ -9,20 +9,38 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 };
 
 
+/**
+ * This scene is the starting point of the whole game.
+ * It loads everything the game needs (spritesheets, sounds...).
+ * It creates instances of the WebsiteUser class which represents 2 users from 
+ * the website that would start a game. For now I'm hard-coding fake users data 
+ * directly into it but utimately I will "copy/import" real-world users data 
+ * from the website into these instances. This Scene also provides a simple UI 
+ * such as a logo and a Start Button that starts the Menu Scene, and later a
+ * loading bar.
+ */
 export class BootScene extends Phaser.Scene {
 
+	// I declare websiteUsers "public static" so I can access them and their
+	// getters/setters through other Scenes using import. I'm aware it could be 
+	// considered bad practice even if I know what static can imply: 
+	// changes apply on all static refs accross the code, on Scene load these 
+	// might not be cleared... But in the end, these will come from the website 
+	// itself directly (through an API).
 	public static websiteUser1: WebsiteUser;
 	public static websiteUser2: WebsiteUser;
 
-	private title: Phaser.GameObjects.DOMElement;
+	private logo: Phaser.GameObjects.DOMElement;
 	private btn: Phaser.GameObjects.DOMElement;
 	private background: Phaser.GameObjects.Image;
+	
 
 	constructor() {
 		super(sceneConfig);
 	}
 
 	preload() {
+		// This is commented out for now, due to 'Scene testing' purposes.
 		/*this.load.pack(
 			"preload",
 			"assets/pack.json",
@@ -40,6 +58,7 @@ export class BootScene extends Phaser.Scene {
 
 	create() {
 
+		// Fake/mockup users.
 		BootScene.websiteUser1 = new WebsiteUser({
 			avatar: '',
 			username: 'Stan45',
@@ -64,14 +83,16 @@ export class BootScene extends Phaser.Scene {
 			'backgroundForGUIScenes'
 		);
 
-		this.title = this.add.dom(
+		// For now, the logo is just some plain text added as a DOM Element.
+		this.logo = this.add.dom(
 			getGameWidth(this)/2,
 			50,
 			'h3',
 			'color:#fff; font-size: 55px; font-family: Grobold, Arial',
 			"HOA FIGHT"
 		);
-
+		
+		// A DOM button responsible of starting the Menu Scene.
 		this.btn = this.add.dom(
 			(getGameWidth(this)/2),
 			(getGameHeight(this)/2),
@@ -79,8 +100,11 @@ export class BootScene extends Phaser.Scene {
 			`width:150px; height:45px; font-family:Grobold,Arial; 
 			color:#000; font-size:25px; background-color:#d2d2d2; border:none`,
 			"Menu"
+
 		).addListener('click').on('click', () => {
+
 			this.scene.start('Menu');
+
 		});
 	}
 }
