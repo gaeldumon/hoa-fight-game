@@ -28,7 +28,7 @@ import { Hud } from "./hud";
 	private avatar: string;
 	private _username: string;
 	private _rank: number;
-	private _characterChoice: string;
+	private _characterChoice: number;
 	private _playerInstance: Player;
 	private _hudInstance: Hud;
 	
@@ -40,11 +40,11 @@ import { Hud } from "./hud";
 		return this._rank;
 	}
 	
-	public get characterChoice(): string {
+	public get characterChoice(): number {
 		return this._characterChoice;
 	}
 	
-	public set characterChoice(v: string) {
+	public set characterChoice(v: number) {
 		this._characterChoice = v;
 	}
 
