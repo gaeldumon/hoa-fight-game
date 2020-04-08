@@ -1,10 +1,10 @@
 import { getGameWidth, SIDE } from '../helpers';
-import { Player } from '../objects/player';
 import { Bomb } from '../objects/bomb';
 import { Level } from '../objects/level';
-import { Hud } from '../objects/hud';
-import { HealthBar } from '../objects/healthBar';
 import { WebsiteUser } from '../objects/websiteUser';
+import { Hud } from '../objects/hud';
+import { Player } from '../objects/player';
+import { HealthBar } from '../objects/healthBar';
 // To get public-static levelChoice and characterChoices
 import { MenuScene } from './menu-scene';
 
@@ -116,53 +116,32 @@ export class GameScene extends Phaser.Scene {
 			callbackScope: this
 		});
 
-
-
 		this.level = new Level( {scene: this, id: MenuScene.levelChoice} );
 
-		/***USER1/PLAYER1 - LEFT SIDE***/
+		/***********Users**********/
 		this.websiteUser1 = new WebsiteUser({
 			id: 1,
-			username: 'Marco47',
+			username: 'Marco45',
 			rank: 10,
 			score: 6,
 			avatar: ''
 		});
 
+		this.websiteUser2 = new WebsiteUser({
+			id: 5,
+			username: 'Hyperdestru',
+			rank: 2,
+			score: 26,
+			avatar: ''
+		});
+
+		/***********HUDs**********/
 		this.hud1 = new Hud({
 			scene: this,
 			side: SIDE.LEFT,
 			avatarTextureKey: `character${MenuScene.characterChoicePlayer1}Avatar`,
 			username: this.websiteUser1.username,
 			rank: this.websiteUser1.rank
-		});
-
-		this.player1 = new Player({
-			scene: this,
-			x: 750, 
-			y: 450,
-			textureKey: `character${MenuScene.characterChoicePlayer1}`,
-			healthBar: new HealthBar({
-				scene: this,
-				x: 75,
-				y: 54
-			}),
-			controlKeys: {
-				right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
-				left: Phaser.Input.Keyboard.KeyCodes.LEFT,
-				jump: Phaser.Input.Keyboard.KeyCodes.UP,
-				shoot: Phaser.Input.Keyboard.KeyCodes.SHIFT
-			}
-		});
-
-
-		/***USER2/PLAYER2 - RIGHT SIDE***/
-		this.websiteUser2 = new WebsiteUser({
-			id: 5,
-			username: 'Beth55',
-			rank: 2,
-			score: 26,
-			avatar: ''
 		});
 
 		this.hud2 = new Hud({
@@ -173,6 +152,25 @@ export class GameScene extends Phaser.Scene {
 			rank: this.websiteUser2.rank
 		});
 
+		/***********Players(+ healthBars)**********/
+		this.player1 = new Player({
+			scene: this,
+			x: 750, 
+			y: 450,
+			textureKey: `character${MenuScene.characterChoicePlayer1}`,
+			healthBar: new HealthBar({
+				scene: this,
+				x: 64,
+				y: 40
+			}),
+			controlKeys: {
+				right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+				left: Phaser.Input.Keyboard.KeyCodes.LEFT,
+				jump: Phaser.Input.Keyboard.KeyCodes.UP,
+				shoot: Phaser.Input.Keyboard.KeyCodes.SHIFT
+			}
+		});
+
 		this.player2 = new Player({
 			scene: this,
 			x: 600,
@@ -180,8 +178,8 @@ export class GameScene extends Phaser.Scene {
 			textureKey: `character${MenuScene.characterChoicePlayer2}`,
 			healthBar: new HealthBar({
 				scene: this,
-				x: getGameWidth(this) - 248,
-				y: 54
+				x: getGameWidth(this)-164,
+				y: 40
 			}),
 			controlKeys: {
 				right: Phaser.Input.Keyboard.KeyCodes.D,
