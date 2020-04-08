@@ -1,8 +1,4 @@
-import { getGameWidth, getGameHeight, GAMEDATA } from '../helpers';
-// To access the 2 public-static WebsiteUser instances of the Boot Scene.
-import { BootScene } from './boot-scene';
-// Only to declare expected "Choosing Buttons" argument type.
-import { WebsiteUser } from '../objects/websiteUser';
+import { getGameWidth, getGameHeight, GAMEDATA, MENUSECTION } from '../helpers';
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -10,6 +6,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	visible: false,
 	key: 'Menu'
 };
+
 
 /**
  * This Scene is the Menu of the game, right before launching a match.
@@ -21,17 +18,16 @@ export class MenuScene extends Phaser.Scene {
 
 	private levelThumb: Phaser.GameObjects.Image;
 	private levelsThumbsTextures: Array<string>;
+
 	private characterThumbPlayer1: Phaser.GameObjects.Image;
 	private characterThumbPlayer2: Phaser.GameObjects.Image;
 	private charactersAvatarsTextures: Array<string>;
 	
-	// An id between 0 and GAMEDATA.LEVELS.NUMBER
-	private _levelChoice: number;
-	
-	public get levelChoice() : number {
-		return this._levelChoice;
-	}
-	
+	public static levelChoice = 0;
+	public static characterChoicePlayer1 = 0;
+	public static characterChoicePlayer2 = 0;
+
+
 	/**
 	 * Draws/Add the background (a Phaser Image)
 	 */
@@ -42,6 +38,7 @@ export class MenuScene extends Phaser.Scene {
 			'backgroundForGUIScenes'
 		);
 	}
+
 
 	/**
 	 * Add the logo (for now, a Phaser DOM Element)
@@ -73,26 +70,26 @@ export class MenuScene extends Phaser.Scene {
 	 * Add a h4 "section title" (a Phaser DOM Element), for example "Maps" or
 	 * "Characters" : in short a section of the Menu GUI.
 	 */
-	private subTitle(x, y, text): void {
+	private subTitle(px, py, pText): void {
 		this.add.dom(
-			x,
-			y,
+			px,
+			py,
 			'h4',
 			'color:#fff; font-size: 30px; font-family: Grobold, Arial',
-			text
+			pText
 		);
 	}
 
 	/**
 	 * Add some "Hoa" styled text (i.e Grobold font, black, kinda big etc)
 	 */
-	private hoaText(x, y, text): void {
+	private hoaText(px, py, pText): void {
 		this.add.dom(
-			x,
-			y,
+			px,
+			py,
 			'p',
 			'color:#fff; font-size: 20px; font-family: Grobold, Arial',
-			text
+			pText
 		);
 	}
 
@@ -112,9 +109,10 @@ export class MenuScene extends Phaser.Scene {
 			background-color: #d2d2d2; 
 			border:none`,
 			"Start"
+
 		).addListener('click').on('click', () => {
 
-			//this.scene.start('Game');
+			this.scene.start('Game');
 
 		});
 	}
@@ -127,22 +125,22 @@ export class MenuScene extends Phaser.Scene {
 	 * one until arrays's end is reached (then starting over).
 	 * 2) Each time we increment, a new texture is set on the image passed as 
 	 * argument based on the current texture key of the array.
-	 * 3) Appends a "character choice" in the form of the current texture key
-	 * to a websiteUser Instance (or field if declared public-static).
+	 * 3) Appends a "character choice" --> the i index of the current texture key
 	 * @param x: horizontal position of the button.
 	 * @param y: vertical position of the button.
 	 * @param img: displayed image, which texture's will change on button click.
 	 * @param textures: array composed of textures keys (see BootScene preload).
-	 * @param websiteUser: user that will get its characterChoice SET on click.
+	 * @param section: if type is "level" then 'i' will be put inside a certain
+	 * property/field, if "user1" then in a different etc
 	 */
 	private choosingBtn(
 		px: number, 
 		py: number, 
 		pImg: Phaser.GameObjects.Image, 
 		pTextures: Array<string>,
-		// If null that means this is the button for the level choosing.
-		// If not that means this is a button for a character choosing.
-		pWebsiteUser: WebsiteUser = null
+		// What section the button is linked to: level, user1, user2
+		// Use an interface for this?
+		pSection: MENUSECTION
 
 	): void {
 
@@ -160,6 +158,7 @@ export class MenuScene extends Phaser.Scene {
 			background-color: #d2d2d2; 
 			border:none`,
 			"Suivant"
+
 		).addListener('click').on('click', () => {
 			// If we reach the end of the texture keys then going back to the
 			// first texture key, if not then going to the next texture key.
@@ -167,20 +166,14 @@ export class MenuScene extends Phaser.Scene {
 			// Setting the current texture key to the image, which in the end,
 			// acts as a container.
 			pImg.setTexture(pTextures[i]);
-
-			// Important piece of code. Appending a character choice to a user.
-			// If i = 0, then characterChoice is 0, then the user's player 
-			// instance will have the character0 (the red dude).
-			if (pWebsiteUser !== null) {
-				// An Id between 0 and GAMEDATA.CHARACTERS.NUMBER
-				pWebsiteUser.characterChoice = i;
-
-			} else {
-
-				this._levelChoice = i;
-
-			}
-
+			
+			if (pSection === MENUSECTION.LEVEL) {
+				MenuScene.levelChoice = i;
+			} else if (pSection === MENUSECTION.USER1) {
+				MenuScene.characterChoicePlayer1 = i;
+			} else if (pSection === MENUSECTION.USER2) {
+				MenuScene.characterChoicePlayer2 = i;
+			} 
 		});
 	}
 
@@ -199,12 +192,14 @@ export class MenuScene extends Phaser.Scene {
 		// index, on click. 
 		// All these textures keys come from the pack.json file.
 		this.levelsThumbsTextures = [];
+
 		for (let nLevel = 0; nLevel < GAMEDATA.LEVELS.NUMBER; nLevel++) {
 			this.levelsThumbsTextures.push(`level${nLevel}Thumbnail`);
 		}
 
 		// Same for characters avatars textures keys.
 		this.charactersAvatarsTextures = [];
+		
 		for (let nCharacter = 0; nCharacter < GAMEDATA.CHARACTERS.NUMBER; nCharacter++) {
 			this.charactersAvatarsTextures.push(`character${nCharacter}Avatar`);
 		}
@@ -220,11 +215,13 @@ export class MenuScene extends Phaser.Scene {
 			240, 
 			470, 
 			this.levelThumb,
-			this.levelsThumbsTextures
+			this.levelsThumbsTextures,
+			MENUSECTION.LEVEL
 		);
 		
 		// Characters choosing section, divided in 2 sub-sections (1 per user).
-		this.subTitle(getGameWidth(this)-240, 170, "Personnages");
+		this.subTitle(getGameWidth(this) - 240, 170, "Personnages");
+
 		this.hoaText(700, 260, "Joueur 1");
 		this.characterThumbPlayer1 = this.add.image(700, 340, this.charactersAvatarsTextures[0]);
 		this.choosingBtn(
@@ -232,7 +229,7 @@ export class MenuScene extends Phaser.Scene {
 			400,
 			this.characterThumbPlayer1,
 			this.charactersAvatarsTextures,
-			BootScene.websiteUser1
+			MENUSECTION.USER1
 		);
 
 		this.hoaText(850, 260, "Joueur2");
@@ -242,7 +239,7 @@ export class MenuScene extends Phaser.Scene {
 			400,
 			this.characterThumbPlayer2,
 			this.charactersAvatarsTextures,
-			BootScene.websiteUser2
+			MENUSECTION.USER2
 		);
 
 	}

@@ -1,9 +1,12 @@
+import { getGameWidth, SIDE } from '../helpers';
 import { Player } from '../objects/player';
 import { Bomb } from '../objects/bomb';
 import { Level } from '../objects/level';
 import { Hud } from '../objects/hud';
 import { HealthBar } from '../objects/healthBar';
-import { getGameWidth } from '../helpers';
+import { WebsiteUser } from '../objects/websiteUser';
+// To get public-static levelChoice and characterChoices
+import { MenuScene } from './menu-scene';
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -19,13 +22,14 @@ export class GameScene extends Phaser.Scene {
 	private player2: Player;
 	private hud1: Hud;
 	private hud2: Hud;
+	private websiteUser1: WebsiteUser;
+	private websiteUser2: WebsiteUser;
 	private level: Level;
 	private bombs: Phaser.GameObjects.Group;
 	private bombCreationEvent: Phaser.Time.TimerEvent;
 	private newSceneTimedEvent: Phaser.Time.TimerEvent;
 
-	// This is WAY too big, have to find a way to shorten this, maybe create a
-	// player group or put some colliders inside 'its' classes... idk
+
 	private setColliders(): void {
 
 		this.physics.add.collider(
@@ -90,21 +94,6 @@ export class GameScene extends Phaser.Scene {
 
 
 	preload() {
-
-		/*this.load.pack(
-			"preload",
-			"assets/pack.json",
-			"preload"
-		);
-
-		for (let i = 1; i <= 6; i++) {
-			this.load.atlas(
-				`character${i}`,
-				`assets/images/characters/character${i}-spritesheet.png`,
-				`assets/images/characters/character${i}-atlas.json`
-			);
-		}*/
-
 	}
 
 
@@ -127,20 +116,36 @@ export class GameScene extends Phaser.Scene {
 			callbackScope: this
 		});
 
-		this.level = new Level( {scene: this, id: '1'} );
 
-		// The texture key of this player seems to overrride the texture of
-		// the other one. Here the character2 texture will be drawn for both players !
-		// Can't it be TWO different textures ??
+
+		this.level = new Level( {scene: this, id: MenuScene.levelChoice} );
+
+		/***USER1/PLAYER1 - LEFT SIDE***/
+		this.websiteUser1 = new WebsiteUser({
+			id: 1,
+			username: 'Marco47',
+			rank: 10,
+			score: 6,
+			avatar: ''
+		});
+
+		this.hud1 = new Hud({
+			scene: this,
+			side: SIDE.LEFT,
+			avatarTextureKey: `character${MenuScene.characterChoicePlayer1}Avatar`,
+			username: this.websiteUser1.username,
+			rank: this.websiteUser1.rank
+		});
+
 		this.player1 = new Player({
 			scene: this,
 			x: 750, 
 			y: 450,
-			textureKey: 'character2',
+			textureKey: `character${MenuScene.characterChoicePlayer1}`,
 			healthBar: new HealthBar({
 				scene: this,
-				x: 86,
-				y: 56
+				x: 75,
+				y: 54
 			}),
 			controlKeys: {
 				right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
@@ -150,15 +155,33 @@ export class GameScene extends Phaser.Scene {
 			}
 		});
 
+
+		/***USER2/PLAYER2 - RIGHT SIDE***/
+		this.websiteUser2 = new WebsiteUser({
+			id: 5,
+			username: 'Beth55',
+			rank: 2,
+			score: 26,
+			avatar: ''
+		});
+
+		this.hud2 = new Hud({
+			scene: this,
+			side: SIDE.RIGHT,
+			avatarTextureKey: `character${MenuScene.characterChoicePlayer2}Avatar`,
+			username: this.websiteUser2.username,
+			rank: this.websiteUser2.rank
+		});
+
 		this.player2 = new Player({
 			scene: this,
 			x: 600,
 			y: 400,
-			textureKey: 'character2',
+			textureKey: `character${MenuScene.characterChoicePlayer2}`,
 			healthBar: new HealthBar({
 				scene: this,
-				x: getGameWidth(this) - 126,
-				y: 56
+				x: getGameWidth(this) - 248,
+				y: 54
 			}),
 			controlKeys: {
 				right: Phaser.Input.Keyboard.KeyCodes.D,
@@ -177,11 +200,13 @@ export class GameScene extends Phaser.Scene {
 		this.player1.update();
 		this.player2.update();
 
-		// Good idea to put this inside update() ?
 		if (this.player1.isDead() || this.player2.isDead()) {
+
 			this.newSceneTimedEvent = this.time.addEvent({
+
 				delay: 2000,
 				callback: () => this.scene.start('Gameover')
+
 			});
 		}
 		
