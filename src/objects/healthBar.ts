@@ -30,7 +30,7 @@ export class HealthBar {
         this.bar.fillRect(this.x, this.y, this.width, this.height);
 
         if (this.healthValue > 30) {
-            this.bar.fillStyle(COLORS.vibrantGreen.hex);
+            this.bar.fillStyle(COLORS.customBlue.hex);
         } else {
             this.bar.fillStyle(COLORS.customRed.hex);
         }
@@ -45,10 +45,10 @@ export class HealthBar {
         this.bar = new Phaser.GameObjects.Graphics(params.scene);
         this.x = params.x;
         this.y = params.y;
-        this.width = 160;
+        this.width = 100;
         this.height = 12;
         this.healthValue = 100;
-        this.percentage = 160/100;
+        this.percentage = 100/100;
 
         this.draw();
 
