@@ -71,3 +71,14 @@ export const GAMEDATA = {
 		NUMBER: 6
 	}
 }
+
+export enum SIDE {
+	LEFT = 'LEFT',
+	RIGHT = 'RIGHT'
+}
+
+export enum MENUSECTION {
+	LEVEL = 'MENU',
+	USER1 = 'USER1',
+	USER2 = 'USER2'
+}
