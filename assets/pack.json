@@ -10,7 +10,7 @@
 			{
 				"type": "spritesheet",
 				"key": "level0Tilesheet",
-				"url": "assets/images/levels/level0/level0-tilesheet.png",
+				"url": "assets/levels/level0/level0-tilesheet.png",
 				"frameConfig": {
 					"frameWidth": 32,
 					"frameHeight": 32
@@ -19,7 +19,7 @@
 			{
 				"type": "image",
 				"key": "level0Background",
-				"url": "assets/images/levels/level0/level0-background.png"
+				"url": "assets/levels/level0/level0-background.png"
 			},
 			{
 				"type": "image",
