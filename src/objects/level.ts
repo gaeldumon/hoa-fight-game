@@ -17,7 +17,7 @@ export class Level {
 		return this._mainLayer;
 	}
 
-	constructor(params: { scene: any; id: string; }) {
+	constructor(params: { scene: Phaser.Scene; id: number; }) {
 
 		this.background = params.scene.add.image(
 			getGameWidth(params.scene)/2, 
@@ -30,7 +30,7 @@ export class Level {
 		});
 
 		this.tileset = this.map.addTilesetImage(
-			`level${params.id}Tilesheet`, 
+			`level${params.id}-tilesheet`, 
 			`level${params.id}Tilesheet`
 		);
 
@@ -48,7 +48,5 @@ export class Level {
 			this.tileset, 0, 0
 		);
 		
-		// Purpose of adding the tilemap to the scene?
-		params.scene.add.existing(this);
 	}
 }
