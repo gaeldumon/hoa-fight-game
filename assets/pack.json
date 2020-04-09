@@ -62,6 +62,12 @@
 			},
 
 			{
+				"type": "audio",
+				"key": "menuTheme",
+				"url": "assets/sounds/menu-theme.mp3"
+			},
+
+			{
 				"type": "image",
 				"key": "character0Avatar",
 				"url": "assets/images/characters/character0/character0-avatar.png"
