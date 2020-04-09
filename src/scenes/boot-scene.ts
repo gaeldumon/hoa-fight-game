@@ -38,7 +38,9 @@ export class BootScene extends Phaser.Scene {
 
 	create() {
 
-		this.sound.add('menuTheme').play();
+		// Theme that will also be played outside of this scene: in the menu too.
+		this.musicTheme = this.sound.add('menuTheme');
+		this.musicTheme.play();
 
 		this.background = this.add.image(
 			getGameWidth(this)/2, 
