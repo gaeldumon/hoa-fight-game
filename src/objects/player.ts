@@ -13,6 +13,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private lastPressedKey: Phaser.Input.Keyboard.Key;
 
 	private jumpSound: Phaser.Sound.BaseSound;
+	private shootSound: Phaser.Sound.BaseSound;
 
 	private lastShoot: number;
 	private health: number;
@@ -119,6 +120,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 	private initSounds(): void {
 		this.jumpSound = this.scene.sound.add('jumpSound');
+		this.shootSound = this.scene.sound.add('shootSound');
 	}
 
 	private initVitals(): void {
@@ -171,6 +173,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 					textureKey: 'projectile'
 				})
 			);
+			this.shootSound.play();
 			this.lastShoot = this.scene.time.now + 500;
 		}
 	}

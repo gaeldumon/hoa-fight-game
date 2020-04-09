@@ -66,6 +66,12 @@
 
 			{
 				"type": "audio",
+				"key": "shootSound",
+				"url": "assets/sounds/shoot.mp3"
+			},
+
+			{
+				"type": "audio",
 				"key": "menuTheme",
 				"url": "assets/sounds/menu-theme.mp3"
 			},
