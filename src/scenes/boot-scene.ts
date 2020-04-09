@@ -1,4 +1,5 @@
 import { getGameWidth, getGameHeight, GAMEDATA } from '../helpers';
+import { Gui } from '../objects/gui';
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -48,33 +49,15 @@ export class BootScene extends Phaser.Scene {
 			'backgroundForGUIScenes'
 		);
 
-		// For now, the logo is just some plain text added as a DOM Element.
-		this.logo = this.add.dom(
-			getGameWidth(this)/2,
-			50,
-			'h3',
-			'color:#fff; font-size: 55px; font-family: Grobold, Arial',
-			"HOA FIGHT"
-		);
+		Gui.title({ scene: this, text: "HOA FIGHT" });
 		
-		// A DOM button responsible of starting the Menu Scene.
-		this.btn = this.add.dom(
-			(getGameWidth(this)/2),
-			(getGameHeight(this)/2),
-			'button',
-			`width: 150px; 
-			height: 45px; 
-			font-family: Grobold,Arial; 
-			color: #000; 
-			font-size: 25px; 
-			background-color: #d2d2d2; 
-			border: none`,
-			"Menu"
-
-		).addListener('click').on('click', () => {
-
-			this.scene.start('Menu');
-
+		Gui.mainBtn({ 
+			scene: this, 
+			text: "Menu", 
+			stopSounds: false,
+			scenePlugin: this.scene,
+			newSceneKey: 'Menu'
 		});
+		
 	}
 }
