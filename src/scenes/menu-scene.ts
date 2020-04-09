@@ -112,6 +112,9 @@ export class MenuScene extends Phaser.Scene {
 
 		).addListener('click').on('click', () => {
 
+			// Stoping ALL previous music (Theme from the bootScene)
+			this.sound.stopAll();
+
 			this.scene.start('Game');
 
 		});
@@ -177,37 +180,7 @@ export class MenuScene extends Phaser.Scene {
 		});
 	}
 
-	constructor() {		
-		super(sceneConfig);
-	}
-
-	preload() {
-
-	}
-
-	create() {
-
-		// Putting all levels thumbnails TEXTURES KEYS inside an array, that
-		// we will pass through with the "Choosing Buttons" help and its "i" 
-		// index, on click. 
-		// All these textures keys come from the pack.json file.
-		this.levelsThumbsTextures = [];
-
-		for (let nLevel = 0; nLevel < GAMEDATA.LEVELS.NUMBER; nLevel++) {
-			this.levelsThumbsTextures.push(`level${nLevel}Thumbnail`);
-		}
-
-		// Same for characters avatars textures keys.
-		this.charactersAvatarsTextures = [];
-		
-		for (let nCharacter = 0; nCharacter < GAMEDATA.CHARACTERS.NUMBER; nCharacter++) {
-			this.charactersAvatarsTextures.push(`character${nCharacter}Avatar`);
-		}
-
-		this.background();
-		this.title();
-		this.startBtn();
-		
+	private levelSection(): void {
 		// Terrain/map/level choosing section.
 		this.subTitle(240, 170, "Terrain");
 		this.levelThumb = this.add.image(240, 340, this.levelsThumbsTextures[0]);
@@ -218,7 +191,9 @@ export class MenuScene extends Phaser.Scene {
 			this.levelsThumbsTextures,
 			MENUSECTION.LEVEL
 		);
-		
+	}
+
+	private charactersSection(): void {
 		// Characters choosing section, divided in 2 sub-sections (1 per user).
 		this.subTitle(getGameWidth(this) - 240, 170, "Personnages");
 
@@ -241,7 +216,38 @@ export class MenuScene extends Phaser.Scene {
 			this.charactersAvatarsTextures,
 			MENUSECTION.USER2
 		);
+	}
 
+	private storeThumbsTextures(): void {
+		// Putting all levels thumbnails TEXTURES KEYS inside an array, that
+		// we will pass through with the "Choosing Buttons" help and its "i" 
+		// index, on click. 
+		// All these textures keys come from the pack.json file.
+		this.levelsThumbsTextures = [];
+		for (let nLevel = 0; nLevel < GAMEDATA.LEVELS.NUMBER; nLevel++) {
+			this.levelsThumbsTextures.push(`level${nLevel}Thumbnail`);
+		}
+
+		// Same for characters avatars textures keys.
+		this.charactersAvatarsTextures = [];
+		for (let nCharacter = 0; nCharacter < GAMEDATA.CHARACTERS.NUMBER; nCharacter++) {
+			this.charactersAvatarsTextures.push(`character${nCharacter}Avatar`);
+		}
+	}
+
+	constructor() {		
+		super(sceneConfig);
+	}
+
+	create() {
+
+		this.storeThumbsTextures();
+		this.background();
+		this.title();
+		this.levelSection();
+		this.charactersSection();
+		this.startBtn();
+	
 	}
 
 }
