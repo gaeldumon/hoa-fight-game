@@ -1,4 +1,7 @@
-import { getGameWidth, getGameHeight, COLORS } from '../helpers';
+import { getGameWidth, getGameHeight } from '../helpers';
+import { Gui } from '../objects/gui';
+import { GameScene } from './game-scene';
+
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	active: false,
@@ -9,25 +12,23 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class GameoverScene extends Phaser.Scene {
 
+
 	constructor() {
 		super(sceneConfig);
 	}
 
-	preload() {
-
-	}
 
 	create() {
-		this.add.dom(
-			getGameWidth(this)/2,
-			50,
-			'h3',
-			'color: white; font-size: 45px; font-weight: bold; font-family: Grobold, Arial',
-			"Fin de partie"
-		);
+
+		Gui.title({ scene: this, text: "Fin De Partie" });
+
+		Gui.customText({ 
+			scene: this, 
+			x: getGameWidth(this)/2, 
+			y: getGameHeight(this)/2 ,
+			text: `${GameScene.winner.username} est victorieux !`
+		});
+
 	}
 
-	update() {
-
-	}
 }
