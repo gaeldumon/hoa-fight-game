@@ -42,7 +42,7 @@ export class GameScene extends Phaser.Scene {
 			this.bombs,
 			this.player1,
 			() => {
-				this.bombs.getFirstAlive().destroy(true);
+				this.bombs.getFirstAlive().destroy();
 				this.player1.hurt();
 			}
 		);
@@ -51,7 +51,7 @@ export class GameScene extends Phaser.Scene {
 			this.bombs,
 			this.player2,
 			() => {
-				this.bombs.getFirstAlive().destroy(true);
+				this.bombs.getFirstAlive().destroy();
 				this.player2.hurt();
 			}
 		);
@@ -70,7 +70,7 @@ export class GameScene extends Phaser.Scene {
 			this.player1,
 			this.player2.projectiles,
 			() => { 
-				this.player2.projectiles.getFirstAlive().destroy(true);
+				this.player2.projectiles.getFirstAlive().destroy();
 				this.player1.hurt();
 				this.player1.setState(Player.States.HIT);
 			}
@@ -80,7 +80,7 @@ export class GameScene extends Phaser.Scene {
 			this.player2,
 			this.player1.projectiles,
 			() => { 
-				this.player1.projectiles.getFirstAlive().destroy(true);
+				this.player1.projectiles.getFirstAlive().destroy();
 				this.player2.hurt();
 				this.player2.setState(Player.States.HIT);
 			}
@@ -103,7 +103,10 @@ export class GameScene extends Phaser.Scene {
 		this.musicTheme = this.sound.add(`level${MenuScene.levelChoice}Theme`);
 		this.musicTheme.play();
 
-		this.bombs = this.add.group();
+		this.bombs = this.add.group({
+			runChildUpdate: true
+		});
+		
 		this.bombCreationEvent = this.time.addEvent({
 			delay: 10000,
 			loop: true,
@@ -206,7 +209,7 @@ export class GameScene extends Phaser.Scene {
 
 			this.newSceneTimedEvent = this.time.addEvent({
 
-				delay: 2000,
+				delay: 5000,
 				callback: () => this.scene.start('Gameover')
 
 			});
