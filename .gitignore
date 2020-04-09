@@ -1,3 +1,4 @@
 assets/sounds/
 node_modules/
 assets/images/
+assets/levels/*/*.mp3
