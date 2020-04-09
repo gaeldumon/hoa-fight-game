@@ -38,7 +38,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 	public hurt(): void {
 		if (this.health > 0) {
-			this.health -= 20;
+			this.health -= 100;
 			this.healthBar.decrease(20);
 		}
 		// Debug
