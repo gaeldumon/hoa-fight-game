@@ -30,6 +30,9 @@ export class GameScene extends Phaser.Scene {
 	private newSceneTimedEvent: Phaser.Time.TimerEvent;
 	private musicTheme: Phaser.Sound.BaseSound;
 
+	// Careful: public static field
+	public static winner: WebsiteUser;
+	
 
 	private setColliders(): void {
 
@@ -94,10 +97,6 @@ export class GameScene extends Phaser.Scene {
 	}
 
 
-	preload() {
-	}
-
-
 	create() {
 
 		this.musicTheme = this.sound.add(`level${MenuScene.levelChoice}Theme`);
@@ -123,7 +122,7 @@ export class GameScene extends Phaser.Scene {
 			callbackScope: this
 		});
 
-		this.level = new Level( {scene: this, id: MenuScene.levelChoice} );
+		this.level = new Level({ scene: this, id: MenuScene.levelChoice });
 
 		/***********Users**********/
 		this.websiteUser1 = new WebsiteUser({
@@ -207,9 +206,19 @@ export class GameScene extends Phaser.Scene {
 
 		if (this.player1.isDead() || this.player2.isDead()) {
 
+			if (this.player1.isDead()) {
+
+				GameScene.winner = this.websiteUser2;
+
+			} else if (this.player2.isDead()) {
+
+				GameScene.winner = this.websiteUser1;
+
+			}
+
 			this.newSceneTimedEvent = this.time.addEvent({
 
-				delay: 5000,
+				delay: 2000,
 				callback: () => this.scene.start('Gameover')
 
 			});
