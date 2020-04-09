@@ -23,12 +23,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private bounce: number;
 
 	public static readonly States = {
-		HIT: 'HIT',
-		DIE: 'DIE',
-		JUMPING: 'JUMPING',
-		WALKING: 'WALKING',
-		SHOOTING: 'SHOOTING',
-		IDLING: 'IDLING'
+		STANDING: 'STAND',
+		HURT: 'HURT',
+		DIE: 'DIE'
 	}
 
 	public get projectiles(): Phaser.GameObjects.Group {
@@ -195,6 +192,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		// Restrain the boundingBox
 		this.setSize(20, 60);
 
+		this.setState(Player.States.STANDING);
+
 	}
 
 	update(): void {
@@ -204,7 +203,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 			if (this.body.blocked.down) {
 				this.setVelocityY(this.jumpVelocity);
 				this.jumpSound.play();
-				this.setState(Player.States.JUMPING);
 			}
 		// Walking
 		} else if (this.rightKey.isDown || this.leftKey.isDown) {
@@ -216,7 +214,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 			} else {
 				this.anims.play('WALK', true);
 				// Okay now one state: only walking
-				this.setState(Player.States.WALKING);
 			}
 			// Walking : going right
 			if (this.rightKey.isDown) {
@@ -238,7 +235,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 			// Just not walking
 			} else {
 				this.anims.play('IDLE', true);
-				this.setState(Player.States.IDLING);
 			}
 		}
 
