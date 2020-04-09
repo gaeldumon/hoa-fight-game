@@ -72,7 +72,7 @@ export class GameScene extends Phaser.Scene {
 			() => { 
 				this.player2.projectiles.getFirstAlive().destroy();
 				this.player1.hurt();
-				this.player1.setState(Player.States.HIT);
+				this.player1.setState(Player.States.HURT);
 			}
 		);
 
@@ -82,7 +82,7 @@ export class GameScene extends Phaser.Scene {
 			() => { 
 				this.player1.projectiles.getFirstAlive().destroy();
 				this.player2.hurt();
-				this.player2.setState(Player.States.HIT);
+				this.player2.setState(Player.States.HURT);
 			}
 		);
 
