@@ -13,6 +13,7 @@ export class BootScene extends Phaser.Scene {
 	private logo: Phaser.GameObjects.DOMElement;
 	private btn: Phaser.GameObjects.DOMElement;
 	private background: Phaser.GameObjects.Image;
+	private musicTheme: Phaser.Sound.BaseSound;
 	
 
 	constructor() {
@@ -36,6 +37,8 @@ export class BootScene extends Phaser.Scene {
 	}
 
 	create() {
+
+		this.sound.add('menuTheme').play();
 
 		this.background = this.add.image(
 			getGameWidth(this)/2, 
