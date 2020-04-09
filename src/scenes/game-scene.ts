@@ -28,6 +28,7 @@ export class GameScene extends Phaser.Scene {
 	private bombs: Phaser.GameObjects.Group;
 	private bombCreationEvent: Phaser.Time.TimerEvent;
 	private newSceneTimedEvent: Phaser.Time.TimerEvent;
+	private musicTheme: Phaser.Sound.BaseSound;
 
 
 	private setColliders(): void {
@@ -98,6 +99,9 @@ export class GameScene extends Phaser.Scene {
 
 
 	create() {
+
+		this.musicTheme = this.sound.add(`level${MenuScene.levelChoice}Theme`);
+		this.musicTheme.play();
 
 		this.bombs = this.add.group();
 		this.bombCreationEvent = this.time.addEvent({
