@@ -31,6 +31,49 @@
 			},
 
 			{
+				"type": "audio",
+				"key": "level0Theme",
+				"url": "assets/levels/level0/sand-castle-1.mp3"
+			},
+
+
+
+
+			{
+				"type": "tilemapTiledJSON",
+				"key": "level1",
+				"url": "assets/levels/level1/level1.json"
+			},
+
+			{
+				"type": "spritesheet",
+				"key": "level1Tilesheet",
+				"url": "assets/levels/level1/level1-tilesheet.png",
+				"frameConfig": {
+					"frameWidth": 32,
+					"frameHeight": 32
+				}
+			},
+
+			{
+				"type": "image",
+				"key": "level1Background",
+				"url": "assets/levels/level1/level1-background.png"
+			},
+
+			{
+				"type": "image",
+				"key": "level1Thumbnail",
+				"url": "assets/levels/level1/level1-thumbnail.png"
+			},
+
+			{
+				"type": "audio",
+				"key": "level1Theme",
+				"url": "assets/levels/level1/sand-castle-3.mp3"
+			},
+
+			{
 				"type": "image",
 				"key": "backgroundForGUIScenes",
 				"url": "assets/images/backgrounds/background-for-gui-scenes.png"
@@ -74,12 +117,6 @@
 				"type": "audio",
 				"key": "menuTheme",
 				"url": "assets/sounds/menu-theme.mp3"
-			},
-
-			{
-				"type": "audio",
-				"key": "level0Theme",
-				"url": "assets/levels/level0/sound-castle-1.mp3"
 			},
 
 			{
