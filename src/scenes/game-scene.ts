@@ -30,7 +30,7 @@ export class GameScene extends Phaser.Scene {
 	private newSceneTimedEvent: Phaser.Time.TimerEvent;
 	private musicTheme: Phaser.Sound.BaseSound;
 
-	// Careful: public static field
+	// Careful with public static field
 	public static winner: WebsiteUser;
 	
 

@@ -1,4 +1,4 @@
-import { getGameWidth, getGameHeight, MENUSECTION } from '../helpers';
+import { getGameWidth, getGameHeight } from '../helpers';
 
 export class Gui {
 
@@ -13,6 +13,7 @@ export class Gui {
 		border:none`
 	;
 
+	
 	public static readonly secondaryBtnStyle = 
 		`width: 100px; 
 		height: 33px; 
