@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 
+
 /**
  * Return the width of the current scene.
  * Which is generally equal to the width of the "screen"/canvas but not always.
@@ -9,6 +10,7 @@ export const getGameWidth = (scene: Phaser.Scene) => {
 	return scene.game.scale.width;
 };
 
+
 /**
  * Return the height of the current scene.
  * Which is generally equal to the height of the "screen"/canvas but not always.
@@ -17,6 +19,7 @@ export const getGameWidth = (scene: Phaser.Scene) => {
 export const getGameHeight = (scene: Phaser.Scene) => {
 	return scene.game.scale.height;
 };
+
 
 /**
  * Load a file in ajax and return its response text.
@@ -44,6 +47,7 @@ export const loadFile = (pFilePath: string): string => {
 	return result;
 }
 
+
 /**
  * Returns a 2d-array of strings from a whole text file given as input.
  * Works best if the input text is only composed of single chars and '\n'.
@@ -55,6 +59,7 @@ export const loadStrings = (pFilePath: string): string[][] => {
 	return rawGrid.split('\n').map(item => item.split(''));
 }
 
+
 export const COLORS = {
 	customBlue: { string: '#4346f9', hex: 0x4346f9 },
 	customGreen: { string:  '#76ea64', hex: 0x76ea64 },
@@ -62,6 +67,7 @@ export const COLORS = {
 	customRed: { string: '#ea2d23', hex: 0xea2d23 },
 	white: { string: '#ffffff', hex: 0xffffff }
 }
+
 
 export const GAMEDATA = {
 	LEVELS: {
@@ -72,10 +78,12 @@ export const GAMEDATA = {
 	}
 }
 
+
 export enum SIDE {
 	LEFT = 'LEFT',
 	RIGHT = 'RIGHT'
 }
+
 
 export enum MENUSECTION {
 	LEVEL = 'MENU',
