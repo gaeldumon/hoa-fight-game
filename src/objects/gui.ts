@@ -79,7 +79,7 @@ export class Gui {
 			params.x,
 			params.y,
 			'p',
-			'color:#fff; font-size: 20px; font-family: Grobold, Arial',
+			'color:#fff; font-size: 20px; text-align: center; font-family: Grobold, Arial',
 			params.text
 		);
 	}
