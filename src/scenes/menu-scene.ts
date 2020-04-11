@@ -18,9 +18,9 @@ export class MenuScene extends Phaser.Scene {
 	private characterThumbPlayer2: Phaser.GameObjects.Image;
 	private charactersAvatarsTextures: Array<string>;
 	
-	public static levelChoice = 0;
-	public static characterChoicePlayer1 = 0;
-	public static characterChoicePlayer2 = 0;
+	public static levelChoice: number;
+	public static characterChoicePlayer1: number;
+	public static characterChoicePlayer2: number;
 
 
 	private background(): void {
@@ -29,6 +29,12 @@ export class MenuScene extends Phaser.Scene {
 			getGameHeight(this)/2,
 			'backgroundForGUIScenes'
 		);
+	}
+
+	private initChoices(): void {
+		MenuScene.levelChoice = 0;
+		MenuScene.characterChoicePlayer1 = 0;
+		MenuScene.characterChoicePlayer2 = 0;
 	}
 
 
@@ -132,6 +138,8 @@ export class MenuScene extends Phaser.Scene {
 	}
 
 	create() {
+
+		this.initChoices();
 
 		this.storeThumbsTextures();
 
