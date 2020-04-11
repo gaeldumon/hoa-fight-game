@@ -130,7 +130,7 @@ export class GameScene extends Phaser.Scene {
 			username: 'Marco45',
 			rank: 10,
 			score: 6,
-			avatar: ''
+			avatar: 'assets/images/from-website/default-avatar.png'
 		});
 
 		this.websiteUser2 = new WebsiteUser({
@@ -138,7 +138,7 @@ export class GameScene extends Phaser.Scene {
 			username: 'Hyperdestru',
 			rank: 2,
 			score: 26,
-			avatar: ''
+			avatar: 'assets/images/from-website/default-avatar.png'
 		});
 
 		/***********HUDs**********/
