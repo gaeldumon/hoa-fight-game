@@ -46,6 +46,8 @@ export class BootScene extends Phaser.Scene {
 			})
 		];
 
+		this.data.set('users', this.users);
+
 	}
 
 	preload() {
@@ -55,7 +57,11 @@ export class BootScene extends Phaser.Scene {
 			"assets/pack.json",
 			"preload"
 		);
-
+		
+		// Preload all characters atlases : a json file that acts as
+		// as a "map"/"link" to a png spritesheet.
+		// Used for drawing PLayer texture and set animations.
+		// Still outside pack.json for now cause I don't know how.
 		for (let n = 0; n < GAMEDATA.CHARACTERS.NUMBER; n++) {
 			this.load.atlas(
 				`character${n}`,
@@ -68,7 +74,6 @@ export class BootScene extends Phaser.Scene {
 
 	create() {
 
-		// Theme that will also be played outside of this scene: in the menu too.
 		this.musicTheme = this.sound.add('menuTheme');
 		this.musicTheme.play();
 
@@ -83,9 +88,10 @@ export class BootScene extends Phaser.Scene {
 		Gui.mainBtn({ 
 			scene: this, 
 			text: "Menu", 
-			stopSounds: false,
+			stopSounds: true,
 			scenePlugin: this.scene,
-			newSceneKey: 'Menu'
+			newSceneKey: 'Menu',
+			sceneData: this.data.getAll()
 		});
 		
 	}
