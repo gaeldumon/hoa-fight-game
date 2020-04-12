@@ -1,4 +1,5 @@
 import { getGameWidth, getGameHeight, GAMEDATA } from '../helpers';
+import { User } from '../objects/user';
 import { Gui } from '../objects/gui';
 
 
@@ -11,6 +12,8 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class BootScene extends Phaser.Scene {
 
+	private users: Array<User>;
+
 	private logo: Phaser.GameObjects.DOMElement;
 	private btn: Phaser.GameObjects.DOMElement;
 	private background: Phaser.GameObjects.Image;
@@ -21,7 +24,32 @@ export class BootScene extends Phaser.Scene {
 		super(sceneConfig);
 	}
 
+	init() {
+		
+		this.users = [
+			new User({
+				id: 1,
+				username: 'Foo10',
+				rank: 1,
+				score: 10,
+				avatar: '',
+				isGuest: false
+			}),
+
+			new User({
+				id: 2,
+				username: 'Boo20',
+				rank: 2,
+				score: 1,
+				avatar: '',
+				isGuest: false
+			})
+		];
+
+	}
+
 	preload() {
+
 		this.load.pack(
 			"preload",
 			"assets/pack.json",
@@ -35,6 +63,7 @@ export class BootScene extends Phaser.Scene {
 				`assets/images/characters/character${n}/character${n}-atlas.json`
 			);
 		}
+		
 	}
 
 	create() {
