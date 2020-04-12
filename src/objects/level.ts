@@ -1,52 +1,69 @@
+import { Tilemap } from './tilemap';
 import { getGameWidth, getGameHeight } from '../helpers';
 
+
+/**
+ * A Level consists of : a background + a music theme + a tilemap + a name +
+ * a thumbnail.
+ * It inits the different keys needed and creates/draw the background,
+ * the tilemap (by instanciate it) and play the music theme.
+ */
 export class Level {
 
-	private background: Phaser.GameObjects.Image;
-	private map: Phaser.Tilemaps.Tilemap;
-	private tileset: Phaser.Tilemaps.Tileset;
-	// _mainLayer is the layer that collides with its environment: players etc.
-	private _mainLayer: Phaser.Tilemaps.StaticTilemapLayer;
-	// subLayer is the "decorative" layer, cosmetic only
-	private subLayer: Phaser.Tilemaps.StaticTilemapLayer
 
-	/**
-	 * Getter for the layer that collides: collides set to true in Tiled.
-	 */
-	get mainLayer(): Phaser.Tilemaps.StaticTilemapLayer {
-		return this._mainLayer;
+	private scene: Phaser.Scene;
+	private id: number;
+	private _tilemap: Tilemap;
+	private _name: string;
+
+	private _thumbnailKey: string;
+	private backgroundKey: string;
+	private musicKey: string;
+
+
+	public get tilemap(): Tilemap {
+		return this._tilemap;
 	}
 
-	constructor(params: { scene: Phaser.Scene; id: number; }) {
-
-		this.background = params.scene.add.image(
-			getGameWidth(params.scene)/2, 
-			getGameHeight(params.scene)/2, 
-			`level${params.id}Background`
-		);
-
-		this.map = params.scene.make.tilemap({ 
-			key: `level${params.id}` 
-		});
-
-		this.tileset = this.map.addTilesetImage(
-			`level${params.id}-tilesheet`, 
-			`level${params.id}Tilesheet`
-		);
-
-		this._mainLayer = this.map.createStaticLayer(
-			'mainLayer', 
-			this.tileset, 0, 0
-		);
-
-		this._mainLayer.setCollisionByProperty({ 
-			collides: true 
-		});
-
-		this.subLayer = this.map.createStaticLayer(
-			'subLayer', 
-			this.tileset, 0, 0
-		);
-		
+	public get name(): string {
+		return this._name;
 	}
+
+	public get thumbnailKey(): string {
+		return this._thumbnailKey;
+	}
+
+
+	constructor(params: {
+		scene: Phaser.Scene;
+		id: number;
+		name: string
+	}) {
+
+		this.scene = params.scene;
+		this.id = params.id;
+		this._name = params.name;
+		this.backgroundKey = `level${this.id}Background`;
+		this.musicKey = `level${this.id}Theme`;
+		this._thumbnailKey = `level${this.id}Thumbnail`;
+
+	}
+
+	create(): void {
+
+		this.scene.add.image(
+			getGameWidth(this.scene)/2,
+			getGameHeight(this.scene)/2,
+			this.backgroundKey
+		);
+
+		this._tilemap = new Tilemap({
+			scene: this.scene,
+			id: this.id
+		});
+
+		this.scene.sound.add(this.musicKey);
+
+	}
+
 }

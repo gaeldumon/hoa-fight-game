@@ -1,11 +1,8 @@
-import { getGameWidth, SIDE } from '../helpers';
+import { getGameWidth } from '../helpers';
 import { Bomb } from '../objects/bomb';
-import { Level } from '../objects/level';
 import { Hud } from '../objects/hud';
 import { Player } from '../objects/player';
 import { HealthBar } from '../objects/healthBar';
-// To get public-static levelChoice and characterChoices
-import { MenuScene } from './menu-scene';
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -21,14 +18,13 @@ export class GameScene extends Phaser.Scene {
 	private player2: Player;
 	private hud1: Hud;
 	private hud2: Hud;
-	private level: Level;
 	private bombs: Phaser.GameObjects.Group;
 	private bombCreationEvent: Phaser.Time.TimerEvent;
 	private newSceneTimedEvent: Phaser.Time.TimerEvent;
 	private musicTheme: Phaser.Sound.BaseSound;
 	
 
-	private setColliders(): void {
+	/*private setColliders(): void {
 
 		this.physics.add.collider(
 			this.bombs,
@@ -83,7 +79,7 @@ export class GameScene extends Phaser.Scene {
 			}
 		);
 
-	}
+	}*/
 
 
 	constructor() {
@@ -93,10 +89,7 @@ export class GameScene extends Phaser.Scene {
 
 	create() {
 
-		this.musicTheme = this.sound.add(`level${MenuScene.levelChoice}Theme`);
-		this.musicTheme.play();
-
-		this.bombs = this.add.group({
+		/*this.bombs = this.add.group({
 			runChildUpdate: true
 		});
 		
@@ -114,55 +107,14 @@ export class GameScene extends Phaser.Scene {
 				);
 			},
 			callbackScope: this
-		});
+		});*/
 
-		this.level = new Level({ scene: this, id: MenuScene.levelChoice });
-
-
-		/***********Players(+ healthBars)**********/
-		this.player1 = new Player({
-			scene: this,
-			x: 750, 
-			y: 450,
-			textureKey: `character${MenuScene.characterChoicePlayer1}`,
-			healthBar: new HealthBar({
-				scene: this,
-				x: 64,
-				y: 40
-			}),
-			controlKeys: {
-				right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
-				left: Phaser.Input.Keyboard.KeyCodes.LEFT,
-				jump: Phaser.Input.Keyboard.KeyCodes.UP,
-				shoot: Phaser.Input.Keyboard.KeyCodes.SHIFT
-			}
-		});
-
-		this.player2 = new Player({
-			scene: this,
-			x: 600,
-			y: 400,
-			textureKey: `character${MenuScene.characterChoicePlayer2}`,
-			healthBar: new HealthBar({
-				scene: this,
-				x: getGameWidth(this)-164,
-				y: 40
-			}),
-			controlKeys: {
-				right: Phaser.Input.Keyboard.KeyCodes.D,
-				left: Phaser.Input.Keyboard.KeyCodes.Q,
-				jump: Phaser.Input.Keyboard.KeyCodes.S,
-				shoot: Phaser.Input.Keyboard.KeyCodes.SPACE
-			}
-		});
-
-		this.setColliders();
 
 	}
 
 	update() {
 
-		this.player1.update();
+		/*this.player1.update();
 		this.player2.update();
 
 		if (this.player1.isDead() || this.player2.isDead()) {
@@ -181,7 +133,7 @@ export class GameScene extends Phaser.Scene {
 				callback: () => this.scene.start('Gameover')
 
 			});
-		}
+		}*/
 		
 	}
 }

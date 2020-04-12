@@ -1,6 +1,7 @@
 import { Player } from "./player";
 import { Character } from "./character";
 import { Level } from "./level";
+import { Gui } from "../objects/gui";
 
 
 export class User {
@@ -105,6 +106,7 @@ export class User {
 		this._score = this.score + 1;
 		return this._score;
 	}
+	
 	
 	constructor(params: { 
 		id: number; 

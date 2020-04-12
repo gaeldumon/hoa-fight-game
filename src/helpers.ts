@@ -75,6 +75,21 @@ export const GAMEDATA = {
 	},
 	CHARACTERS: {
 		NUMBER: 6
+	},
+	PLAYER: {
+		CONTROLKEYS1: {
+			right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+			left: Phaser.Input.Keyboard.KeyCodes.LEFT,
+			jump: Phaser.Input.Keyboard.KeyCodes.UP,
+			shoot: Phaser.Input.Keyboard.KeyCodes.SHIFT
+		},
+
+		CONTROLKEYS2: {
+			right: Phaser.Input.Keyboard.KeyCodes.D,
+			left: Phaser.Input.Keyboard.KeyCodes.Q,
+			jump: Phaser.Input.Keyboard.KeyCodes.S,
+			shoot: Phaser.Input.Keyboard.KeyCodes.SPACE
+		}
 	}
 }
 

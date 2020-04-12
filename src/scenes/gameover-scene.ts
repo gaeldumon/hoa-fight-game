@@ -1,6 +1,5 @@
 import { getGameWidth, getGameHeight } from '../helpers';
 import { Gui } from '../objects/gui';
-import { GameScene } from './game-scene';
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -32,17 +31,14 @@ export class GameoverScene extends Phaser.Scene {
 			scene: this, 
 			x: getGameWidth(this)/2, 
 			y: 180,
-			text: `${GameScene.winner.username} est victorieux !`
+			text: ""
 		}); 
 
 		Gui.customText({ 
 			scene: this, 
 			x: getGameWidth(this)/2, 
 			y: 240,
-			text: `
-				ANCIEN SCORE : ${GameScene.winner.score} \n
-				NOUVEAU SCORE : ${GameScene.winner.updateScore()} 
-			`
+			text: ""
 		}); 
 
 		Gui.mainBtn({

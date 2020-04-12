@@ -4,47 +4,9 @@
 
 			{
 				"type": "tilemapTiledJSON",
-				"key": "level0",
-				"url": "assets/levels/level0/level0.json"
-			},
-
-			{
-				"type": "spritesheet",
-				"key": "level0Tilesheet",
-				"url": "assets/levels/level0/level0-tilesheet.png",
-				"frameConfig": {
-					"frameWidth": 32,
-					"frameHeight": 32
-				}
-			},
-
-			{
-				"type": "image",
-				"key": "level0Background",
-				"url": "assets/levels/level0/level0-background.png"
-			},
-
-			{
-				"type": "image",
-				"key": "level0Thumbnail",
-				"url": "assets/levels/level0/level0-thumbnail.png"
-			},
-
-			{
-				"type": "audio",
-				"key": "level0Theme",
-				"url": "assets/levels/level0/sand-castle-1.mp3"
-			},
-
-
-
-
-			{
-				"type": "tilemapTiledJSON",
 				"key": "level1",
 				"url": "assets/levels/level1/level1.json"
 			},
-
 			{
 				"type": "spritesheet",
 				"key": "level1Tilesheet",
@@ -54,23 +16,56 @@
 					"frameHeight": 32
 				}
 			},
-
 			{
 				"type": "image",
 				"key": "level1Background",
 				"url": "assets/levels/level1/level1-background.png"
 			},
-
 			{
 				"type": "image",
 				"key": "level1Thumbnail",
 				"url": "assets/levels/level1/level1-thumbnail.png"
 			},
-
 			{
 				"type": "audio",
 				"key": "level1Theme",
-				"url": "assets/levels/level1/sand-castle-3.mp3"
+				"url": "assets/levels/level1/sand-castle-1.mp3"
+			},
+
+
+
+			{
+				"type": "tilemapTiledJSON",
+				"key": "level2",
+				"url": "assets/levels/level2/level2.json"
+			},
+
+			{
+				"type": "spritesheet",
+				"key": "level2Tilesheet",
+				"url": "assets/levels/level2/level2-tilesheet.png",
+				"frameConfig": {
+					"frameWidth": 32,
+					"frameHeight": 32
+				}
+			},
+
+			{
+				"type": "image",
+				"key": "level2Background",
+				"url": "assets/levels/level2/level2-background.png"
+			},
+
+			{
+				"type": "image",
+				"key": "level2Thumbnail",
+				"url": "assets/levels/level2/level2-thumbnail.png"
+			},
+
+			{
+				"type": "audio",
+				"key": "level2Theme",
+				"url": "assets/levels/level2/sand-castle-3.mp3"
 			},
 
 			{
@@ -121,11 +116,6 @@
 
 			{
 				"type": "image",
-				"key": "character0Avatar",
-				"url": "assets/images/characters/character0/character0-avatar.png"
-			},
-			{
-				"type": "image",
 				"key": "character1Avatar",
 				"url": "assets/images/characters/character1/character1-avatar.png"
 			},
@@ -148,6 +138,11 @@
 				"type": "image",
 				"key": "character5Avatar",
 				"url": "assets/images/characters/character5/character5-avatar.png"
+			},
+			{
+				"type": "image",
+				"key": "character6Avatar",
+				"url": "assets/images/characters/character6/character6-avatar.png"
 			}
 			
 		]

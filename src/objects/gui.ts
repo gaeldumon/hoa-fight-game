@@ -7,21 +7,21 @@ export class Gui {
 		`width: 150px; 
 		height: 49px; 
 		font-family: Grobold,Arial; 
-		color: #000; 
-		font-size:25px; 
+		color: #000000; 
+		font-size: 25px; 
 		background-color: #d2d2d2; 
-		border:none`
+		border: none`
 	;
 
 	
 	public static readonly secondaryBtnStyle = 
 		`width: 100px; 
 		height: 33px; 
-		font-family: Grobold,Arial; 
-		color: #000; 
+		font-family: Grobold, Arial, sans-serif; 
+		color: #000000; 
 		font-size: 17px; 
 		background-color: #d2d2d2; 
-		border:none`
+		border: none`
 	;
 
 
@@ -58,37 +58,94 @@ export class Gui {
 		});
 	}
 
+	/**
+	 * Controls an image that act as a container for other textures.
+	 * On click it sets a new texture (from textures array) to this image.
+	 * It mimics a slideshow. 
+	 */
+	public static slideBtn(params: { 
+		scene: Phaser.Scene;
+		x: number;
+		y: number;
+		text: string;
+		img: Phaser.GameObjects.Image;
+		textures: Array<string>;
+	}): void {
 
-	public static title(params: { scene: Phaser.Scene; text: string }): void {
+		let i = 0;
+
+		params.scene.add.dom(
+
+			params.x,
+			params.y,
+			'button',
+			Gui.secondaryBtnStyle,
+			params.text
+
+		).addListener('click').on('click', () => {
+
+			(i < params.textures.length - 1) ? i++ : i = 0;
+			params.img.setTexture(params.textures[i]);
+
+		});
+
+	}
+
+
+	public static title(params: { 
+		scene: Phaser.Scene; 
+		text: string ;
+	}): void {
+
 		params.scene.add.dom(
 			getGameWidth(params.scene)/2,
 			24,
 			'h3',
-			'color:#fff; font-size: 40px; font-family: Grobold, Arial',
+			`color: #ffffff; 
+			font-size: 40px; 
+			font-family: Grobold, Arial, sans-serif`,
 			params.text
 		);
 	}
 
 
-	public static sectionTitle(params: { scene: Phaser.Scene; x: number; y: number; text: string; }): void {
+	public static sectionTitle(params: { 
+		scene: Phaser.Scene; 
+		x: number; 
+		y: number; 
+		text: string; 
+	}): void {
+
 		params.scene.add.dom(
 			params.x,
 			params.y,
 			'h4',
-			'color:#fff; font-size: 30px; font-family: Grobold, Arial',
+			`color: #ffffff; 
+			font-size: 30px; 
+			font-family: Grobold, Arial, sans-serif`,
 			params.text
 		);
 	}
 
 
-	public static customText(params: { scene: Phaser.Scene; x: number; y: number; text: string; }): void {
+	public static customText(params: { 
+		scene: Phaser.Scene; 
+		x: number; 
+		y: number; 
+		text: string; 
+	}): void {
+
 		params.scene.add.dom(
 			params.x,
 			params.y,
 			'p',
-			'color:#fff; font-size: 20px; text-align: center; font-family: Grobold, Arial',
+			`color: #ffffff; 
+			font-size: 20px; 
+			text-align: center; 
+			font-family: Grobold, Arial, sans-serif`,
 			params.text
 		);
 	}
+
 
 }
