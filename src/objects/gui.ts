@@ -25,15 +25,22 @@ export class Gui {
 	;
 
 
+	/**
+	 * Create a stylized Button DOM Element with a click event listener attached
+	 * to it. The event listener callback starts a new scene using the scene key
+	 * passed in arguments and stops all sounds if stopSounds set to true.
+	 */
 	public static mainBtn(params: {
 		 scene: Phaser.Scene; 
 		 text: string; 
 		 stopSounds: boolean; 
 		 scenePlugin: Phaser.Scenes.ScenePlugin; 
-		 newSceneKey: string; 
+		 newSceneKey: string;
+		 sceneData?: object;
 	}): void {
 
 		params.scene.add.dom(
+
 			getGameWidth(params.scene)/2,
 			getGameHeight(params.scene)-50,
 			'button',
@@ -46,7 +53,7 @@ export class Gui {
 				params.scene.sound.stopAll();
 			}
 
-			params.scenePlugin.start(params.newSceneKey);
+			params.scenePlugin.start(params.newSceneKey, params.sceneData);
 
 		});
 	}
