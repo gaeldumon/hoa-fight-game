@@ -1,7 +1,6 @@
 import { getGameWidth, SIDE } from '../helpers';
 import { Bomb } from '../objects/bomb';
 import { Level } from '../objects/level';
-import { WebsiteUser } from '../objects/user';
 import { Hud } from '../objects/hud';
 import { Player } from '../objects/player';
 import { HealthBar } from '../objects/healthBar';
@@ -22,16 +21,11 @@ export class GameScene extends Phaser.Scene {
 	private player2: Player;
 	private hud1: Hud;
 	private hud2: Hud;
-	private websiteUser1: WebsiteUser;
-	private websiteUser2: WebsiteUser;
 	private level: Level;
 	private bombs: Phaser.GameObjects.Group;
 	private bombCreationEvent: Phaser.Time.TimerEvent;
 	private newSceneTimedEvent: Phaser.Time.TimerEvent;
 	private musicTheme: Phaser.Sound.BaseSound;
-
-	// Careful with public static field
-	public static winner: WebsiteUser;
 	
 
 	private setColliders(): void {
@@ -125,23 +119,6 @@ export class GameScene extends Phaser.Scene {
 		this.level = new Level({ scene: this, id: MenuScene.levelChoice });
 
 
-		/***********HUDs**********/
-		this.hud1 = new Hud({
-			scene: this,
-			side: SIDE.LEFT,
-			avatarTextureKey: `character${MenuScene.characterChoicePlayer1}Avatar`,
-			username: this.websiteUser1.username,
-			rank: this.websiteUser1.rank
-		});
-
-		this.hud2 = new Hud({
-			scene: this,
-			side: SIDE.RIGHT,
-			avatarTextureKey: `character${MenuScene.characterChoicePlayer2}Avatar`,
-			username: this.websiteUser2.username,
-			rank: this.websiteUser2.rank
-		});
-
 		/***********Players(+ healthBars)**********/
 		this.player1 = new Player({
 			scene: this,
@@ -192,11 +169,9 @@ export class GameScene extends Phaser.Scene {
 
 			if (this.player1.isDead()) {
 
-				GameScene.winner = this.websiteUser2;
 
 			} else if (this.player2.isDead()) {
 
-				GameScene.winner = this.websiteUser1;
 
 			}
 
