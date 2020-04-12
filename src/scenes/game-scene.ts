@@ -1,7 +1,7 @@
 import { getGameWidth, SIDE } from '../helpers';
 import { Bomb } from '../objects/bomb';
 import { Level } from '../objects/level';
-import { WebsiteUser } from '../objects/websiteUser';
+import { WebsiteUser } from '../objects/user';
 import { Hud } from '../objects/hud';
 import { Player } from '../objects/player';
 import { HealthBar } from '../objects/healthBar';
@@ -124,22 +124,6 @@ export class GameScene extends Phaser.Scene {
 
 		this.level = new Level({ scene: this, id: MenuScene.levelChoice });
 
-		/***********Users**********/
-		this.websiteUser1 = new WebsiteUser({
-			id: 1,
-			username: 'Marco45',
-			rank: 10,
-			score: 6,
-			avatar: 'assets/images/from-website/default-avatar.png'
-		});
-
-		this.websiteUser2 = new WebsiteUser({
-			id: 5,
-			username: 'Hyperdestru',
-			rank: 2,
-			score: 26,
-			avatar: 'assets/images/from-website/default-avatar.png'
-		});
 
 		/***********HUDs**********/
 		this.hud1 = new Hud({
