@@ -87,6 +87,11 @@ export class GameScene extends Phaser.Scene {
 	}
 
 
+	init(data) {
+		console.log(data);
+	}
+
+
 	create() {
 
 		/*this.bombs = this.add.group({
