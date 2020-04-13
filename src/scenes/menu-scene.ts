@@ -41,17 +41,29 @@ export class MenuScene extends Phaser.Scene {
 	create(data) {
 		
 		this.background();
+
 		Gui.title({ scene: this, text: "MENU" });
-		// Init the thumbnail on the 1st level thumbnail
-		this.levelThumb = this.add.image(200, 300, data.levels[0].thumbnailKey);
-		Gui.slideBtn({ 
-			scene: this, 
-			x: 200, 
-			y: 450, 
-			text: "Suivant",
-			img: this.levelThumb,
-			textures: data.levels.map(level => level.thumbnailKey)
-		});
+
+		if (data.has('levels')) {
+
+			// Init the thumbnail on the 1st level thumbnail
+			this.levelThumb = this.add.image(
+				200, 
+				300, 
+				data.levels[0].thumbnailKey
+			);
+
+			Gui.slideBtn({ 
+				scene: this, 
+				x: 200, 
+				y: 450, 
+				text: "Suivant",
+				img: this.levelThumb,
+				textures: data.levels.map(level => level.thumbnailKey)
+			});
+			
+		}
+
 	}
 
 	update() {
