@@ -123,6 +123,7 @@ export class User {
 		this._rank = params.rank;
 		this._avatar = params.avatar;
 		this._isGuest = params.isGuest;
+
 	}
 
 
