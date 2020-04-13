@@ -59,9 +59,10 @@ export class Gui {
 	}
 
 	/**
-	 * Controls an image that act as a container for other textures.
-	 * On click it sets a new texture (from textures array) to this image.
-	 * It mimics a slideshow. 
+	 * Button that changes an image (img) texture with another (textures),
+	 * one by one. Like a slideshow.
+	 * @param img: a phaser game object image that act as a container in a way.
+	 * @param textures: the textures to append to img.
 	 */
 	public static slideBtn(params: { 
 		scene: Phaser.Scene;
@@ -69,7 +70,7 @@ export class Gui {
 		y: number;
 		text: string;
 		img: Phaser.GameObjects.Image;
-		textures: Array<string>;
+		textureKeys: Array<string>;
 	}): void {
 
 		let currentIndex = 0;
@@ -84,13 +85,13 @@ export class Gui {
 
 		).addListener('click').on('click', () => {
 
-			if (currentIndex < params.textures.length - 1) {
+			if (currentIndex < params.textureKeys.length - 1) {
 				currentIndex++;
 			} else {
 				currentIndex = 0;
 			}
 
-			params.img.setTexture(params.textures[currentIndex]);
+			params.img.setTexture(params.textureKeys[currentIndex]);
 
 		});
 
