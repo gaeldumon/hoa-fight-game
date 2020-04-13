@@ -72,7 +72,7 @@ export class Gui {
 		textures: Array<string>;
 	}): void {
 
-		let i = 0;
+		let currentIndex = 0;
 
 		params.scene.add.dom(
 
@@ -84,8 +84,13 @@ export class Gui {
 
 		).addListener('click').on('click', () => {
 
-			(i < params.textures.length - 1) ? i++ : i = 0;
-			params.img.setTexture(params.textures[i]);
+			if (currentIndex < params.textures.length - 1) {
+				currentIndex++;
+			} else {
+				currentIndex = 0;
+			}
+
+			params.img.setTexture(params.textures[currentIndex]);
 
 		});
 
