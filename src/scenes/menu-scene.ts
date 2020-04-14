@@ -82,14 +82,15 @@ export class MenuScene extends Phaser.Scene {
 			this.add.image(650, 300, data.characters[0].avatarKey),
 			this.add.image(850, 300, data.characters[0].avatarKey)
 		];
-
+		
 		Gui.slideBtn({ 
 			scene: this, 
 			x: 650, 
 			y: 400, 
 			text: "Suivant",
 			img: this.characterThumbs[0],
-			textureKeys: data.characters.map(c => c.avatarKey)
+			textureKeys: data.characters.map(c => c.avatarKey),
+			callback: () => console.log('click')
 		});
 
 		Gui.slideBtn({ 
