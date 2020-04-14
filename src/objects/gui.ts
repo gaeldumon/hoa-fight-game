@@ -63,6 +63,7 @@ export class Gui {
 	 * one by one. Like a slideshow.
 	 * @param img: a phaser game object image that act as a container in a way.
 	 * @param textures: the textures to append to img.
+	 * @param callback: what will be executed in addition of the click event
 	 */
 	public static slideBtn(params: { 
 		scene: Phaser.Scene;
@@ -71,6 +72,7 @@ export class Gui {
 		text: string;
 		img: Phaser.GameObjects.Image;
 		textureKeys: Array<string>;
+		callback?: Function;
 	}): void {
 
 		let currentIndex = 0;
@@ -92,6 +94,8 @@ export class Gui {
 			}
 
 			params.img.setTexture(params.textureKeys[currentIndex]);
+
+			params.callback();
 
 		});
 
