@@ -25,10 +25,15 @@ export class MenuScene extends Phaser.Scene {
 	}
 
 
-	private appendInstance(a: Array<any>, instanceSetter: Function, img: Phaser.GameObjects.Image) {
+	private appendInstance(
+		a: Array<any>, 
+		setter: Function, 
+		img: Phaser.GameObjects.Image
+	): void {
+
 		for (const e of a) {
 			if (e.thumbnailKey === img.texture.key) {
-				instanceSetter = e;
+				setter = e;
 			}
 		}
 	}
@@ -38,6 +43,11 @@ export class MenuScene extends Phaser.Scene {
 		super(sceneConfig);
 	}
 
+	init() {
+	}
+
+	preload() {
+	}
 
 	/**
 	 * Scene's create callback.
@@ -62,12 +72,6 @@ export class MenuScene extends Phaser.Scene {
 		);
 		
 		// Button that modifies the level thumbnail texture (with texture keys).
-		// Append the level instance accordingly, only on User 1 because
-		// we only need one instance of level (both players -> 1 level).
-		// I attach it to User 1 for convenience, this way it is attached to
-		// something and not in the air. I could attach it to User 2 it would
-		// make no difference, I'm just gonna use the one I attached it to in 
-		// the Game Scene.
 		Gui.slideBtn({ 
 			scene: this, 
 			x: 200, 
@@ -75,12 +79,11 @@ export class MenuScene extends Phaser.Scene {
 			text: "Suivant",
 			img: this.levelThumb,
 			textureKeys: data.levels.map(level => level.thumbnailKey),
-			callback: () => {
-				this.appendInstance(
-					data.levels, 
-					data.users[0].levelInstance, 
-					this.levelThumb
-				);
+			// So ugly and unmaintenable in so many ways.. *sigh*
+			link: {
+				owner: data.users[0],
+				data: data,
+				toLink: 'level'
 			}
 		});
 
@@ -97,7 +100,6 @@ export class MenuScene extends Phaser.Scene {
 		
 		// Slide button n°1. This is where User 1 choose its character. 
 		// Modifies the texture of the character thumbnail n°1 on click.
-		// Append the character instance of user 1 accordingly.
 		Gui.slideBtn({ 
 			scene: this, 
 			x: 650, 
@@ -105,18 +107,16 @@ export class MenuScene extends Phaser.Scene {
 			text: "Suivant",
 			img: this.characterThumbs[0],
 			textureKeys: data.characters.map(c => c.thumbnailKey),
-			callback: () => {
-				this.appendInstance(
-					data.characters, 
-					data.users[0].characterInstance, 
-					this.characterThumbs[0]
-				);
-			}	
+			// So ugly and unmaintenable in so many ways.. *sigh*
+			link: {
+				owner: data.users[0],
+				data: data,
+				toLink: 'character'
+			}
 		});
 
 		// Slide button n°1. This is where User 2 choose its character. 
 		// Modifies the texture of the character thumbnail n°1 on click.
-		// Append the character instance of user 2 accordingly.
 		Gui.slideBtn({ 
 			scene: this, 
 			x: 850, 
@@ -124,13 +124,12 @@ export class MenuScene extends Phaser.Scene {
 			text: "Suivant",
 			img: this.characterThumbs[1],
 			textureKeys: data.characters.map(c => c.thumbnailKey),
-			callback: () => {
-				this.appendInstance(
-					data.characters, 
-					data.users[1].characterInstance, 
-					this.characterThumbs[1]
-				);
-			}	
+			// So ugly and unmaintenable in so many ways.. *sigh*
+			link: {
+				owner: data.users[1],
+				data: data,
+				toLink: 'character'
+			}
 		});
 
 		// Data (arg data) from the Boot Scene has been modified:
@@ -148,7 +147,7 @@ export class MenuScene extends Phaser.Scene {
 			newSceneKey: 'Game',
 			// We send the users (now with their chosen character and level) to
 			// the Game Scene.
-			sceneData: this.data.get('users')
+			sceneData: this.data.getAll()
 		});
 
 	}

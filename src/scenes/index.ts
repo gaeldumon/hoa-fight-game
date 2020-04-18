@@ -6,6 +6,6 @@ import { GameoverScene } from './gameover-scene';
 export default [
 	BootScene,
 	MenuScene,
-	//GameScene,
+	GameScene,
 	//GameoverScene
 ];

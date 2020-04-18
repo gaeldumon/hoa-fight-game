@@ -1,4 +1,5 @@
 import { getGameWidth, getGameHeight } from '../helpers';
+import { Data } from 'phaser';
 
 export class Gui {
 
@@ -63,8 +64,6 @@ export class Gui {
 	 * one by one. Like a slideshow.
 	 * @param img: a phaser game object image that act as a container in a way.
 	 * @param textures: the textures to append to img.
-	 * @param callback: additional callback that will be called/executed 
-	 * inside the button's click event callback.
 	 */
 	public static slideBtn(params: { 
 		scene: Phaser.Scene;
@@ -73,7 +72,12 @@ export class Gui {
 		text: string;
 		img: Phaser.GameObjects.Image;
 		textureKeys: Array<string>;
-		callback?;
+		// So ugly and unmaintenable in so many ways.. *sigh*
+		link?: {
+			owner;
+			data;
+			toLink;
+		}
 	}): void {
 
 		let currentIndex = 0;
@@ -86,7 +90,7 @@ export class Gui {
 			Gui.secondaryBtnStyle,
 			params.text
 
-		).addListener('click').on('click', () => {
+		).addListener('click').on('click', function() {
 
 			if (currentIndex < params.textureKeys.length - 1) {
 				currentIndex++;
@@ -96,8 +100,15 @@ export class Gui {
 
 			params.img.setTexture(params.textureKeys[currentIndex]);
 
-			params.callback();
-
+			// So ugly and unmaintenable in so many ways.. *sigh*
+			if (params.link !== undefined) {
+				if (params.link.toLink === 'level') {
+					params.link.owner.levelInstance = params.link.data.levels[currentIndex];
+				} else if (params.link.toLink === 'character') {
+					params.link.owner.characterInstance = params.link.data.characters[currentIndex];
+				}
+			}
+				
 		});
 
 	}
