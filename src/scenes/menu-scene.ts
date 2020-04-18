@@ -25,6 +25,15 @@ export class MenuScene extends Phaser.Scene {
 	}
 
 
+	private appendInstance(a: Array<any>, instanceSetter: Function, img: Phaser.GameObjects.Image) {
+		for (const e of a) {
+			if (e.thumbnailKey === img.texture.key) {
+				instanceSetter = e;
+			}
+		}
+	}
+
+
 	constructor() {		
 		super(sceneConfig);
 	}
@@ -37,6 +46,9 @@ export class MenuScene extends Phaser.Scene {
 	/**
 	 * Scene's create callback.
 	 * @param data: data object from the Boot Scene that belongs to the Data Manager.
+	 * Here this data will be modified: characters (elements of data.characters) 
+	 * and levels (elements of data.levels) instances will be attached to the 
+	 * users instances (data.users).
 	 */
 	create(data) {
 		
@@ -60,17 +72,11 @@ export class MenuScene extends Phaser.Scene {
 			y: 450, 
 			text: "Suivant",
 			img: this.levelThumb,
-			textureKeys: data.levels.map(level => level.thumbnailKey)
-		});
-
-		// Appending users level instances. Have to make it asynchronous.
-		for (const level of data.levels) {
-			if (level.thumbnailKey === this.levelThumb.texture.key) {
-				for (const user of data.users) {
-					user.levelInstance = level;
-				}
+			textureKeys: data.levels.map(level => level.thumbnailKey),
+			callback: () => {
+				this.appendInstance(data.levels, data.users[0].levelInstance, this.levelThumb);
 			}
-		}
+		});
 
 		Gui.sectionTitle({ scene: this, x: 750, y: 130, text: "Personnages" });
 
@@ -79,8 +85,8 @@ export class MenuScene extends Phaser.Scene {
 
 		// Init the 2 characters thumbnails on the 1st character thumbnail.
 		this.characterThumbs = [
-			this.add.image(650, 300, data.characters[0].avatarKey),
-			this.add.image(850, 300, data.characters[0].avatarKey)
+			this.add.image(650, 300, data.characters[0].thumbnailKey),
+			this.add.image(850, 300, data.characters[0].thumbnailKey)
 		];
 		
 		Gui.slideBtn({ 
@@ -89,8 +95,10 @@ export class MenuScene extends Phaser.Scene {
 			y: 400, 
 			text: "Suivant",
 			img: this.characterThumbs[0],
-			textureKeys: data.characters.map(c => c.avatarKey),
-			callback: () => console.log('click')
+			textureKeys: data.characters.map(c => c.thumbnailKey),
+			callback: () => {
+				this.appendInstance(data.characters, data.users[0].characterInstance, this.characterThumbs[0])
+			}	
 		});
 
 		Gui.slideBtn({ 
@@ -99,22 +107,16 @@ export class MenuScene extends Phaser.Scene {
 			y: 400, 
 			text: "Suivant",
 			img: this.characterThumbs[1],
-			textureKeys: data.characters.map(c => c.avatarKey)
+			textureKeys: data.characters.map(c => c.thumbnailKey),
+			callback: () => {
+				this.appendInstance(data.characters, data.users[1].characterInstance, this.characterThumbs[1])
+			}	
 		});
 
-		// Appending user1 (index 0) player instances. Have to make it asynchronous.
-		for (const character of data.characters) {
-			if (character.avatarKey === this.characterThumbs[0].texture.key) {
-				data.users[0].characterInstance = character;
-			}
-		}
-
-		// Appending user2 (index 1) player instances. Have to make it asynchronous.
-		for (const character of data.characters) {
-			if (character.avatarKey === this.characterThumbs[1].texture.key) {
-				data.users[1].characterInstance = character;
-			}
-		}
+		// Data (arg data) from the Boot Scene has been modified :
+		// instances has been attached, so we copy this modified data to this scene
+		// data and we pass THAT to the next scene.
+		this.data = data
 
 		Gui.mainBtn({
 			scene: this,
@@ -122,7 +124,7 @@ export class MenuScene extends Phaser.Scene {
 			stopSounds: false,
 			scenePlugin: this.scene,
 			newSceneKey: 'Game',
-			sceneData: data
+			sceneData: this.data
 		});
 
 	}
