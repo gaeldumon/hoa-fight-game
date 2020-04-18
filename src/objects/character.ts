@@ -14,7 +14,8 @@ export class Character {
 
 	// Fields built upon the Id provided at instanciation.
 	private _textureKey: string;
-	private _avatarKey: string;
+	// Character's avatar
+	private _thumbnailKey: string;
 	private _soundKey: string;
 
 
@@ -22,8 +23,8 @@ export class Character {
 		return this._textureKey;
 	}
 
-	public get avatarKey(): string {
-		return this._avatarKey;
+	public get thumbnailKey(): string {
+		return this._thumbnailKey;
 	}
 
 	public get soundKey(): string {
@@ -42,7 +43,7 @@ export class Character {
 		this.stats = params.stats;
 
 		this._textureKey = `character${this.id}`;
-		this._avatarKey = `character${this.id}Avatar`;
+		this._thumbnailKey = `character${this.id}Avatar`;
 		this._soundKey = `character${this.id}Sound`;
 	}
 
