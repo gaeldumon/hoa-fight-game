@@ -39,10 +39,6 @@ export class MenuScene extends Phaser.Scene {
 	}
 
 
-	init(data) {}
-
-	preload() {}
-
 	/**
 	 * Scene's create callback.
 	 * @param data: data object from the Boot Scene that belongs to the Data Manager.
@@ -58,14 +54,20 @@ export class MenuScene extends Phaser.Scene {
 
 		Gui.sectionTitle({ scene: this, x: 200, y: 130, text: "Terrain" });
 
-		// Init the level thumbnail on the 1st level thumbnail
+		// Init the level thumbnail on the 1st level thumbnail (index 0)
 		this.levelThumb = this.add.image(
-			200, 
+			200,
 			300, 
 			data.levels[0].thumbnailKey
 		);
 		
 		// Button that modifies the level thumbnail texture (with texture keys).
+		// Append the level instance accordingly, only on User 1 because
+		// we only need one instance of level (both players -> 1 level).
+		// I attach it to User 1 for convenience, this way it is attached to
+		// something and not in the air. I could attach it to User 2 it would
+		// make no difference, I'm just gonna use the one I attached it to in 
+		// the Game Scene.
 		Gui.slideBtn({ 
 			scene: this, 
 			x: 200, 
@@ -74,7 +76,11 @@ export class MenuScene extends Phaser.Scene {
 			img: this.levelThumb,
 			textureKeys: data.levels.map(level => level.thumbnailKey),
 			callback: () => {
-				this.appendInstance(data.levels, data.users[0].levelInstance, this.levelThumb);
+				this.appendInstance(
+					data.levels, 
+					data.users[0].levelInstance, 
+					this.levelThumb
+				);
 			}
 		});
 
@@ -83,12 +89,15 @@ export class MenuScene extends Phaser.Scene {
 		Gui.customText({ scene: this, x: 650, y: 200, text: "Joueur 1" });
 		Gui.customText({ scene: this, x: 850, y: 200, text: "Joueur 2" });
 
-		// Init the 2 characters thumbnails on the 1st character thumbnail.
+		// Init the 2 characters thumbnails with the 1st character thumbnail (the red guy).
 		this.characterThumbs = [
 			this.add.image(650, 300, data.characters[0].thumbnailKey),
 			this.add.image(850, 300, data.characters[0].thumbnailKey)
 		];
 		
+		// Slide button n°1. This is where User 1 choose its character. 
+		// Modifies the texture of the character thumbnail n°1 on click.
+		// Append the character instance of user 1 accordingly.
 		Gui.slideBtn({ 
 			scene: this, 
 			x: 650, 
@@ -97,10 +106,17 @@ export class MenuScene extends Phaser.Scene {
 			img: this.characterThumbs[0],
 			textureKeys: data.characters.map(c => c.thumbnailKey),
 			callback: () => {
-				this.appendInstance(data.characters, data.users[0].characterInstance, this.characterThumbs[0])
+				this.appendInstance(
+					data.characters, 
+					data.users[0].characterInstance, 
+					this.characterThumbs[0]
+				);
 			}	
 		});
 
+		// Slide button n°1. This is where User 2 choose its character. 
+		// Modifies the texture of the character thumbnail n°1 on click.
+		// Append the character instance of user 2 accordingly.
 		Gui.slideBtn({ 
 			scene: this, 
 			x: 850, 
@@ -109,14 +125,20 @@ export class MenuScene extends Phaser.Scene {
 			img: this.characterThumbs[1],
 			textureKeys: data.characters.map(c => c.thumbnailKey),
 			callback: () => {
-				this.appendInstance(data.characters, data.users[1].characterInstance, this.characterThumbs[1])
+				this.appendInstance(
+					data.characters, 
+					data.users[1].characterInstance, 
+					this.characterThumbs[1]
+				);
 			}	
 		});
 
-		// Data (arg data) from the Boot Scene has been modified :
-		// instances has been attached, so we copy this modified data to this scene
-		// data and we pass THAT to the next scene.
-		this.data = data
+		// Data (arg data) from the Boot Scene has been modified:
+		// instances has been attached, so we set this modified data to this 
+		// scene data and we pass THAT to the next scene. Here we only take
+		// the users cause that is then only thing that's been modified and the 
+		// only thing the Game Scene needs.
+		this.data.set('users', data.users);
 
 		Gui.mainBtn({
 			scene: this,
@@ -124,11 +146,11 @@ export class MenuScene extends Phaser.Scene {
 			stopSounds: false,
 			scenePlugin: this.scene,
 			newSceneKey: 'Game',
-			sceneData: this.data
+			// We send the users (now with their chosen character and level) to
+			// the Game Scene.
+			sceneData: this.data.get('users')
 		});
 
 	}
-
-	update() {}
 
 }

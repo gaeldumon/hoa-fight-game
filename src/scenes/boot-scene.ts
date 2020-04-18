@@ -146,7 +146,7 @@ export class BootScene extends Phaser.Scene {
 			scenePlugin: this.scene,
 			newSceneKey: 'Menu',
 			// Passing this scene data to the destination scene.
-			sceneData: this.data.getAll()
+			sceneData: this.data.get(['users', 'characters', 'levels'])
 		});
 		
 	}
