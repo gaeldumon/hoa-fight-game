@@ -12,7 +12,7 @@ export class Level {
 
 
 	private scene: Phaser.Scene;
-	private id: number;
+	private readonly id: number;
 	private _tilemap: Tilemap;
 	private _name: string;
 
@@ -33,14 +33,11 @@ export class Level {
 		return this._thumbnailKey;
 	}
 
-
 	constructor(params: {
-		scene: Phaser.Scene;
 		id: number;
 		name: string;
 	}) {
 
-		this.scene = params.scene;
 		this.id = params.id;
 		this._name = params.name;
 		this.backgroundKey = `level${this.id}Background`;
@@ -49,8 +46,9 @@ export class Level {
 
 	}
 
-	create(): void {
-
+	create(scene): void {
+		this.scene = scene;
+		
 		this.scene.add.image(
 			getGameWidth(this.scene)/2,
 			getGameHeight(this.scene)/2,
@@ -62,7 +60,7 @@ export class Level {
 			id: this.id
 		});
 
-		this.scene.sound.add(this.musicKey);
+		this.scene.sound.add(this.musicKey).play();
 
 	}
 
