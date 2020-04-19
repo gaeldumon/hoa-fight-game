@@ -37,7 +37,7 @@ export class Level {
 	constructor(params: {
 		scene: Phaser.Scene;
 		id: number;
-		name: string
+		name: string;
 	}) {
 
 		this.scene = params.scene;
