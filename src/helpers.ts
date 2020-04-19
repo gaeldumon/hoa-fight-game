@@ -69,39 +69,20 @@ export const COLORS = {
 }
 
 
-export const GAMEDATA = {
-	LEVELS: {
-		NUMBER: 2
-	},
-	CHARACTERS: {
-		NUMBER: 6
-	},
+export const CONTROLKEYS = {
 	PLAYER: {
-		CONTROLKEYS1: {
+		SET1: {
 			right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
 			left: Phaser.Input.Keyboard.KeyCodes.LEFT,
 			jump: Phaser.Input.Keyboard.KeyCodes.UP,
 			shoot: Phaser.Input.Keyboard.KeyCodes.SHIFT
 		},
 
-		CONTROLKEYS2: {
+		SET2: {
 			right: Phaser.Input.Keyboard.KeyCodes.D,
 			left: Phaser.Input.Keyboard.KeyCodes.Q,
 			jump: Phaser.Input.Keyboard.KeyCodes.S,
 			shoot: Phaser.Input.Keyboard.KeyCodes.SPACE
 		}
 	}
-}
-
-
-export enum SIDE {
-	LEFT = 'LEFT',
-	RIGHT = 'RIGHT'
-}
-
-
-export enum MENUSECTION {
-	LEVEL = 'MENU',
-	USER1 = 'USER1',
-	USER2 = 'USER2'
 }
