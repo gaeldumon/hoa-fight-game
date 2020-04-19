@@ -72,12 +72,7 @@ export class Gui {
 		text: string;
 		img: Phaser.GameObjects.Image;
 		textureKeys: Array<string>;
-		// So ugly and unmaintenable in so many ways.. *sigh*
-		link?: {
-			owner;
-			data;
-			toLink;
-		}
+		callback?: Function;
 	}): void {
 
 		let currentIndex = 0;
@@ -100,15 +95,10 @@ export class Gui {
 
 			params.img.setTexture(params.textureKeys[currentIndex]);
 
-			// So ugly and unmaintenable in so many ways.. *sigh*
-			if (params.link !== undefined) {
-				if (params.link.toLink === 'level') {
-					params.link.owner.levelInstance = params.link.data.levels[currentIndex];
-				} else if (params.link.toLink === 'character') {
-					params.link.owner.characterInstance = params.link.data.characters[currentIndex];
-				}
+			if (params.callback !== undefined) {
+				params.callback();
 			}
-				
+			
 		});
 
 	}
