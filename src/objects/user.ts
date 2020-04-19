@@ -13,6 +13,7 @@ export class User {
 	private _rank: number;
 	private _avatar: string;
 	private _isGuest: boolean;
+	private _screenSide: number;
 	private _characterInstance: Character;
 	private _playerInstance: Player;
 	private _levelInstance: Level;
@@ -59,6 +60,10 @@ export class User {
 	 */
 	public get isGuest(): boolean {
 		return this._isGuest;
+	}
+
+	public get screenSide(): number {
+		return this._screenSide;
 	}
 
 	/**
@@ -114,7 +119,8 @@ export class User {
 		score: number; 
 		rank: number; 
 		avatar: string;
-		isGuest: boolean
+		isGuest: boolean;
+		screenSide: number;
 	}) {
 
 		this._id = params.id;
@@ -123,6 +129,7 @@ export class User {
 		this._rank = params.rank;
 		this._avatar = params.avatar;
 		this._isGuest = params.isGuest;
+		this._screenSide = params.screenSide;
 
 	}
 
