@@ -33,12 +33,10 @@ export class BootScene extends Phaser.Scene {
 
 		this.levels = [
 			new Level({
-				scene: this,
 				id: 1,
 				name: "Cimetiere"
 			}),
 			new Level({
-				scene: this,
 				id: 2,
 				name: "Prairie"
 			})
@@ -131,7 +129,7 @@ export class BootScene extends Phaser.Scene {
 	create() {
 
 		this.musicTheme = this.sound.add('menuTheme');
-		//this.musicTheme.play();
+		this.musicTheme.play();
 
 		this.background = this.add.image(
 			getGameWidth(this)/2, 
@@ -144,7 +142,7 @@ export class BootScene extends Phaser.Scene {
 		Gui.mainBtn({ 
 			scene: this, 
 			text: "Menu", 
-			stopSounds: true,
+			stopSounds: false,
 			scenePlugin: this.scene,
 			newSceneKey: 'Menu',
 			// Passing this scene data to the destination scene.
