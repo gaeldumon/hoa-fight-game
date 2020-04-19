@@ -92,7 +92,9 @@ export class GameScene extends Phaser.Scene {
 	}
 
 
-	create() {
+	create(data) {
+
+		data.users[0].levelInstance.create(this);
 
 		/*this.bombs = this.add.group({
 			runChildUpdate: true
