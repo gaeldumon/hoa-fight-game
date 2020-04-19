@@ -1,4 +1,4 @@
-import { getGameWidth, getGameHeight, GAMEDATA } from '../helpers';
+import { getGameWidth, getGameHeight } from '../helpers';
 import { Level } from '../objects/level';
 import { User } from '../objects/user';
 import { Character } from '../objects/character';
@@ -51,7 +51,8 @@ export class BootScene extends Phaser.Scene {
 				rank: 1,
 				score: 10,
 				avatar: '',
-				isGuest: false
+				isGuest: false,
+				screenSide: -1
 			}),
 
 			new User({
@@ -60,7 +61,8 @@ export class BootScene extends Phaser.Scene {
 				rank: 2,
 				score: 1,
 				avatar: '',
-				isGuest: false
+				isGuest: false,
+				screenSide: 1
 			})
 		];
 
@@ -116,7 +118,7 @@ export class BootScene extends Phaser.Scene {
 		// as a "map"/"link" to a png spritesheet.
 		// Used for drawing PLayer texture and set animations.
 		// Still outside pack.json for now cause I don't know how.
-		for (let n = 1; n <= GAMEDATA.CHARACTERS.NUMBER; n++) {
+		for (let n = 1; n <= 6; n++) {
 			this.load.atlas(
 				`character${n}`,
 				`assets/images/characters/character${n}/character${n}-spritesheet.png`,
