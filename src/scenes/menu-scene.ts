@@ -1,4 +1,4 @@
-import { getGameWidth, getGameHeight, GAMEDATA } from '../helpers';
+import { getGameWidth, getGameHeight } from '../helpers';
 import { Gui } from '../objects/gui';
 
 
@@ -16,7 +16,7 @@ export class MenuScene extends Phaser.Scene {
 	private characterThumbs: Array<Phaser.GameObjects.Image>;
 
 
-	private background(): void {
+	private drawBackground(): void {
 		this.add.image(
 			getGameWidth(this)/2, 
 			getGameHeight(this)/2,
@@ -24,17 +24,32 @@ export class MenuScene extends Phaser.Scene {
 		);
 	}
 
+	private initThumbnails(data): void {
+		// Init the level thumbnail on the 1st level thumbnail (index 0)
+		this.levelThumb = this.add.image(200, 300, data.levels[0].thumbnailKey);
 
-	private appendInstance(
-		a: Array<any>, 
-		setter: Function, 
-		img: Phaser.GameObjects.Image
-	): void {
+		// Init the 2 characters thumbnails with the 1st character thumbnail.
+		this.characterThumbs = [
+			this.add.image(650, 300, data.characters[0].thumbnailKey),
+			this.add.image(850, 300, data.characters[0].thumbnailKey)
+		];
+	}
 
-		for (const e of a) {
-			if (e.thumbnailKey === img.texture.key) {
-				setter = e;
-			}
+	private printTitles(): void {
+		Gui.title({ scene: this, text: "MENU" });
+		Gui.sectionTitle({ scene: this, x: 200, y: 130, text: "Terrain" });
+		Gui.sectionTitle({ scene: this, x: 750, y: 130, text: "Personnages" });
+	}
+
+	private printTexts(): void {
+		Gui.customText({ scene: this, x: 650, y: 200, text: "Joueur 1" });
+		Gui.customText({ scene: this, x: 850, y: 200, text: "Joueur 2" });
+	}
+
+	private initUsersChoices(data): void {
+		for (const user of data.users) {
+			user.levelInstance = data.levels[0];
+			user.characterInstance = data.characters[0];
 		}
 	}
 
@@ -43,7 +58,8 @@ export class MenuScene extends Phaser.Scene {
 		super(sceneConfig);
 	}
 
-	init() {
+	init(data) {
+		this.initUsersChoices(data);
 	}
 
 	preload() {
@@ -51,27 +67,20 @@ export class MenuScene extends Phaser.Scene {
 
 	/**
 	 * Scene's create callback.
-	 * @param data: data object from the Boot Scene that belongs to the Data Manager.
+	 * @param data Data object from the Boot Scene that belongs to the Data Manager.
 	 * Here this data will be modified: characters (elements of data.characters) 
 	 * and levels (elements of data.levels) instances will be attached to the 
 	 * users instances (data.users).
 	 */
 	create(data) {
 		
-		this.background();
+		this.drawBackground();
+		this.initThumbnails(data);
+		this.printTitles();
+		this.printTexts();
 
-		Gui.title({ scene: this, text: "MENU" });
-
-		Gui.sectionTitle({ scene: this, x: 200, y: 130, text: "Terrain" });
-
-		// Init the level thumbnail on the 1st level thumbnail (index 0)
-		this.levelThumb = this.add.image(
-			200,
-			300, 
-			data.levels[0].thumbnailKey
-		);
-		
-		// Button that modifies the level thumbnail texture (with texture keys).
+		// Slide button n°1. This is where User 1 & 2 choose their level. 
+		// Modifies the level thumbnail texture (with texture keys) on click.
 		Gui.slideBtn({ 
 			scene: this, 
 			x: 200, 
@@ -79,26 +88,18 @@ export class MenuScene extends Phaser.Scene {
 			text: "Suivant",
 			img: this.levelThumb,
 			textureKeys: data.levels.map(level => level.thumbnailKey),
-			// So ugly and unmaintenable in so many ways.. *sigh*
-			link: {
-				owner: data.users[0],
-				data: data,
-				toLink: 'level'
+			callback: () => {
+				for (const level of data.levels) {
+					if (level.thumbnailKey === this.levelThumb.texture.key) {
+						data.users[0].levelInstance = level;
+						data.users[1].levelInstance = level;
+					}
+				}
 			}
 		});
 
-		Gui.sectionTitle({ scene: this, x: 750, y: 130, text: "Personnages" });
-
-		Gui.customText({ scene: this, x: 650, y: 200, text: "Joueur 1" });
-		Gui.customText({ scene: this, x: 850, y: 200, text: "Joueur 2" });
-
-		// Init the 2 characters thumbnails with the 1st character thumbnail (the red guy).
-		this.characterThumbs = [
-			this.add.image(650, 300, data.characters[0].thumbnailKey),
-			this.add.image(850, 300, data.characters[0].thumbnailKey)
-		];
 		
-		// Slide button n°1. This is where User 1 choose its character. 
+		// Slide button n°2. This is where User 1 choose its character. 
 		// Modifies the texture of the character thumbnail n°1 on click.
 		Gui.slideBtn({ 
 			scene: this, 
@@ -107,16 +108,17 @@ export class MenuScene extends Phaser.Scene {
 			text: "Suivant",
 			img: this.characterThumbs[0],
 			textureKeys: data.characters.map(c => c.thumbnailKey),
-			// So ugly and unmaintenable in so many ways.. *sigh*
-			link: {
-				owner: data.users[0],
-				data: data,
-				toLink: 'character'
+			callback: () => {
+				for (const c of data.characters) {
+					if (c.thumbnailKey === this.characterThumbs[0].texture.key) {
+						data.users[0].characterInstance = c;
+					}
+				}
 			}
 		});
 
-		// Slide button n°1. This is where User 2 choose its character. 
-		// Modifies the texture of the character thumbnail n°1 on click.
+		// Slide button n°3. This is where User 2 choose its character. 
+		// Modifies the texture of the character thumbnail n°2 on click.
 		Gui.slideBtn({ 
 			scene: this, 
 			x: 850, 
@@ -124,20 +126,21 @@ export class MenuScene extends Phaser.Scene {
 			text: "Suivant",
 			img: this.characterThumbs[1],
 			textureKeys: data.characters.map(c => c.thumbnailKey),
-			// So ugly and unmaintenable in so many ways.. *sigh*
-			link: {
-				owner: data.users[1],
-				data: data,
-				toLink: 'character'
+			callback: () => {
+				for (const c of data.characters) {
+					if (c.thumbnailKey === this.characterThumbs[1].texture.key) {
+						data.users[1].characterInstance = c;
+					}
+				}
 			}
 		});
 
-		// Data (arg data) from the Boot Scene has been modified:
-		// instances has been attached, so we set this modified data to this 
-		// scene data and we pass THAT to the next scene. Here we only take
-		// the users cause that is then only thing that's been modified and the 
-		// only thing the Game Scene needs.
+
+		// Set the MODIFIED users data from the boot scene to this actual scene.
+		// Modified because level and characters instances has been linked to
+		// each users thanks to the slide buttons callbacks and the thumbnails.
 		this.data.set('users', data.users);
+
 
 		Gui.mainBtn({
 			scene: this,
@@ -145,8 +148,7 @@ export class MenuScene extends Phaser.Scene {
 			stopSounds: false,
 			scenePlugin: this.scene,
 			newSceneKey: 'Game',
-			// We send the users (now with their chosen character and level) to
-			// the Game Scene.
+			// Sending this scene's data (= users) to the Game Scene.
 			sceneData: this.data.getAll()
 		});
 
