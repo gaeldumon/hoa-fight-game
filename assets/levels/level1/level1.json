@@ -3,7 +3,7 @@
        "editorsettings": {
               "export": {
                      "format": "json",
-                     "target": "level0.json"
+                     "target": "level1.json"
               }
        },
        "height": 20,
@@ -52,7 +52,7 @@
                      "imageheight": 32,
                      "imagewidth": 640,
                      "margin": 0,
-                     "name": "level0-tilesheet",
+                     "name": "level1-tilesheet",
                      "spacing": 0,
                      "tilecount": 20,
                      "tileheight": 32,
