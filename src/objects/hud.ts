@@ -1,4 +1,5 @@
-import { getGameWidth, SIDE } from '../helpers';
+import { getGameWidth } from '../helpers';
+import { User } from './user';
 
 export class Hud {
 
@@ -8,10 +9,7 @@ export class Hud {
 
 	constructor(params: { 
 		scene: Phaser.Scene; 
-		side: SIDE;
-		avatarTextureKey: string; 
-		username: string; 
-		rank: number;
+		user: User;
 	}) {
 
 		this.textStyle = `font-family: Grobold, Arial; 
@@ -20,12 +18,12 @@ export class Hud {
 		color: #fff;
 		padding: 10px`;
 
-		if (params.side === SIDE.LEFT) {
+		if (params.user.screenSide === -1) {
 
 			this.avatar = params.scene.add.image(
 				0, 
 				35, 
-				params.avatarTextureKey
+				params.user.characterInstance.thumbnailKey
 			).setOrigin(0,0);
 			
 			this.text = params.scene.add.dom(
@@ -33,15 +31,15 @@ export class Hud {
 				0,
 				'h5',
 				this.textStyle,
-				`${params.username} | Rang: ${params.rank}`
+				`${params.user.username} | Rang: ${params.user.rank}`
 			).setOrigin(0,0);
 
-		} else if (params.side === SIDE.RIGHT) {
+		} else if (params.user.screenSide === 1) {
 
 			this.avatar = params.scene.add.image(
 				getGameWidth(params.scene), 
 				35, 
-				params.avatarTextureKey
+				params.user.characterInstance.thumbnailKey
 			).setOrigin(1,0);
 			
 			this.text = params.scene.add.dom(
@@ -49,7 +47,7 @@ export class Hud {
 				0,
 				'h5',
 				this.textStyle,
-				`${params.username} | Rang: ${params.rank}`
+				`${params.user.username} | Rang: ${params.user.rank}`
 			).setOrigin(1,0);
 
 		}
