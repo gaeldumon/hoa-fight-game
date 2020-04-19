@@ -145,7 +145,7 @@ export class MenuScene extends Phaser.Scene {
 		Gui.mainBtn({
 			scene: this,
 			text: "START",
-			stopSounds: false,
+			stopSounds: true,
 			scenePlugin: this.scene,
 			newSceneKey: 'Game',
 			// Sending this scene's data (= users) to the Game Scene.
