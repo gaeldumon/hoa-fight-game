@@ -68,7 +68,9 @@ export const COLORS = {
 	white: { string: '#ffffff', hex: 0xffffff }
 }
 
-
+// !!! Add multiple keys at once: 
+// this.keys = this.input.keyboard.addKeys('ENTER,W,A,S,D')
+// this.keys.ENTER.isDown...
 export const CONTROLKEYS = {
 	PLAYER: {
 		SET1: {
