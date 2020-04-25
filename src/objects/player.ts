@@ -1,14 +1,15 @@
 import { Projectile } from './projectile';
 import { HealthBar } from './healthBar';
+import { Character } from './character';
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
 
 	private _projectiles: Phaser.GameObjects.Group;
 	private healthBar: HealthBar;
 
-	private jumpKey: Phaser.Input.Keyboard.Key;
 	private rightKey: Phaser.Input.Keyboard.Key;
 	private leftKey: Phaser.Input.Keyboard.Key;
+	private jumpKey: Phaser.Input.Keyboard.Key;
 	private shootKey: Phaser.Input.Keyboard.Key;
 	private lastPressedKey: Phaser.Input.Keyboard.Key;
 
@@ -38,7 +39,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 	public hurt(): void {
 		if (this.health > 0) {
-			this.health -= 100;
+			this.health -= 20;
 			this.healthBar.decrease(20);
 		}
 		// Debug
@@ -138,15 +139,15 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.setCollideWorldBounds(true);
 	}
 
-	private initControls(params): void {
-		this.jumpKey = this.scene.input.keyboard.addKey(params.controlKeys['jump']),
-		this.rightKey = this.scene.input.keyboard.addKey(params.controlKeys['right']),
-		this.leftKey = this.scene.input.keyboard.addKey(params.controlKeys['left']),
-		this.shootKey = this.scene.input.keyboard.addKey(params.controlKeys['shoot'])
+	private initControls(pKeys): void {
+		this.jumpKey = this.scene.input.keyboard.addKey(pKeys['jump']);
+		this.rightKey = this.scene.input.keyboard.addKey(pKeys['right']);
+		this.leftKey = this.scene.input.keyboard.addKey(pKeys['left']);
+		this.shootKey = this.scene.input.keyboard.addKey(pKeys['shoot']);
 	}
 
-	private initHealthBar(params): void {
-		this.healthBar = params.healthBar;
+	private initHealthBar(pHealthBar: HealthBar): void {
+		this.healthBar = pHealthBar;
 	}
 
 	private initShooting(): void {
@@ -175,19 +176,27 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		}
 	}
 
-	constructor(params) {
+	constructor(params: { 
+		scene: Phaser.Scene; 
+		x: number; 
+		y: number; 
+		textureKey: string;
+		controlKeys: object;
+		healthBar: HealthBar;
+	}) {
+
 		super(params.scene, params.x, params.y, params.textureKey);
 		
 		this.scene.add.existing(this);
 
 		this.initSounds();
 		this.initVitals();
-		this.initHealthBar(params);
+		this.initHealthBar(params.healthBar);
 		this.initShooting();
 		this.initAnimations(params);
 		this.initPhysics();
 		this.applyPhysics();
-		this.initControls(params);
+		this.initControls(params.controlKeys);
 
 		// Restrain the boundingBox
 		this.setSize(20, 60);

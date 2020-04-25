@@ -40,7 +40,7 @@ export class HealthBar {
         this.bar.fillRect(this.x, this.y, healthWidth, this.height);
     }
 
-    constructor(params) {
+    constructor(params: { scene: Phaser.Scene; x: number; y: number; }) {
         // Equivalent to this.bar = params.scene.add.graphics()
         this.bar = new Phaser.GameObjects.Graphics(params.scene);
         this.x = params.x;

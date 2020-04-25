@@ -20,7 +20,6 @@ export class Tilemap {
 		id: number; 
 	}) {
 
-
 		this.map = params.scene.make.tilemap({ 
 			key: `level${params.id}`
 		});
@@ -36,7 +35,7 @@ export class Tilemap {
 		);
 
 		this._mainLayer.setCollisionByProperty({ 
-			collides: true 
+			collides: true
 		});
 
 		this.subLayer = this.map.createStaticLayer(
