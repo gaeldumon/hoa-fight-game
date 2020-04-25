@@ -16,6 +16,14 @@ export class GameoverScene extends Phaser.Scene {
 		super(sceneConfig);
 	}
 
+	init(data) {
+		// Undefined
+		console.log(data.winner);
+		
+		console.log(data.users[0].playerInstance);
+		console.log(data.users[1].playerInstance);
+	}
+
 
 	create() {
 

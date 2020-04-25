@@ -7,5 +7,5 @@ export default [
 	BootScene,
 	MenuScene,
 	GameScene,
-	//GameoverScene
+	GameoverScene
 ];

@@ -4,6 +4,7 @@ import { Hud } from '../objects/hud';
 import { Player } from '../objects/player';
 import { HealthBar } from '../objects/healthBar';
 import { Level } from '../objects/level';
+import { User } from '../objects/user';
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -24,7 +25,7 @@ export class GameScene extends Phaser.Scene {
 	private bombCreationEvent: Phaser.Time.TimerEvent;
 	private newSceneTimedEvent: Phaser.Time.TimerEvent;
 	private musicTheme: Phaser.Sound.BaseSound;
-	
+
 
 	private setColliders(): void {
 
@@ -138,11 +139,6 @@ export class GameScene extends Phaser.Scene {
 			})
 		});
 
-		this.hud1 = new Hud({
-			scene: this,
-			user: data.users[0]
-		});
-
 		this.player2 = new Player({
 			scene: this,
 			x: 900,
@@ -161,12 +157,22 @@ export class GameScene extends Phaser.Scene {
 			})
 		});
 
+		this.hud1 = new Hud({
+			scene: this,
+			user: data.users[0]
+		});
+
 		this.hud2 = new Hud({
 			scene: this,
 			user: data.users[1]
 		});
 
 		this.setColliders();
+
+		data.users[0].playerInstance = this.player1;
+		data.users[1].playerInstance = this.player2;
+
+		this.data.set('users', data.users);
 	}
 
 	update() {
@@ -176,18 +182,10 @@ export class GameScene extends Phaser.Scene {
 
 		if (this.player1.isDead() || this.player2.isDead()) {
 
-			if (this.player1.isDead()) {
-
-
-			} else if (this.player2.isDead()) {
-
-
-			}
-
 			this.newSceneTimedEvent = this.time.addEvent({
 
 				delay: 2000,
-				callback: () => this.scene.start('Gameover')
+				callback: () => this.scene.start('Gameover', this.data.getAll())
 
 			});
 		}
