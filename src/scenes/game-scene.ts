@@ -81,7 +81,6 @@ export class GameScene extends Phaser.Scene {
 				this.player2.setState(Player.States.HURT);
 			}
 		);
-
 	}
 
 
@@ -92,6 +91,79 @@ export class GameScene extends Phaser.Scene {
 
 	init(data) {
 		console.log(data);
+
+		for (const user of data.users) {
+
+			let tk = user.characterInstance.textureKey;
+
+			this.anims.create({
+				key: `${tk}WALK`,
+				frames: this.anims.generateFrameNames(tk, {
+					prefix: 'walk-side-armed',
+					start: 1,
+					end: 4,
+					zeroPad: 2
+				}),
+				frameRate: 10,
+				repeat: -1
+			});
+
+			this.anims.create({
+				key: `${tk}WALK_SHOOT`,
+				frames: this.anims.generateFrameNames(tk, {
+					prefix: 'walk-side-shoot',
+					start: 1,
+					end: 4,
+					zeroPad: 2
+				}),
+				repeat: -1
+			});
+
+			this.anims.create({
+				key: `${tk}IDLE`,
+				frames: this.anims.generateFrameNames(tk, {
+					prefix: 'idle-front-armed',
+					start: 1,
+					end: 4,
+					zeroPad: 2
+				}),
+				frameRate: 10,
+				repeat: -1
+			});
+
+			this.anims.create({
+				key: `${tk}IDLE_SHOOT`,
+				frames: this.anims.generateFrameNames(tk, {
+					prefix: 'idle-front-shoot',
+					start: 1,
+					end: 1,
+					zeroPad: 2
+				}),
+				repeat: -1
+			});
+
+			this.anims.create({
+				key: `${tk}HIT`,
+				frames: this.anims.generateFrameNames(tk, {
+					prefix: 'hit',
+					start: 1,
+					end: 1,
+					zeroPad: 2,
+				}),
+				repeat: -1
+			});
+
+			this.anims.create({
+				key: `${tk}DIE`,
+				frames: this.anims.generateFrameNames(tk, {
+					prefix: 'dead',
+					start: 1,
+					end: 1,
+					zeroPad: 2,
+				}),
+				repeat: 1
+			});
+		}
 	}
 
 
@@ -121,6 +193,8 @@ export class GameScene extends Phaser.Scene {
 			callbackScope: this
 		});
 
+		// This player instance is overriding the other in terms of texture !!
+		// Problem with the animations
 		this.player1 = new Player({
 			scene: this,
 			x: 300,
@@ -181,6 +255,8 @@ export class GameScene extends Phaser.Scene {
 		this.player2.update();
 
 		if (this.player1.isDead() || this.player2.isDead()) {
+
+			// ...
 
 			this.newSceneTimedEvent = this.time.addEvent({
 
