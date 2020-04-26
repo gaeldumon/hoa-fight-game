@@ -23,6 +23,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private jumpVelocity: number;
 	private bounce: number;
 
+	
+
 	public static readonly States = {
 		STANDING: 'STAND',
 		HURT: 'HURT',
@@ -44,76 +46,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		}
 		// Debug
 		console.log(`Health: ${this.health}`);
-	}
-
-	private initAnimations(params): void {
-		this.scene.anims.create({
-			key: 'WALK',
-			frames: this.scene.anims.generateFrameNames(params.textureKey, {
-				prefix: 'walk-side-armed',
-				start: 1,
-				end: 4,
-				zeroPad: 2
-			}),
-			frameRate: 10,
-			repeat: -1
-		});
-
-		this.scene.anims.create({
-			key: 'WALK_SHOOT',
-			frames: this.scene.anims.generateFrameNames(params.textureKey, {
-				prefix: 'walk-side-shoot',
-				start: 1,
-				end: 4,
-				zeroPad: 2
-			}),
-			repeat: -1
-		});
-
-		this.scene.anims.create({
-			key: 'IDLE',
-			frames: this.scene.anims.generateFrameNames(params.textureKey, {
-				prefix: 'idle-front-armed',
-				start: 1,
-				end: 4,
-				zeroPad: 2
-			}),
-			frameRate: 10,
-			repeat: -1
-		});
-
-		this.scene.anims.create({
-			key: 'IDLE_SHOOT',
-			frames: this.scene.anims.generateFrameNames(params.textureKey, {
-				prefix: 'idle-front-shoot',
-				start: 1,
-				end: 1,
-				zeroPad: 2
-			}),
-			repeat: -1
-		});
-
-		this.scene.anims.create({
-			key: 'HIT',
-			frames: this.scene.anims.generateFrameNames(params.textureKey, {
-				prefix: 'hit',
-				start: 1,
-				end: 1,
-				zeroPad: 2,
-			}),
-			repeat: -1
-		});
-
-		this.scene.anims.create({
-			key: 'DIE',
-			frames: this.scene.anims.generateFrameNames(params.textureKey, {
-				prefix: 'dead',
-				start: 1,
-				end: 1,
-				zeroPad: 2,
-			}),
-			repeat: 1
-		});
 	}
 
 	private initSounds(): void {
@@ -186,14 +118,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	}) {
 
 		super(params.scene, params.x, params.y, params.textureKey);
-		
+
 		this.scene.add.existing(this);
 
 		this.initSounds();
 		this.initVitals();
 		this.initHealthBar(params.healthBar);
 		this.initShooting();
-		this.initAnimations(params);
 		this.initPhysics();
 		this.applyPhysics();
 		this.initControls(params.controlKeys);
@@ -202,14 +133,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.setSize(20, 60);
 
 		this.setState(Player.States.STANDING);
-
 	}
 
 	update(): void {
 
 		// Jumping
 		if (this.jumpKey.isDown) {
-			if (this.body.blocked.down) {
+			if (this.body.blocked.down || this.body.touching.down) {
 				this.setVelocityY(this.jumpVelocity);
 				this.jumpSound.play();
 			}
@@ -217,11 +147,11 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		} else if (this.rightKey.isDown || this.leftKey.isDown) {
 			// Shooting while walking => Warning: double state at once!
 			if (this.shootKey.isDown) {
-				this.anims.play('WALK_SHOOT', true);
+				this.anims.play(`${this.texture.key}WALK_SHOOT`, true);
 				this.shoot();
 			// Just walking
 			} else {
-				this.anims.play('WALK', true);
+				this.anims.play(`${this.texture.key}WALK`, true);
 				// Okay now one state: only walking
 			}
 			// Walking : going right
@@ -239,11 +169,11 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 			this.setVelocityX(0);
 			// Shooting while idling => Warning: double state at once!
 			if (this.shootKey.isDown) {
-				this.anims.play('IDLE_SHOOT', true);
+				this.anims.play(`${this.texture.key}IDLE_SHOOT`, true);
 				this.shoot();
 			// Just not walking
 			} else {
-				this.anims.play('IDLE', true);
+				this.anims.play(`${this.texture.key}IDLE`, true);
 			}
 		}
 
