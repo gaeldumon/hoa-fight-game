@@ -128,7 +128,7 @@ export class BootScene extends Phaser.Scene {
 	create() {
 
 		this.musicTheme = this.sound.add('menuTheme');
-		this.musicTheme.play();
+		//this.musicTheme.play();
 
 		this.background = this.add.image(
 			getGameWidth(this)/2, 
