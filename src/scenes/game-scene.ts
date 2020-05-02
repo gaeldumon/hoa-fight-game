@@ -35,6 +35,8 @@ export class GameScene extends Phaser.Scene {
 	private bombCreationEvent: Phaser.Time.TimerEvent;
 	private newSceneTimedEvent: Phaser.Time.TimerEvent;
 
+	private winner: User;
+
 
 	private setColliders(): void {
 		this.physics.add.collider(
@@ -245,6 +247,8 @@ export class GameScene extends Phaser.Scene {
 
 		this.data.values.users[0].playerInstance = this.player1;
 		this.data.values.users[1].playerInstance = this.player2;
+
+		this.data.set('users', this.data.values.users);
 	}
 
 	update() {
@@ -252,15 +256,27 @@ export class GameScene extends Phaser.Scene {
 		this.player1.update();
 		this.player2.update();
 
+		// All this is dangerous and not acceptable. The new scene start timed event 
+		// is asynchronous so I don't have any certainty that a winner will be set
+		// correctly before scene transfer. Basically right now it works cause
+		// of the generous timeout of 5 seconds.
 		if (this.player1.isDead() || this.player2.isDead()) {
 
+			if (this.player1.isDead() && !this.player2.isDead()) {
+				this.winner = this.data.values.users[1];
+			} else if (!this.player1.isDead() && this.player2.isDead()) {
+				this.winner = this.data.values.users[0];
+			} else if (this.player2.isDead() && this.player2.isDead()) {
+				this.winner = null;
+			}
+
+			this.data.set('winner', this.winner);
 			this.newSceneTimedEvent = this.time.addEvent({
-
-				delay: 2000,
+				delay: 5000,
 				callback: () => this.scene.start('Gameover', this.data.getAll())
-
 			});
 		}
-		
 	}
 }
+
+
