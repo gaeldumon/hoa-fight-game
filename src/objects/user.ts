@@ -133,5 +133,4 @@ export class User {
 
 	}
 
-
- }
+}

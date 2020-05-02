@@ -31,7 +31,7 @@ export class Hud {
 				0,
 				'h5',
 				this.textStyle,
-				`${params.user.username} | Rang: ${params.user.rank}`
+				`${params.user.username} | Rang ${params.user.rank}`
 			).setOrigin(0,0);
 
 		} else if (params.user.screenSide === 1) {
@@ -47,7 +47,7 @@ export class Hud {
 				0,
 				'h5',
 				this.textStyle,
-				`${params.user.username} | Rang: ${params.user.rank}`
+				`${params.user.username} | Rang ${params.user.rank}`
 			).setOrigin(1,0);
 
 		}

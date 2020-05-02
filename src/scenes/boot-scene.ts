@@ -30,7 +30,6 @@ export class BootScene extends Phaser.Scene {
 
 	init() {
 
-
 		this.levels = [
 			new Level({
 				id: 1,

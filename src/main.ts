@@ -32,6 +32,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 	},
 
 	parent: 'game',
+	
 	scene: Scenes
 };
 

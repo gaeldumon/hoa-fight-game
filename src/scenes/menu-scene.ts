@@ -26,12 +26,12 @@ export class MenuScene extends Phaser.Scene {
 
 	private initThumbnails(data): void {
 		// Init the level thumbnail on the 1st level thumbnail (index 0)
-		this.levelThumb = this.add.image(200, 300, data.levels[0].thumbnailKey);
+		this.levelThumb = this.add.image(200, 300, data.values.levels[0].thumbnailKey);
 
 		// Init the 2 characters thumbnails with the 1st character thumbnail.
 		this.characterThumbs = [
-			this.add.image(650, 300, data.characters[0].thumbnailKey),
-			this.add.image(850, 300, data.characters[0].thumbnailKey)
+			this.add.image(650, 300, data.values.characters[0].thumbnailKey),
+			this.add.image(850, 300, data.values.characters[0].thumbnailKey)
 		];
 	}
 
@@ -47,9 +47,9 @@ export class MenuScene extends Phaser.Scene {
 	}
 
 	private initUsersChoices(data): void {
-		for (const user of data.users) {
-			user.levelInstance = data.levels[0];
-			user.characterInstance = data.characters[0];
+		for (const user of data.values.users) {
+			user.levelInstance = data.values.levels[0];
+			user.characterInstance = data.values.characters[0];
 		}
 	}
 
@@ -58,11 +58,21 @@ export class MenuScene extends Phaser.Scene {
 		super(sceneConfig);
 	}
 
-	init(data) {
-		this.initUsersChoices(data);
-	}
+	init(bootSceneData) {
 
-	preload() {
+		if (bootSceneData.users !== undefined && 
+		bootSceneData.characters !== undefined && 
+		bootSceneData.levels !== undefined) {
+
+			this.data.set('users',bootSceneData.users);
+			this.data.set('characters', bootSceneData.characters);
+			this.data.set('levels', bootSceneData.levels);
+
+		} else {
+			throw new Error("Error getting users, characters and levels data from Boot Scene");
+		}
+
+		this.initUsersChoices(this.data);
 	}
 
 	/**
@@ -72,10 +82,10 @@ export class MenuScene extends Phaser.Scene {
 	 * and levels (elements of data.levels) instances will be attached to the 
 	 * users instances (data.users).
 	 */
-	create(data) {
+	create() {
 		
 		this.drawBackground();
-		this.initThumbnails(data);
+		this.initThumbnails(this.data);
 		this.printTitles();
 		this.printTexts();
 
@@ -87,12 +97,12 @@ export class MenuScene extends Phaser.Scene {
 			y: 450, 
 			text: "Suivant",
 			img: this.levelThumb,
-			textureKeys: data.levels.map(level => level.thumbnailKey),
+			textureKeys: this.data.values.levels.map(level => level.thumbnailKey),
 			callback: () => {
-				for (const level of data.levels) {
+				for (const level of this.data.values.levels) {
 					if (level.thumbnailKey === this.levelThumb.texture.key) {
-						data.users[0].levelInstance = level;
-						data.users[1].levelInstance = level;
+						this.data.values.users[0].levelInstance = level;
+						this.data.values.users[1].levelInstance = level;
 					}
 				}
 			}
@@ -107,11 +117,11 @@ export class MenuScene extends Phaser.Scene {
 			y: 400, 
 			text: "Suivant",
 			img: this.characterThumbs[0],
-			textureKeys: data.characters.map(c => c.thumbnailKey),
+			textureKeys: this.data.values.characters.map(c => c.thumbnailKey),
 			callback: () => {
-				for (const c of data.characters) {
+				for (const c of this.data.values.characters) {
 					if (c.thumbnailKey === this.characterThumbs[0].texture.key) {
-						data.users[0].characterInstance = c;
+						this.data.values.users[0].characterInstance = c;
 					}
 				}
 			}
@@ -125,11 +135,11 @@ export class MenuScene extends Phaser.Scene {
 			y: 400, 
 			text: "Suivant",
 			img: this.characterThumbs[1],
-			textureKeys: data.characters.map(c => c.thumbnailKey),
+			textureKeys: this.data.values.characters.map(c => c.thumbnailKey),
 			callback: () => {
-				for (const c of data.characters) {
+				for (const c of this.data.values.characters) {
 					if (c.thumbnailKey === this.characterThumbs[1].texture.key) {
-						data.users[1].characterInstance = c;
+						this.data.values.users[1].characterInstance = c;
 					}
 				}
 			}
@@ -139,7 +149,7 @@ export class MenuScene extends Phaser.Scene {
 		// Set the MODIFIED users data from the boot scene to this actual scene.
 		// Modified because level and characters instances has been linked to
 		// each users thanks to the slide buttons callbacks and the thumbnails.
-		this.data.set('users', data.users);
+		this.data.set('users', this.data.values.users);
 
 
 		Gui.mainBtn({
