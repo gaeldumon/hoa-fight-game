@@ -17,7 +17,7 @@ export class GameoverScene extends Phaser.Scene {
 	}
 
 	init(gameSceneData) {
-
+		console.log(gameSceneData.winner);
 	}
 
 
