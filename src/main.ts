@@ -23,7 +23,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 			gravity: {
 				y: 0
 			},
-			debug: true,
+			debug: false,
 		},
 	},
 
