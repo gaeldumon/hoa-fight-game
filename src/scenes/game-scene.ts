@@ -273,7 +273,10 @@ export class GameScene extends Phaser.Scene {
 			this.data.set('winner', this.winner);
 			this.newSceneTimedEvent = this.time.addEvent({
 				delay: 5000,
-				callback: () => this.scene.start('Gameover', this.data.getAll())
+				callback: () => {
+					this.sound.stopAll();
+					this.scene.start('Gameover', this.data.getAll());
+				}
 			});
 		}
 	}
