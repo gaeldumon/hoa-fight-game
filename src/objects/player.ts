@@ -23,12 +23,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private jumpVelocity: number;
 	private bounce: number;
 
-	public static readonly States = {
-		STANDING: 'STAND',
-		HURT: 'HURT',
-		DIE: 'DIE'
-	}
-
 	public get projectiles(): Phaser.GameObjects.Group {
 		return this._projectiles;
 	}
@@ -106,6 +100,72 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		}
 	}
 
+	private handleFlipping(): void {
+		if (this.lastPressedKey === this.leftKey) {
+			// Changed sprite orientation: facing left
+			this.flipX = true;
+		} else if (this.lastPressedKey === this.rightKey) {
+			// Original sprite orientation: facing right
+			this.flipX = false;
+		} else {
+			// Original sprite orientation: facing right
+			this.flipX = false;
+		}
+	}
+
+	private handleJumping(): void {
+		if (this.jumpKey.isDown) {
+			if (this.body.blocked.down || this.body.touching.down) {
+				this.setVelocityY(this.jumpVelocity);
+				this.jumpSound.play();
+			}
+		} 
+	}
+
+	/**
+	 * Handle idling (doing nothing) AND idling-shooting.
+	 * This includes animation playing, checking key press, setting velocity,
+	 * create shoots.
+	 */
+	private handleIdling(): void {
+		this.setVelocityX(0);
+		// Shooting while idling => Warning: double state at once!
+		if (this.shootKey.isDown) {
+			this.anims.play(`${this.texture.key}IDLE_SHOOT`, true);
+			this.shoot();
+		// Not walking only
+		} else {
+			this.anims.play(`${this.texture.key}IDLE`, true);
+		}
+	}
+
+	/**
+	 * Handle walking AND walking-shooting.
+	 * This includes animation playing, checking key press, setting velocity,
+	 * create shoots and remembering last pressed key.
+	 */
+	private handleWalking(): void {
+		// Shooting while walking => Warning: double state at once!
+		if (this.shootKey.isDown) {
+			this.anims.play(`${this.texture.key}WALK_SHOOT`, true);
+			this.shoot();
+		// Just walking
+		} else {
+			this.anims.play(`${this.texture.key}WALK`, true);
+			// Okay now one state: only walking
+		}
+		// Walking : going right
+		if (this.rightKey.isDown) {
+			this.lastPressedKey = this.rightKey;
+			this.setVelocityX(this.vx);
+		}
+		// Walking : going left
+		if (this.leftKey.isDown) {
+			this.lastPressedKey = this.leftKey;
+			this.setVelocityX(-this.vx);
+		}
+	}
+
 	constructor(params: { 
 		scene: Phaser.Scene; 
 		x: number; 
@@ -129,65 +189,22 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 		// Restrain the boundingBox
 		this.setSize(20, 60);
-
-		this.setState(Player.States.STANDING);
 	}
 
 	update(): void {
 
-		// Jumping
-		if (this.jumpKey.isDown) {
-			if (this.body.blocked.down || this.body.touching.down) {
-				this.setVelocityY(this.jumpVelocity);
-				this.jumpSound.play();
-			}
-		} 
+		// This is detached from the other block because you can do anything
+		// while jumping: walk/walk-shoot, idle/idle-shoot. So it isn't 
+		// dependant of whether you're pressing left or right or whatever.
+		this.handleJumping();
 		
-		// Walking
 		if (this.rightKey.isDown || this.leftKey.isDown) {
-			// Shooting while walking => Warning: double state at once!
-			if (this.shootKey.isDown) {
-				this.anims.play(`${this.texture.key}WALK_SHOOT`, true);
-				this.shoot();
-			// Just walking
-			} else {
-				this.anims.play(`${this.texture.key}WALK`, true);
-				// Okay now one state: only walking
-			}
-			// Walking : going right
-			if (this.rightKey.isDown) {
-				this.lastPressedKey = this.rightKey;
-				this.setVelocityX(this.vx);
-			}
-			// Walking : going left
-			if (this.leftKey.isDown) {
-				this.lastPressedKey = this.leftKey;
-				this.setVelocityX(-this.vx);
-			}
-		// Not walking (idling)
+			this.handleWalking();
 		} else {
-			this.setVelocityX(0);
-			// Shooting while idling => Warning: double state at once!
-			if (this.shootKey.isDown) {
-				this.anims.play(`${this.texture.key}IDLE_SHOOT`, true);
-				this.shoot();
-			// Just not walking
-			} else {
-				this.anims.play(`${this.texture.key}IDLE`, true);
-			}
+			this.handleIdling();
 		}
 
-		if (this.lastPressedKey === this.leftKey) {
-			// Changed sprite orientation: facing left
-			this.flipX = true;
-		} else if (this.lastPressedKey === this.rightKey) {
-			// Original sprite orientation: facing right
-			this.flipX = false;
-		} else {
-			// Original sprite orientation: facing right
-			this.flipX = false;
-		}
-
+		this.handleFlipping();
 	}
 
 }
