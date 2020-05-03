@@ -47,16 +47,16 @@ export class GameScene extends Phaser.Scene {
 			this.bombs,
 			this.player1,
 			() => {
-				this.bombs.getFirstAlive().destroy();
 				this.player1.hurt();
+				this.bombs.getFirstAlive().destroy();
 			}
 		);
 		this.physics.add.collider(
 			this.bombs,
 			this.player2,
 			() => {
-				this.bombs.getFirstAlive().destroy();
 				this.player2.hurt();
+				this.bombs.getFirstAlive().destroy();
 			}
 		);
 		this.physics.add.collider(
@@ -70,17 +70,17 @@ export class GameScene extends Phaser.Scene {
 		this.physics.add.collider(
 			this.player1,
 			this.player2.projectiles,
-			() => { 
-				this.player2.projectiles.getFirstAlive().destroy();
+			() => {
 				this.player1.hurt();
+				this.player2.projectiles.getFirstAlive().destroy();
 			}
 		);
 		this.physics.add.collider(
 			this.player2,
 			this.player1.projectiles,
-			() => { 
-				this.player1.projectiles.getFirstAlive().destroy();
+			() => {
 				this.player2.hurt();
+				this.player1.projectiles.getFirstAlive().destroy();
 			}
 		);
 	}
@@ -97,8 +97,6 @@ export class GameScene extends Phaser.Scene {
 			this.data.set('users', menuSceneData.users);
 		}
 		
-		console.log(this.data.values.users);
-
 		// Animations creation
 		for (const user of this.data.get('users')) {
 
@@ -154,7 +152,7 @@ export class GameScene extends Phaser.Scene {
 					end: 1,
 					zeroPad: 2,
 				}),
-				repeat: -1
+				repeat: 1
 			});
 			this.anims.create({
 				key: `${tk}DIE`,
@@ -254,6 +252,7 @@ export class GameScene extends Phaser.Scene {
 		this.player1.update();
 		this.player2.update();
 
+		// Winner handling.
 		// All this is dangerous and not acceptable. The new scene start timed event 
 		// is asynchronous so I don't have any certainty that a winner will be set
 		// correctly before scene transfer. Basically right now it works cause
@@ -261,14 +260,21 @@ export class GameScene extends Phaser.Scene {
 		if (this.player1.isDead() || this.player2.isDead()) {
 
 			if (this.player1.isDead() && !this.player2.isDead()) {
+
 				this.winner = this.data.values.users[1];
+
 			} else if (!this.player1.isDead() && this.player2.isDead()) {
+
 				this.winner = this.data.values.users[0];
+
 			} else if (this.player2.isDead() && this.player2.isDead()) {
+
 				this.winner = null;
+
 			}
 
 			this.data.set('winner', this.winner);
+			
 			this.newSceneTimedEvent = this.time.addEvent({
 				delay: 5000,
 				callback: () => {
@@ -276,8 +282,10 @@ export class GameScene extends Phaser.Scene {
 					this.scene.start('Gameover', this.data.getAll());
 				}
 			});
+			
 		}
 	}
+
 }
 
 
