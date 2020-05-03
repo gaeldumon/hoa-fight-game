@@ -23,8 +23,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private jumpVelocity: number;
 	private bounce: number;
 
-	
-
 	public static readonly States = {
 		STANDING: 'STAND',
 		HURT: 'HURT',
@@ -143,8 +141,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 				this.setVelocityY(this.jumpVelocity);
 				this.jumpSound.play();
 			}
+		} 
+		
 		// Walking
-		} else if (this.rightKey.isDown || this.leftKey.isDown) {
+		if (this.rightKey.isDown || this.leftKey.isDown) {
 			// Shooting while walking => Warning: double state at once!
 			if (this.shootKey.isDown) {
 				this.anims.play(`${this.texture.key}WALK_SHOOT`, true);
