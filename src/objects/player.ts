@@ -23,6 +23,12 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private jumpVelocity: number;
 	private bounce: number;
 
+	private readonly STATES = {
+		ALIVE: 'ALIVE',
+		HURT: 'HURT',
+		DIE: 'DIE'
+	}
+
 	public get projectiles(): Phaser.GameObjects.Group {
 		return this._projectiles;
 	}
@@ -33,11 +39,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 	public hurt(): void {
 		if (this.health > 0) {
+
 			this.health -= 20;
 			this.healthBar.decrease(20);
+
+			this.setState(this.STATES.HURT);
+
 		}
-		// Debug
-		console.log(`Health: ${this.health}`);
 	}
 
 	private initSounds(): void {
@@ -95,12 +103,14 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 					textureKey: 'projectile'
 				})
 			);
-			this.shootSound.play();
 			this.lastShoot = this.scene.time.now + 500;
 		}
 	}
 
-	private handleFlipping(): void {
+	/**
+	 * Flipping the sprite on its X axis, depending on which direction you go.
+	 */
+	private handleSpriteFlipping(): void {
 		if (this.lastPressedKey === this.leftKey) {
 			// Changed sprite orientation: facing left
 			this.flipX = true;
@@ -129,13 +139,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	 */
 	private handleIdling(): void {
 		this.setVelocityX(0);
-		// Shooting while idling => Warning: double state at once!
+		this.anims.play(`${this.texture.key}IDLE`, true);
+
+		// Idling-Shooting
 		if (this.shootKey.isDown) {
 			this.anims.play(`${this.texture.key}IDLE_SHOOT`, true);
 			this.shoot();
-		// Not walking only
-		} else {
-			this.anims.play(`${this.texture.key}IDLE`, true);
+			this.shootSound.play();
 		}
 	}
 
@@ -145,24 +155,24 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	 * create shoots and remembering last pressed key.
 	 */
 	private handleWalking(): void {
-		// Shooting while walking => Warning: double state at once!
-		if (this.shootKey.isDown) {
-			this.anims.play(`${this.texture.key}WALK_SHOOT`, true);
-			this.shoot();
-		// Just walking
-		} else {
-			this.anims.play(`${this.texture.key}WALK`, true);
-			// Okay now one state: only walking
-		}
+		this.anims.play(`${this.texture.key}WALK`, true);
+
 		// Walking : going right
 		if (this.rightKey.isDown) {
-			this.lastPressedKey = this.rightKey;
 			this.setVelocityX(this.vx);
+			this.lastPressedKey = this.rightKey;	
 		}
 		// Walking : going left
 		if (this.leftKey.isDown) {
-			this.lastPressedKey = this.leftKey;
 			this.setVelocityX(-this.vx);
+			this.lastPressedKey = this.leftKey;
+		}
+
+		// Walking-Shooting
+		if (this.shootKey.isDown) {
+			this.anims.play(`${this.texture.key}WALK_SHOOT`, true);
+			this.shoot();
+			this.shootSound.play();
 		}
 	}
 
@@ -178,33 +188,68 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		super(params.scene, params.x, params.y, params.textureKey);
 
 		this.scene.add.existing(this);
-
+		this.initPhysics();
+		this.applyPhysics();
 		this.initSounds();
 		this.initVitals();
 		this.initHealthBar(params.healthBar);
 		this.initShooting();
-		this.initPhysics();
-		this.applyPhysics();
 		this.initControls(params.controlKeys);
 
 		// Restrain the boundingBox
 		this.setSize(20, 60);
+
+		this.setState(this.STATES.ALIVE);
 	}
 
 	update(): void {
 
-		// This is detached from the other block because you can do anything
-		// while jumping: walk/walk-shoot, idle/idle-shoot. So it isn't 
-		// dependant of whether you're pressing left or right or whatever.
-		this.handleJumping();
-		
-		if (this.rightKey.isDown || this.leftKey.isDown) {
-			this.handleWalking();
-		} else {
-			this.handleIdling();
+		if (this.isDead()) {
+			this.state = this.STATES.DIE;
 		}
 
-		this.handleFlipping();
-	}
+		if (this.state === this.STATES.ALIVE) {
+			// This is detached from the other block because you can do anything
+			// while jumping: walk/walk-shoot, idle/idle-shoot. So it isn't 
+			// dependant of whether you're pressing left or right or whatever.
+			this.handleJumping();
 
+			if (this.rightKey.isDown || this.leftKey.isDown) {
+				this.handleWalking();
+			} else {
+				this.handleIdling();
+			}
+
+			this.handleSpriteFlipping();
+
+		} else if (this.state === this.STATES.HURT) {
+
+			this.anims.play(`${this.texture.key}HIT`, true);
+
+			this.setVelocityX(0);
+
+			this.scene.time.addEvent({
+				delay: 1000,
+				loop: false,
+				callback: () => {
+
+					this.setState(this.STATES.ALIVE);
+
+				}
+			});
+
+		} else if (this.state === this.STATES.DIE) {
+
+			// We don't reset state to ALIVE cause it's end of the game
+
+			this.anims.play(`${this.texture.key}DIE`, true);
+
+			this.setVelocityX(0);
+
+		} else {
+
+			throw new Error("Unknown Player State");
+
+		}
+	}
 }
