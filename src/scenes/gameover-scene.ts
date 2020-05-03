@@ -16,8 +16,11 @@ export class GameoverScene extends Phaser.Scene {
 		super(sceneConfig);
 	}
 
+
 	init(gameSceneData) {
-		console.log(gameSceneData.winner);
+		if (gameSceneData.winner !== undefined) {
+			this.data.set('winner', gameSceneData.winner);
+		}
 	}
 
 
@@ -34,16 +37,23 @@ export class GameoverScene extends Phaser.Scene {
 		Gui.customText({ 
 			scene: this, 
 			x: getGameWidth(this)/2, 
-			y: 180,
-			text: ""
+			y: 200,
+			text: `${this.data.values.winner.username} remporte la partie !`
 		}); 
 
 		Gui.customText({ 
 			scene: this, 
 			x: getGameWidth(this)/2, 
-			y: 240,
-			text: ""
-		}); 
+			y: 260,
+			text: `Ancien score : ${this.data.values.winner.score}`
+		});
+
+		Gui.customText({ 
+			scene: this, 
+			x: getGameWidth(this)/2, 
+			y: 320,
+			text: `Nouveau score : ${this.data.values.winner.updateScore()}`
+		});
 
 		Gui.mainBtn({
 			scene: this,
