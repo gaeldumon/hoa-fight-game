@@ -104,6 +104,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 				})
 			);
 			this.lastShoot = this.scene.time.now + 500;
+			// Playing sound here ensures us it is played only once every shoot
+			this.shootSound.play();
 		}
 	}
 
@@ -145,7 +147,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		if (this.shootKey.isDown) {
 			this.anims.play(`${this.texture.key}IDLE_SHOOT`, true);
 			this.shoot();
-			this.shootSound.play();
 		}
 	}
 
@@ -172,7 +173,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		if (this.shootKey.isDown) {
 			this.anims.play(`${this.texture.key}WALK_SHOOT`, true);
 			this.shoot();
-			this.shootSound.play();
 		}
 	}
 
@@ -204,9 +204,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 	update(): void {
 
-		if (this.isDead()) {
-			this.state = this.STATES.DIE;
-		}
+		if (this.isDead()) this.state = this.STATES.DIE;
 
 		if (this.state === this.STATES.ALIVE) {
 			// This is detached from the other block because you can do anything
