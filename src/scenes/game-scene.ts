@@ -178,7 +178,7 @@ export class GameScene extends Phaser.Scene {
 		});
 		
 		this.bombCreationEvent = this.time.addEvent({
-			delay: 10000,
+			delay: 2000,
 			loop: true,
 			callback: () => {
 				this.bombs.add(
