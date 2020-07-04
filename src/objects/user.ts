@@ -10,6 +10,7 @@ export class User {
 	private _id: number;
 	private _username: string;
 	private _score: number;
+	private _ratio: number;
 	private _rank: number;
 	private _avatar: string;
 	private _isGuest: boolean;
@@ -38,6 +39,13 @@ export class User {
 	 */
 	public get score(): number {
 		return this._score;
+	}
+
+	/**
+	 * User's ratio from DB.
+	 */
+	public get ratio(): number {
+		return this._ratio;
 	}
 	
 	/**
@@ -117,6 +125,7 @@ export class User {
 		id: number; 
 		username: string; 
 		score: number; 
+		ratio: number;
 		rank: number; 
 		avatar: string;
 		isGuest: boolean;
@@ -126,6 +135,7 @@ export class User {
 		this._id = params.id;
 		this._username = params.username;
 		this._score = params.score;
+		this._ratio = params.ratio;
 		this._rank = params.rank;
 		this._avatar = params.avatar;
 		this._isGuest = params.isGuest;

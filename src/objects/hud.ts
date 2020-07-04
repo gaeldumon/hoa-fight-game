@@ -12,11 +12,13 @@ export class Hud {
 		user: User;
 	}) {
 
-		this.textStyle = `font-family: Grobold, Arial; 
-		margin: 0; 
-		font-size: 18px; 
-		color: #fff;
-		padding: 10px`;
+		this.textStyle = `
+			font-family: Grobold, Arial; 
+			margin: 0; 
+			font-size: 18px; 
+			color: #fff;
+			padding: 10px
+		`;
 
 		if (params.user.screenSide === -1) {
 

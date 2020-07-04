@@ -47,6 +47,7 @@ export class BootScene extends Phaser.Scene {
 				username: 'Foo10',
 				rank: 1,
 				score: 10,
+				ratio: 90,
 				avatar: '',
 				isGuest: false,
 				screenSide: -1
@@ -57,6 +58,7 @@ export class BootScene extends Phaser.Scene {
 				username: 'Boo20',
 				rank: 2,
 				score: 1,
+				ratio: 80,
 				avatar: '',
 				isGuest: false,
 				screenSide: 1
@@ -128,7 +130,7 @@ export class BootScene extends Phaser.Scene {
 	create() {
 
 		this.musicTheme = this.sound.add('menuTheme');
-		//this.musicTheme.play();
+		this.musicTheme.play();
 
 		this.background = this.add.image(
 			getGameWidth(this)/2, 
