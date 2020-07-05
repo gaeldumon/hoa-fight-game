@@ -18,10 +18,11 @@ export class BootScene extends Phaser.Scene {
 	private users: Array<User>;
 	private characters: Array<Character>;
 
-	private logo: Phaser.GameObjects.DOMElement;
+	private logo: Phaser.GameObjects.Image;
 	private btn: Phaser.GameObjects.DOMElement;
 	private background: Phaser.GameObjects.Image;
 	private musicTheme: Phaser.Sound.BaseSound;
+	private clickSound: Phaser.Sound.BaseSound;
 	
 
 	constructor() {
@@ -131,6 +132,7 @@ export class BootScene extends Phaser.Scene {
 
 		this.musicTheme = this.sound.add('menuTheme');
 		this.musicTheme.play();
+		this.clickSound = this.sound.add('clickSound');
 
 		this.background = this.add.image(
 			getGameWidth(this)/2, 
@@ -138,11 +140,23 @@ export class BootScene extends Phaser.Scene {
 			'backgroundForGUIScenes'
 		);
 
-		Gui.title({ scene: this, text: "HOA FIGHT" });
+		this.logo = this.add.image(
+			getGameWidth(this)/2, 
+			getGameHeight(this)/2.5,
+			'mainLogo'
+		);
+
+		Gui.customText({
+			scene: this,
+			x: this.logo.x,
+			y: this.logo.y + 84,
+			text: "Welcome to the fight !"
+		});
 		
 		Gui.mainBtn({ 
 			scene: this, 
-			text: "Menu", 
+			text: "Menu",
+			clickSound: this.clickSound, 
 			stopSounds: false,
 			scenePlugin: this.scene,
 			newSceneKey: 'Menu',

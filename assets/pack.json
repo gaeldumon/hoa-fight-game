@@ -49,29 +49,31 @@
 					"frameHeight": 32
 				}
 			},
-
 			{
 				"type": "image",
 				"key": "level2Background",
 				"url": "assets/levels/level2/level2-background.png"
 			},
-
 			{
 				"type": "image",
 				"key": "level2Thumbnail",
 				"url": "assets/levels/level2/level2-thumbnail.png"
 			},
-
 			{
 				"type": "audio",
 				"key": "level2Theme",
 				"url": "assets/levels/level2/sand-castle-3.mp3"
 			},
-
+			
 			{
 				"type": "image",
 				"key": "backgroundForGUIScenes",
 				"url": "assets/images/backgrounds/background-for-gui-scenes.png"
+			},
+			{
+				"type": "image",
+				"key": "mainLogo",
+				"url": "assets/images/backgrounds/main-logo.png"
 			},
 
 			{
@@ -106,6 +108,18 @@
 				"type": "audio",
 				"key": "shootSound",
 				"url": "assets/sounds/shoot.mp3"
+			},
+
+			{
+				"type": "audio",
+				"key": "clickSound",
+				"url": "assets/sounds/click.mp3"
+			},
+
+			{
+				"type": "audio",
+				"key": "launchGameSound",
+				"url": "assets/sounds/launch-game.mp3"
 			},
 
 			{

@@ -1,5 +1,4 @@
 import { getGameWidth, getGameHeight } from '../helpers';
-import { Data } from 'phaser';
 
 export class Gui {
 
@@ -32,12 +31,13 @@ export class Gui {
 	 * passed in arguments and stops all sounds if stopSounds set to true.
 	 */
 	public static mainBtn(params: {
-		 scene: Phaser.Scene; 
-		 text: string; 
-		 stopSounds: boolean; 
-		 scenePlugin: Phaser.Scenes.ScenePlugin; 
-		 newSceneKey: string;
-		 sceneData?: object;
+		scene: Phaser.Scene; 
+		text: string; 
+		clickSound?: Phaser.Sound.BaseSound;
+		stopSounds: boolean; 
+		scenePlugin: Phaser.Scenes.ScenePlugin; 
+		newSceneKey: string;
+		sceneData?: object;
 	}): void {
 
 		params.scene.add.dom(
@@ -49,6 +49,10 @@ export class Gui {
 			params.text
 
 		).addListener('click').on('click', () => {
+
+			if (params.clickSound !== undefined) {
+				params.clickSound.play();
+			}
 
 			if (params.stopSounds) {
 				params.scene.sound.stopAll();
@@ -70,6 +74,7 @@ export class Gui {
 		x: number;
 		y: number;
 		text: string;
+		clickSound?: Phaser.Sound.BaseSound;
 		img: Phaser.GameObjects.Image;
 		textureKeys: Array<string>;
 		callback?: Function;
@@ -86,6 +91,10 @@ export class Gui {
 			params.text
 
 		).addListener('click').on('click', function() {
+
+			if (params.clickSound !== undefined) {
+				params.clickSound.play();
+			}
 
 			if (currentIndex < params.textureKeys.length - 1) {
 				currentIndex++;
