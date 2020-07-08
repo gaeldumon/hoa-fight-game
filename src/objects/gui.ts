@@ -9,8 +9,9 @@ export class Gui {
 		font-family: Grobold,Arial; 
 		color: #000000; 
 		font-size: 25px; 
-		background-color: #d2d2d2; 
-		border: none`
+		border-radius: 4px;
+		background-color: #fff; 
+		border: 2px solid #000`
 	;
 
 	
@@ -20,8 +21,9 @@ export class Gui {
 		font-family: Grobold, Arial, sans-serif; 
 		color: #000000; 
 		font-size: 17px; 
-		background-color: #d2d2d2; 
-		border: none`
+		border-radius: 4px;
+		background-color: #fff; 
+		border: 2px solid #000`
 	;
 
 
@@ -43,7 +45,7 @@ export class Gui {
 		params.scene.add.dom(
 
 			getGameWidth(params.scene)/2,
-			getGameHeight(params.scene)-50,
+			getGameHeight(params.scene)-100,
 			'button',
 			Gui.mainBtnStyle,
 			params.text

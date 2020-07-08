@@ -9,7 +9,6 @@ export class User {
 
 	private _id: number;
 	private _username: string;
-	private _score: number;
 	private _ratio: number;
 	private _rank: number;
 	private _avatar: string;
@@ -32,13 +31,6 @@ export class User {
 	 */
 	public get username(): string {
 		return this._username;
-	}
-
-	/**
-	 * User's score from DB.
-	 */
-	public get score(): number {
-		return this._score;
 	}
 
 	/**
@@ -110,21 +102,11 @@ export class User {
 	public set isGuest(v: boolean) {
 		this._isGuest = v;
 	}
-
-	/**
-	 * Increment the user's score (when he win a game)
-	 * @return: the new incremented score.
-	 */
-	public updateScore(): number {
-		this._score = this.score + 1;
-		return this._score;
-	}
 	
 	
 	constructor(params: { 
 		id: number; 
 		username: string; 
-		score: number; 
 		ratio: number;
 		rank: number; 
 		avatar: string;
@@ -134,7 +116,6 @@ export class User {
 
 		this._id = params.id;
 		this._username = params.username;
-		this._score = params.score;
 		this._ratio = params.ratio;
 		this._rank = params.rank;
 		this._avatar = params.avatar;

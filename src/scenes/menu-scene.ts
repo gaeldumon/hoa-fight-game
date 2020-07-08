@@ -42,8 +42,8 @@ export class MenuScene extends Phaser.Scene {
 	}
 
 	private printTexts(): void {
-		Gui.customText({ scene: this, x: 650, y: 200, text: "Joueur 1" });
-		Gui.customText({ scene: this, x: 850, y: 200, text: "Joueur 2" });
+		Gui.customText({ scene: this, x: 650, y: 210, text: "Joueur 1" });
+		Gui.customText({ scene: this, x: 850, y: 210, text: "Joueur 2" });
 	}
 
 	private initUsersChoices(data): void {
@@ -114,7 +114,7 @@ export class MenuScene extends Phaser.Scene {
 		Gui.slideBtn({ 
 			scene: this, 
 			x: 650, 
-			y: 400, 
+			y: 370, 
 			text: "Suivant",
 			img: this.characterThumbs[0],
 			textureKeys: this.data.values.characters.map(c => c.thumbnailKey),
@@ -132,7 +132,7 @@ export class MenuScene extends Phaser.Scene {
 		Gui.slideBtn({ 
 			scene: this, 
 			x: 850, 
-			y: 400, 
+			y: 370, 
 			text: "Suivant",
 			img: this.characterThumbs[1],
 			textureKeys: this.data.values.characters.map(c => c.thumbnailKey),

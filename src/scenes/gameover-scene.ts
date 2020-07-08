@@ -39,20 +39,6 @@ export class GameoverScene extends Phaser.Scene {
 			x: getGameWidth(this)/2, 
 			y: 200,
 			text: `${this.data.values.winner.username} remporte la partie !`
-		}); 
-
-		Gui.customText({ 
-			scene: this, 
-			x: getGameWidth(this)/2, 
-			y: 260,
-			text: `Ancien score : ${this.data.values.winner.score}`
-		});
-
-		Gui.customText({ 
-			scene: this, 
-			x: getGameWidth(this)/2, 
-			y: 320,
-			text: `Nouveau score : ${this.data.values.winner.updateScore()}`
 		});
 
 		Gui.mainBtn({

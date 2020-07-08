@@ -259,6 +259,8 @@ export class GameScene extends Phaser.Scene {
 		// of the generous timeout of 5 seconds.
 		if (this.player1.isDead() || this.player2.isDead()) {
 
+			this.physics.pause();
+
 			if (this.player1.isDead() && !this.player2.isDead()) {
 
 				this.winner = this.data.values.users[1];
@@ -269,6 +271,7 @@ export class GameScene extends Phaser.Scene {
 
 			} else if (this.player2.isDead() && this.player2.isDead()) {
 
+				// Should throw error
 				this.winner = null;
 
 			}
