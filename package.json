@@ -4,8 +4,8 @@
 	"main": "index.js",
 	"license": "MIT",
 	"scripts": {
-		"build": "webpack",
-		"dev": "webpack-dev-server"
+		"start": "webpack-dev-server",
+		"build": "webpack"
 	},
 	"devDependencies": {
 		"copy-webpack-plugin": "^5.1.1",
