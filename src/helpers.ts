@@ -88,17 +88,3 @@ export const CONTROLKEYS = {
 		}
 	}
 }
-
-export function getUserFromStorage() {
-	if (sessionStorage.getItem('hoafightMainUser')) {
-		const parsedMainUser = JSON.parse(sessionStorage.getItem('hoafightMainUser'));
-		// Checking if the properties that the game USES exist (could use an interface)
-		if (parsedMainUser.username && parsedMainUser.ratio) {
-				return parsedMainUser;
-			} else {
-				throw new Error("Missing the necessary properties");
-			}
-	} else {
-		throw new Error("No main user is set inside session storage");
-	}
-}

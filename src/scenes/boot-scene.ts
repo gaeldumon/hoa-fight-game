@@ -22,7 +22,6 @@ export class BootScene extends Phaser.Scene {
 	private btn: Phaser.GameObjects.DOMElement;
 	private background: Phaser.GameObjects.Image;
 	private musicTheme: Phaser.Sound.BaseSound;
-	private clickSound: Phaser.Sound.BaseSound;
 	
 
 	constructor() {
@@ -130,7 +129,6 @@ export class BootScene extends Phaser.Scene {
 
 		this.musicTheme = this.sound.add('menuTheme');
 		this.musicTheme.play();
-		this.clickSound = this.sound.add('clickSound');
 
 		this.background = this.add.image(
 			getGameWidth(this)/2, 
@@ -154,7 +152,6 @@ export class BootScene extends Phaser.Scene {
 		Gui.mainBtn({ 
 			scene: this, 
 			text: "Menu",
-			clickSound: this.clickSound, 
 			stopSounds: false,
 			scenePlugin: this.scene,
 			newSceneKey: 'Menu',

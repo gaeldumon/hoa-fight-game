@@ -129,6 +129,12 @@
 			},
 
 			{
+				"type": "audio",
+				"key": "alternativeTheme",
+				"url": "assets/sounds/alternative-theme.mp3"
+			},
+
+			{
 				"type": "image",
 				"key": "character1Avatar",
 				"url": "assets/images/characters/character1/character1-avatar.png"

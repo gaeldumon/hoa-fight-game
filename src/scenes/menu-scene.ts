@@ -14,7 +14,6 @@ export class MenuScene extends Phaser.Scene {
 
 	private levelThumb: Phaser.GameObjects.Image;
 	private characterThumbs: Array<Phaser.GameObjects.Image>;
-	private clickSound: Phaser.Sound.BaseSound;
 
 
 	private drawBackground(): void {
@@ -89,7 +88,6 @@ export class MenuScene extends Phaser.Scene {
 		this.initThumbnails(this.data);
 		this.printTitles();
 		this.printTexts();
-		this.clickSound = this.sound.add('clickSound');
 
 		// Slide button n°1. This is where User 1 & 2 choose their level. 
 		// Modifies the level thumbnail texture (with texture keys) on click.
@@ -98,7 +96,6 @@ export class MenuScene extends Phaser.Scene {
 			x: 200, 
 			y: 450, 
 			text: "Suivant",
-			clickSound: this.clickSound,
 			img: this.levelThumb,
 			textureKeys: this.data.values.levels.map(level => level.thumbnailKey),
 			callback: () => {
@@ -119,7 +116,6 @@ export class MenuScene extends Phaser.Scene {
 			x: 650, 
 			y: 370, 
 			text: "Suivant",
-			clickSound: this.clickSound,
 			img: this.characterThumbs[0],
 			textureKeys: this.data.values.characters.map(c => c.thumbnailKey),
 			callback: () => {
@@ -138,7 +134,6 @@ export class MenuScene extends Phaser.Scene {
 			x: 850, 
 			y: 370, 
 			text: "Suivant",
-			clickSound: this.clickSound,
 			img: this.characterThumbs[1],
 			textureKeys: this.data.values.characters.map(c => c.thumbnailKey),
 			callback: () => {
@@ -160,7 +155,6 @@ export class MenuScene extends Phaser.Scene {
 		Gui.mainBtn({
 			scene: this,
 			text: "START",
-			clickSound: this.clickSound,
 			stopSounds: true,
 			scenePlugin: this.scene,
 			newSceneKey: 'Game',

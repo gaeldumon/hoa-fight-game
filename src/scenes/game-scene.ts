@@ -252,32 +252,32 @@ export class GameScene extends Phaser.Scene {
 		this.player1.update();
 		this.player2.update();
 
-		// Winner handling.
-		// All this is dangerous and not acceptable. The new scene start timed event 
-		// is asynchronous so I don't have any certainty that a winner will be set
-		// correctly before scene transfer. Basically right now it works cause
-		// of the generous timeout of 5 seconds.
+		// Winner handling
+		// Enter winner handling mode if one of the player is dead
 		if (this.player1.isDead() || this.player2.isDead()) {
 
-			this.physics.pause();
+			// Make players invicible while waiting for the next scene to start
+			// This way we don't have to pause physics but the winner is not
+			// killed by the bombs that are still falling.
+			this.player1.makeBulletProof();
+			this.player2.makeBulletProof();
 
+			// Deciding which one is the winner (the one not dead)
 			if (this.player1.isDead() && !this.player2.isDead()) {
-
 				this.winner = this.data.values.users[1];
-
 			} else if (!this.player1.isDead() && this.player2.isDead()) {
-
 				this.winner = this.data.values.users[0];
-
 			} else if (this.player2.isDead() && this.player2.isDead()) {
-
-				// Should throw error
+				// Nulling the winner if there's no winner at all
+				// Typically this shouldn't ever happen but who knows...
+				// Check in next scene if winner is truthy, printing alt text
+				// if not (like if null).
 				this.winner = null;
-
 			}
 
 			this.data.set('winner', this.winner);
 			
+			// 5 seconds delay before launching the next scene
 			this.newSceneTimedEvent = this.time.addEvent({
 				delay: 5000,
 				callback: () => {
@@ -285,10 +285,8 @@ export class GameScene extends Phaser.Scene {
 					this.scene.start('Gameover', this.data.getAll());
 				}
 			});
-			
 		}
 	}
-
 }
 
 

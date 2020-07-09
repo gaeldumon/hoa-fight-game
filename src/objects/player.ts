@@ -22,6 +22,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private gravityY: number;
 	private jumpVelocity: number;
 	private bounce: number;
+	private bulletProof: boolean;
 
 	private readonly STATES = {
 		ALIVE: 'ALIVE',
@@ -38,14 +39,20 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	public hurt(): void {
-		if (this.health > 0) {
-
-			this.health -= 20;
-			this.healthBar.decrease(20);
-
-			this.setState(this.STATES.HURT);
-
+		if (this.bulletProof === false) {
+			if (this.health > 0) {
+	
+				this.health -= 20;
+				this.healthBar.decrease(20);
+	
+				this.setState(this.STATES.HURT);
+	
+			}
 		}
+	}
+
+	public makeBulletProof(): void {
+		if (this.bulletProof === false) this.bulletProof = true;
 	}
 
 	private initSounds(): void {
@@ -55,6 +62,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 	private initVitals(): void {
 		this.health = 100;
+		this.bulletProof = false;
 	}
 	
 	private initPhysics(): void {
@@ -226,6 +234,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 			this.setVelocityX(0);
 
+			// This leads to hurt anim bug 
 			this.scene.time.addEvent({
 				delay: 1000,
 				loop: false,

@@ -35,7 +35,6 @@ export class Gui {
 	public static mainBtn(params: {
 		scene: Phaser.Scene; 
 		text: string; 
-		clickSound?: Phaser.Sound.BaseSound;
 		stopSounds: boolean; 
 		scenePlugin: Phaser.Scenes.ScenePlugin; 
 		newSceneKey: string;
@@ -52,9 +51,7 @@ export class Gui {
 
 		).addListener('click').on('click', () => {
 
-			if (params.clickSound !== undefined) {
-				params.clickSound.play();
-			}
+			params.scene.sound.add('clickSound').play();
 
 			if (params.stopSounds) {
 				params.scene.sound.stopAll();
@@ -76,7 +73,6 @@ export class Gui {
 		x: number;
 		y: number;
 		text: string;
-		clickSound?: Phaser.Sound.BaseSound;
 		img: Phaser.GameObjects.Image;
 		textureKeys: Array<string>;
 		callback?: Function;
@@ -94,9 +90,7 @@ export class Gui {
 
 		).addListener('click').on('click', function() {
 
-			if (params.clickSound !== undefined) {
-				params.clickSound.play();
-			}
+			params.scene.sound.add('clickSound').play();
 
 			if (currentIndex < params.textureKeys.length - 1) {
 				currentIndex++;

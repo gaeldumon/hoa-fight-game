@@ -11,6 +11,9 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class GameoverScene extends Phaser.Scene {
 
+	private musicTheme: Phaser.Sound.BaseSound;
+	private mainMessage: string;
+
 
 	constructor() {
 		super(sceneConfig);
@@ -18,13 +21,19 @@ export class GameoverScene extends Phaser.Scene {
 
 
 	init(gameSceneData) {
-		if (gameSceneData.winner !== undefined) {
+		if (gameSceneData.winner) {
 			this.data.set('winner', gameSceneData.winner);
+			this.mainMessage = `${this.data.values.winner.username} remporte la partie !`;
+		} else {
+			this.mainMessage = "Oups on dirait qu'il n'y ai pas de gagnant !";
 		}
 	}
 
 
 	create() {
+
+		this.musicTheme = this.sound.add('alternativeTheme');
+		this.musicTheme.play();
 
 		this.add.image(
 			getGameWidth(this)/2, 
@@ -38,13 +47,13 @@ export class GameoverScene extends Phaser.Scene {
 			scene: this, 
 			x: getGameWidth(this)/2, 
 			y: 200,
-			text: `${this.data.values.winner.username} remporte la partie !`
+			text: this.mainMessage
 		});
 
 		Gui.mainBtn({
 			scene: this,
 			text: "REJOUER",
-			stopSounds: true,
+			stopSounds: false,
 			scenePlugin: this.scene,
 			newSceneKey: 'Menu'
 		});
