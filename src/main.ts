@@ -37,26 +37,3 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 };
 
 export const game = new Phaser.Game(gameConfig);
-
-//***************Mock up session storage set********************
-// Coming from the website
-const toStore = {
-	mainUser: {
-		id: 124,
-		username: 'foofoo7',
-		ratio: 75,
-		rank: 14,
-		sessionWins: 0
-	},
-	secondaryUser: {
-		id: 0,
-		username: 'SomeUser2',
-		ratio: 0,
-		rank: 0,
-		sessionWins: 0
-	}
-};
-
-sessionStorage.removeItem('hoafight');
-sessionStorage.setItem('hoafight', JSON.stringify(toStore));
-//**************************************************************

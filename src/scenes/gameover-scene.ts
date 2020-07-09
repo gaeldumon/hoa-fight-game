@@ -21,7 +21,7 @@ export class GameoverScene extends Phaser.Scene {
 
 
 	init(gameSceneData) {
-		const usersFromStorage = parsedStorage();
+		const parsedUsers = parsedStorage();
 
 		if (gameSceneData.winner) {
 
@@ -29,12 +29,13 @@ export class GameoverScene extends Phaser.Scene {
 
 			this.mainMessage = `${this.data.values.winner.username} remporte la partie !`;
 
-			if(this.data.values.winner.id === usersFromStorage.mainUser.id) {
-				usersFromStorage.mainUser.sessionWins += 1;
-			} else if (this.data.values.winner.id === usersFromStorage.secondaryUser.id) {
-				usersFromStorage.secondaryUser.sessionWins += 1;
+			if(this.data.values.winner.id === parsedUsers.mainUser.id) {
+				parsedUsers.mainUser.sessionWins += 1;
+			} else if (this.data.values.winner.id === parsedUsers.secondaryUser.id) {
+				parsedUsers.secondaryUser.sessionWins += 1;
 			}
-			console.log(usersFromStorage);
+			
+			sessionStorage.setItem('hoafight', JSON.stringify(parsedUsers));
 
 		} else {
 
