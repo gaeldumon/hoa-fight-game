@@ -38,6 +38,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
 
 export const game = new Phaser.Game(gameConfig);
 
+//***************Mock up session storage set********************
 const toStore = {
 	mainUser: {
 		id: 124,
@@ -46,24 +47,12 @@ const toStore = {
 		sessionWins: 0
 	},
 	secondaryUser: {
-		id: 124,
-		username: 'foofoo7',
-		ratio: 75,
+		id: 45,
+		username: 'booboo9',
+		ratio: 89,
 		sessionWins: 0
 	}
 }
 sessionStorage.clear();
 sessionStorage.setItem('hoafight', JSON.stringify(toStore));
-
-function getParsedStorage() {
-	const hf = sessionStorage.getItem('hoafight');
-	const parsed = JSON.parse(hf);
-	// Using optionnal chaining
-	if (parsed?.mainUser && parsed?.secondaryUser) {
-		return parsed;
-	} else {
-		throw new Error("Missing hoa fight session storage");
-	}
-}
-
-console.log(getParsedStorage());
+//**************************************************************
