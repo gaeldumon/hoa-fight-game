@@ -7,13 +7,13 @@ import { Gui } from "../objects/gui";
 export class User {
 
 
-	private _id: number;
+	private _id: string;
 	private _username: string;
-	private _ratio: number;
-	private _rank: number;
+	private _ratio: string;
+	private _rank: string;
 	private _avatar: string;
 	private _isGuest: boolean;
-	private _screenSide: number;
+	private _screenSide: string;
 	private _characterInstance: Character;
 	private _playerInstance: Player;
 	private _levelInstance: Level;
@@ -22,7 +22,7 @@ export class User {
 	/**
 	 * User's id from DB.
 	 */
-	public get id(): number {
+	public get id(): string {
 		return this._id;
 	}
 	
@@ -36,14 +36,14 @@ export class User {
 	/**
 	 * User's ratio from DB.
 	 */
-	public get ratio(): number {
+	public get ratio(): string {
 		return this._ratio;
 	}
 	
 	/**
 	 * User's rank from DB.
 	 */
-	public get rank(): number {
+	public get rank(): string {
 		return this._rank;
 	}
 
@@ -62,7 +62,7 @@ export class User {
 		return this._isGuest;
 	}
 
-	public get screenSide(): number {
+	public get screenSide(): string {
 		return this._screenSide;
 	}
 
@@ -103,15 +103,15 @@ export class User {
 		this._isGuest = v;
 	}
 	
-	
+
 	constructor(params: { 
-		id: number; 
+		id: string; 
 		username: string; 
-		ratio: number;
-		rank: number; 
+		ratio: string;
+		rank: string; 
 		avatar: string;
 		isGuest: boolean;
-		screenSide: number;
+		screenSide: string;
 	}) {
 
 		this._id = params.id;

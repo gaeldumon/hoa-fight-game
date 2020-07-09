@@ -20,7 +20,7 @@ export class Hud {
 			padding: 10px
 		`;
 
-		if (params.user.screenSide === -1) {
+		if (params.user.screenSide === 'left') {
 
 			this.avatar = params.scene.add.image(
 				0, 
@@ -36,7 +36,7 @@ export class Hud {
 				`${params.user.username} | Rang ${params.user.rank}`
 			).setOrigin(0,0);
 
-		} else if (params.user.screenSide === 1) {
+		} else if (params.user.screenSide === 'right') {
 
 			this.avatar = params.scene.add.image(
 				getGameWidth(params.scene), 
