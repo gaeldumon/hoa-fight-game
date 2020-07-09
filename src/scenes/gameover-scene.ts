@@ -19,23 +19,28 @@ export class GameoverScene extends Phaser.Scene {
 		super(sceneConfig);
 	}
 
-
-	init(gameSceneData) {
-		const parsedUsers = parsedStorage();
-
-		if (gameSceneData.winner) {
-
-			this.data.set('winner', gameSceneData.winner);
-
-			this.mainMessage = `${this.data.values.winner.username} remporte la partie !`;
-
+	private handlingStorage() {
+		if (parsedStorage()) {
+			const parsedUsers = parsedStorage();
 			if(this.data.values.winner.id === parsedUsers.mainUser.id) {
 				parsedUsers.mainUser.sessionWins += 1;
 			} else if (this.data.values.winner.id === parsedUsers.secondaryUser.id) {
 				parsedUsers.secondaryUser.sessionWins += 1;
 			}
-			
 			sessionStorage.setItem('hoafight', JSON.stringify(parsedUsers));
+		}
+	}
+
+
+	init(gameSceneData) {
+		
+		if (gameSceneData.winner) {
+			
+			this.data.set('winner', gameSceneData.winner);
+			
+			this.mainMessage = `${this.data.values.winner.username} remporte la partie !`;
+			
+			this.handlingStorage();
 
 		} else {
 

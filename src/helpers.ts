@@ -96,6 +96,6 @@ export function parsedStorage() {
 		const parsed = JSON.parse(hf);
 		return parsed;
 	} else {
-		throw new Error("Hoa fight session storage object is missing");
+		return null;
 	}
 }
