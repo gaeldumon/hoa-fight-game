@@ -23,7 +23,7 @@ export const getGameHeight = (scene: Phaser.Scene) => {
 
 /**
  * Load a file in ajax and return its response text.
- * @param pFilePath 
+ * @param pFilePath Path to the desired file
  */
 export const loadFile = (pFilePath: string): string => {
 	let rawFile = new XMLHttpRequest();
@@ -68,9 +68,10 @@ export const COLORS = {
 	white: { string: '#ffffff', hex: 0xffffff }
 }
 
-// !!! Add multiple keys at once: 
+// Note -- we can add multiple keys at once : 
 // this.keys = this.input.keyboard.addKeys('ENTER,W,A,S,D')
-// this.keys.ENTER.isDown...
+// And then do : this.keys.ENTER.isDown...
+
 export const CONTROLKEYS = {
 	PLAYER: {
 		SET1: {
@@ -89,17 +90,12 @@ export const CONTROLKEYS = {
 	}
 }
 
-export function hoafightSession() {
-	if (!sessionStorage.getItem('hoafight')) {
+export function parsedStorage() {
+	if (sessionStorage.getItem('hoafight')) {
 		const hf = sessionStorage.getItem('hoafight');
 		const parsed = JSON.parse(hf);
-		// Using optionnal chaining
-		if (parsed?.mainUser && parsed?.secondaryUser) {
-			return parsed;
-		} else {
-			return false;
-		}
+		return parsed;
 	} else {
-		return false;
+		throw new Error("Hoa fight session storage object is missing");
 	}
 }

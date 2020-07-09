@@ -33,7 +33,7 @@ export class Hud {
 				0,
 				'h5',
 				this.textStyle,
-				`${params.user.username} | Rang ${params.user.rank}`
+				`${params.user.username} | Ratio ${params.user.ratio} %`
 			).setOrigin(0,0);
 
 		} else if (params.user.screenSide === 'right') {
@@ -49,7 +49,7 @@ export class Hud {
 				0,
 				'h5',
 				this.textStyle,
-				`${params.user.username} | Rang ${params.user.rank}`
+				`${params.user.username} | Ratio ${params.user.ratio} %`
 			).setOrigin(1,0);
 
 		}

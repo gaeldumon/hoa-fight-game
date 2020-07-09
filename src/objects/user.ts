@@ -7,12 +7,10 @@ import { Gui } from "../objects/gui";
 export class User {
 
 
-	private _id: string;
+	private _id: number;
 	private _username: string;
-	private _ratio: string;
-	private _rank: string;
+	private _ratio: number;
 	private _avatar: string;
-	private _isGuest: boolean;
 	private _screenSide: string;
 	private _characterInstance: Character;
 	private _playerInstance: Player;
@@ -22,7 +20,7 @@ export class User {
 	/**
 	 * User's id from DB.
 	 */
-	public get id(): string {
+	public get id(): number {
 		return this._id;
 	}
 	
@@ -36,30 +34,8 @@ export class User {
 	/**
 	 * User's ratio from DB.
 	 */
-	public get ratio(): string {
+	public get ratio(): number {
 		return this._ratio;
-	}
-	
-	/**
-	 * User's rank from DB.
-	 */
-	public get rank(): string {
-		return this._rank;
-	}
-
-	/**
-	 * User's avatar filepath from DB.
-	 */
-	public get avatar(): string {
-		return this._avatar;
-	}
-
-	/**
-	 * Whether this user is a guest (created specificaly for the game) 
-	 * or not (the user connected to the website, already exists in DB).
-	 */
-	public get isGuest(): boolean {
-		return this._isGuest;
 	}
 
 	public get screenSide(): string {
@@ -98,28 +74,18 @@ export class User {
 	public set levelInstance(v: Level) {
 		this._levelInstance = v;
 	}
-
-	public set isGuest(v: boolean) {
-		this._isGuest = v;
-	}
 	
 
 	constructor(params: { 
-		id: string; 
+		id: number; 
 		username: string; 
-		ratio: string;
-		rank: string; 
-		avatar: string;
-		isGuest: boolean;
+		ratio: number;
 		screenSide: string;
 	}) {
 
 		this._id = params.id;
 		this._username = params.username;
 		this._ratio = params.ratio;
-		this._rank = params.rank;
-		this._avatar = params.avatar;
-		this._isGuest = params.isGuest;
 		this._screenSide = params.screenSide;
 
 	}

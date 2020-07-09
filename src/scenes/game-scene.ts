@@ -34,7 +34,6 @@ export class GameScene extends Phaser.Scene {
 	private bombs: Phaser.GameObjects.Group;
 	private bombCreationEvent: Phaser.Time.TimerEvent;
 	private newSceneTimedEvent: Phaser.Time.TimerEvent;
-
 	private winner: User;
 
 
@@ -241,6 +240,7 @@ export class GameScene extends Phaser.Scene {
 
 		this.setColliders();
 
+		// This is where we have user<-->player concordance
 		this.data.values.users[0].playerInstance = this.player1;
 		this.data.values.users[1].playerInstance = this.player2;
 
@@ -264,6 +264,7 @@ export class GameScene extends Phaser.Scene {
 
 			// Deciding which one is the winner (the one not dead)
 			if (this.player1.isDead() && !this.player2.isDead()) {
+				// Winners are users not players
 				this.winner = this.data.values.users[1];
 			} else if (!this.player1.isDead() && this.player2.isDead()) {
 				this.winner = this.data.values.users[0];
@@ -277,11 +278,11 @@ export class GameScene extends Phaser.Scene {
 
 			this.data.set('winner', this.winner);
 			
-			// 5 seconds delay before launching the next scene
+			// 3 seconds delay before launching the next scene
 			this.newSceneTimedEvent = this.time.addEvent({
-				delay: 5000,
+				delay: 3000,
 				callback: () => {
-					this.sound.stopAll();
+					//this.sound.stopAll();
 					this.scene.start('Gameover', this.data.getAll());
 				}
 			});

@@ -3,7 +3,7 @@ import { Level } from '../objects/level';
 import { User } from '../objects/user';
 import { Character } from '../objects/character';
 import { Gui } from '../objects/gui';
-import { hoafightSession } from '../helpers';
+import { parsedStorage } from '../helpers';
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -44,22 +44,16 @@ export class BootScene extends Phaser.Scene {
 		
 		this.users = [
 			new User({
-				id: hoafightSession().mainUser.id || '-1',
-				username: hoafightSession().mainUser.username || 'foo1',
-				rank: hoafightSession().mainUser.rank || '1',
-				ratio: hoafightSession().mainUser.ratio || '100',
-				avatar: '',
-				isGuest: false,
+				id: parsedStorage().mainUser.id,
+				username: parsedStorage().mainUser.username,
+				ratio: parsedStorage().mainUser.ratio,
 				screenSide: 'left'
 			}),
 
 			new User({
-				id: hoafightSession().secondaryUser.id || '-1',
-				username: hoafightSession().secondaryUser.username || 'boo2',
-				rank: hoafightSession().secondaryUser.rank || '99',
-				ratio: hoafightSession().secondaryUser.ratio || '10',
-				avatar: '',
-				isGuest: true,
+				id: parsedStorage().secondaryUser.id,
+				username: parsedStorage().secondaryUser.username,
+				ratio: parsedStorage().secondaryUser.ratio,
 				screenSide: 'right'
 			})
 		];
