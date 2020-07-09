@@ -88,3 +88,18 @@ export const CONTROLKEYS = {
 		}
 	}
 }
+
+export function hoafightSession() {
+	if (!sessionStorage.getItem('hoafight')) {
+		const hf = sessionStorage.getItem('hoafight');
+		const parsed = JSON.parse(hf);
+		// Using optionnal chaining
+		if (parsed?.mainUser && parsed?.secondaryUser) {
+			return parsed;
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
+}
