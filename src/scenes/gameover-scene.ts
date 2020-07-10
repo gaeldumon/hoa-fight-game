@@ -22,10 +22,17 @@ export class GameoverScene extends Phaser.Scene {
 	private handlingStorage() {
 		if (parsedStorage()) {
 			const parsedUsers = parsedStorage();
+
 			if(this.data.values.winner.id === parsedUsers.mainUser.id) {
-				parsedUsers.mainUser.sessionWins += 1;
+
+				parsedUsers?.mainUser?.matchs?.push({win: true});
+				parsedUsers?.secondaryUser?.matchs?.push({win: false});
+
 			} else if (this.data.values.winner.id === parsedUsers.secondaryUser.id) {
-				parsedUsers.secondaryUser.sessionWins += 1;
+
+				parsedUsers?.secondaryUser?.matchs?.push({win: true});
+				parsedUsers?.mainUser?.matchs?.push({win: false});
+
 			}
 			sessionStorage.setItem('hoafight', JSON.stringify(parsedUsers));
 		}
