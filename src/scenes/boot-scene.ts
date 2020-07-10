@@ -44,16 +44,16 @@ export class BootScene extends Phaser.Scene {
 		
 		this.users = [
 			new User({
-				id: parsedStorage()?.mainUser.id || 0,
-				username: parsedStorage()?.mainUser.username || 'Foo1',
-				ratio: parsedStorage()?.mainUser.ratio || 98,
+				id: parsedStorage()?.mainUser?.id || 0,
+				username: parsedStorage()?.mainUser?.username || 'Foo1',
+				ratio: parsedStorage()?.mainUser?.ratio || 0,
 				screenSide: 'left'
 			}),
 
 			new User({
-				id: parsedStorage()?.secondaryUser.id || 0,
-				username: parsedStorage()?.secondaryUser.username || 'Boo2',
-				ratio: parsedStorage()?.secondaryUser.ratio || 89,
+				id: parsedStorage()?.secondaryUser?.id || 0,
+				username: parsedStorage()?.secondaryUser?.username || 'Boo2',
+				ratio: parsedStorage()?.secondaryUser?.ratio || 0,
 				screenSide: 'right'
 			})
 		];
