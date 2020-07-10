@@ -1,6 +1,6 @@
 import { getGameWidth, getGameHeight } from '../helpers';
 import { Gui } from '../objects/gui';
-import { parsedStorage } from '../helpers';
+import { parsedStorage } from '../storage';
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -21,6 +21,7 @@ export class GameoverScene extends Phaser.Scene {
 
 	private handlingStorage() {
 		if (parsedStorage()) {
+			
 			const parsedUsers = parsedStorage();
 
 			if(this.data.values.winner.id === parsedUsers.mainUser.id) {
@@ -34,7 +35,10 @@ export class GameoverScene extends Phaser.Scene {
 				parsedUsers?.mainUser?.matchs?.push({win: false});
 
 			}
-			sessionStorage.setItem('hoafight', JSON.stringify(parsedUsers));
+
+			// Serialize and set in storage the newly updated users objects :
+			// with their corresponding matchs pushed entries
+			localStorage.setItem('hoafight', JSON.stringify(parsedUsers));
 		}
 	}
 

@@ -89,13 +89,3 @@ export const CONTROLKEYS = {
 		}
 	}
 }
-
-export function parsedStorage() {
-	if (sessionStorage.getItem('hoafight')) {
-		const hf = sessionStorage.getItem('hoafight');
-		const parsed = JSON.parse(hf);
-		return parsed;
-	} else {
-		return null;
-	}
-}

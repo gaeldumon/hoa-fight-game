@@ -3,7 +3,7 @@ import { Level } from '../objects/level';
 import { User } from '../objects/user';
 import { Character } from '../objects/character';
 import { Gui } from '../objects/gui';
-import { parsedStorage } from '../helpers';
+import { parsedStorage } from '../storage';
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
