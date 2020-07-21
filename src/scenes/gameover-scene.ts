@@ -24,7 +24,7 @@ export class GameoverScene extends Phaser.Scene {
 			
 			const parsedUsers = parsedStorage();
 
-			if(this.data.values.winner.id === parsedUsers.mainUser.id) {
+			if (this.data.values.winner.id === parsedUsers.mainUser.id) {
 
 				parsedUsers?.mainUser?.matchs?.push({win: true});
 				parsedUsers?.secondaryUser?.matchs?.push({win: false});

@@ -109,7 +109,6 @@ export class BootScene extends Phaser.Scene {
 		// Preload all characters atlases : a json file that acts as
 		// as a "map"/"link" to a png spritesheet.
 		// Used for drawing PLayer texture and set animations.
-		// Still outside pack.json for now cause I don't know how.
 		for (let n = 1; n <= 6; n++) {
 			this.load.atlas(
 				`character${n}`,

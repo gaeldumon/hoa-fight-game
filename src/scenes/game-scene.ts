@@ -154,7 +154,7 @@ export class GameScene extends Phaser.Scene {
 				repeat: 1
 			});
 			this.anims.create({
-				key: `${tk}DIE`,
+				key: `${tk}DEAD`,
 				frames: this.anims.generateFrameNames(tk, {
 					prefix: 'dead',
 					start: 1,

@@ -27,7 +27,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	private readonly STATES = {
 		ALIVE: 'ALIVE',
 		HURT: 'HURT',
-		DIE: 'DIE'
+		DEAD: 'DEAD'
 	}
 
 	public get projectiles(): Phaser.GameObjects.Group {
@@ -212,7 +212,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
 	update(): void {
 
-		if (this.isDead()) this.state = this.STATES.DIE;
+		if (this.isDead()) this.state = this.STATES.DEAD;
 
 		if (this.state === this.STATES.ALIVE) {
 			// This is detached from the other block because you can do anything
@@ -245,11 +245,11 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 				}
 			});
 
-		} else if (this.state === this.STATES.DIE) {
+		} else if (this.state === this.STATES.DEAD) {
 
 			// We don't reset state to ALIVE cause it's end of the game
 
-			this.anims.play(`${this.texture.key}DIE`, true);
+			this.anims.play(`${this.texture.key}DEAD`, true);
 
 			this.setVelocityX(0);
 
