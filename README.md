@@ -1,10 +1,31 @@
 # Hoa Fight
 
-### Casual local 1v1 Platformer-Combat browser game
+### Local 1v1 shooter-combat game in the browser.
 
 Made with Phaser 3 + Typescript.
 Phaser : https://phaser.io/
 Typescript : https://www.typescriptlang.org/
 
-This is a school project in progress. The main goal would be to kill the other player before being killed by the bouncing bombs.
-But the gameplay is likely to change over time though.
+Goal is to eliminate the other player while avoiding all the bombs that fall off the sky randomly ! 
+You can choose the terrain and each player can choose their character.
+Being hit by a bomb or by the other player result in decreasing your life and your health bar by 20%.
+
+#### Controls :
+Player 1 : Jump = UP ARROW • Walk left = LEFT ARROW • Walk right = RIGHT ARROW • Shoot = SHIFT
+Player 2 : Jump = S KEY • Walk left = Q KEY • Walk right = D ARROW • Shoot = SPACE
+
+#### I still have work to do :
+Handling gamepads
+Tweening for everything that moves
+Better bullets trajectories
+Better UI and general polish
+Voices for the characters
+Explosions
+Bulletproof local storage handling
+
+I also made a website (using Vue.js) that is linked/goes with this game, where you can see your stats and ranking of all the players.
+
+![Screenshot](screenshots/hoa-1.png)
+![Screenshot](screenshots/hoa-2.png)
+![Screenshot](screenshots/hoa-3.png)
+
