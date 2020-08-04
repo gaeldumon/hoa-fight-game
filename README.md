@@ -25,8 +25,8 @@ Being hit by a bomb or by the other player result in decreasing your life and yo
 * Better terrain, add trampolines
 
 #### Credits :
-The Grobold font was made by Guy Buhry : https://www.dafont.com/fr/guy-buhry.d1243
-OST and sounds was made by my teammate XorGentlem4n : https://github.com/XorGentlem4n
+* The Grobold font was made by Guy Buhry : https://www.dafont.com/fr/guy-buhry.d1243
+* OST and sounds was made by my teammate XorGentlem4n : https://github.com/XorGentlem4n
 
 I also made a website (using Vue.js) that is linked/goes with this game, where you can see your stats and ranking of all the players.
 
