@@ -1,7 +1,6 @@
 import { getGameWidth, getGameHeight } from '../helpers';
-import { Gui } from '../objects/gui';
+import { Gui } from '../objects/Gui';
 import { parsedStorage } from '../storage';
-
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	active: false,
@@ -9,54 +8,46 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	key: 'Gameover'
 };
 
-
 export class GameoverScene extends Phaser.Scene {
 
 	private mainMessage: string;
-
 
 	constructor() {
 		super(sceneConfig);
 	}
 
 	private handlingStorage() {
+
 		if (parsedStorage()) {
-			
 			const parsedUsers = parsedStorage();
 
 			if (this.data.values.winner.id === parsedUsers.mainUser.id) {
 
-				parsedUsers?.mainUser?.matchs?.push({win: true});
-				parsedUsers?.secondaryUser?.matchs?.push({win: false});
+				parsedUsers?.mainUser?.matchs?.push({ win: true });
+				parsedUsers?.secondaryUser?.matchs?.push({ win: false });
 
 			} else if (this.data.values.winner.id === parsedUsers.secondaryUser.id) {
 
-				parsedUsers?.secondaryUser?.matchs?.push({win: true});
-				parsedUsers?.mainUser?.matchs?.push({win: false});
+				parsedUsers?.secondaryUser?.matchs?.push({ win: true });
+				parsedUsers?.mainUser?.matchs?.push({ win: false });
 
 			}
 
-			// Serialize and set in storage the newly updated users objects :
-			// with their corresponding matchs pushed entries
+			// Serialize and set in storage the newly updated users objects
+			// with their corresponding matchs pushed entries.
 			localStorage.setItem('hoafight', JSON.stringify(parsedUsers));
 		}
 	}
 
 
 	init(gameSceneData) {
-		
+
 		if (gameSceneData.winner) {
-			
 			this.data.set('winner', gameSceneData.winner);
-			
 			this.mainMessage = `${this.data.values.winner.username} remporte la partie !`;
-			
 			this.handlingStorage();
-
 		} else {
-
 			this.mainMessage = "Oups on dirait qu'il n'y ai pas de gagnant !";
-
 		}
 	}
 
@@ -85,7 +76,6 @@ export class GameoverScene extends Phaser.Scene {
 			scenePlugin: this.scene,
 			newSceneKey: 'Menu'
 		});
-
 	}
 
 }

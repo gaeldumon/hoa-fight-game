@@ -1,4 +1,4 @@
-import { Tilemap } from './tilemap';
+import { Tilemap } from './Tilemap';
 import { getGameWidth, getGameHeight } from '../helpers';
 
 
@@ -10,16 +10,13 @@ import { getGameWidth, getGameHeight } from '../helpers';
  */
 export class Level {
 
-
 	private scene: Phaser.Scene;
 	private readonly id: number;
 	private _tilemap: Tilemap;
 	private _name: string;
-
 	private _thumbnailKey: string;
 	private backgroundKey: string;
 	private musicKey: string;
-
 
 	public get tilemap(): Tilemap {
 		return this._tilemap;
@@ -61,7 +58,6 @@ export class Level {
 		});
 
 		this.scene.sound.add(this.musicKey).play();
-
 	}
 
 }

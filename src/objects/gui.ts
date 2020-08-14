@@ -1,31 +1,52 @@
 import { getGameWidth, getGameHeight } from '../helpers';
 
+/**
+ * This class is used for GUI elements such as actions buttons and titles.
+ * It relies on Phaser game objects DOM elements, so these GUI elements are
+ * html and css.
+ */
 export class Gui {
 
-
-	public static readonly mainBtnStyle = 
-		`width: 150px; 
+	public static readonly mainBtnStyle = `
+		width: 150px; 
 		height: 49px; 
 		font-family: Grobold,Arial; 
 		color: #000000; 
 		font-size: 25px; 
 		border-radius: 4px;
 		background-color: #fff; 
-		border: 2px solid #000`
-	;
+		border: 2px solid #000
+	`;
 
-	
-	public static readonly secondaryBtnStyle = 
-		`width: 100px; 
+	public static readonly secondaryBtnStyle = `
+		width: 100px; 
 		height: 33px; 
 		font-family: Grobold, Arial, sans-serif; 
 		color: #000000; 
 		font-size: 17px; 
 		border-radius: 4px;
 		background-color: #fff; 
-		border: 2px solid #000`
+		border: 2px solid #000
+	`;
+
+	public static readonly titleStyle = 
+		`color: #ffffff; 
+		font-size: 40px; 
+		font-family: Grobold, Arial, sans-serif`
 	;
 
+	public static readonly sectionTitleStyle = `
+		color: #ffffff; 
+		font-size: 30px; 
+		font-family: Grobold, Arial, sans-serif
+	`;
+
+	public static readonly basicTextStyle = `
+		color: #ffffff; 
+		font-size: 20px; 
+		text-align: center; 
+		font-family: Grobold, Arial, sans-serif
+	`;
 
 	/**
 	 * Create a stylized Button DOM Element with a click event listener attached
@@ -43,8 +64,8 @@ export class Gui {
 
 		params.scene.add.dom(
 
-			getGameWidth(params.scene)/2,
-			getGameHeight(params.scene)-100,
+			getGameWidth(params.scene) / 2,
+			getGameHeight(params.scene) - 100,
 			'button',
 			Gui.mainBtnStyle,
 			params.text
@@ -105,9 +126,7 @@ export class Gui {
 			}
 			
 		});
-
 	}
-
 
 	public static title(params: { 
 		scene: Phaser.Scene; 
@@ -118,13 +137,10 @@ export class Gui {
 			getGameWidth(params.scene)/2,
 			24,
 			'h3',
-			`color: #ffffff; 
-			font-size: 40px; 
-			font-family: Grobold, Arial, sans-serif`,
+			Gui.titleStyle,
 			params.text
 		);
 	}
-
 
 	public static sectionTitle(params: { 
 		scene: Phaser.Scene; 
@@ -137,13 +153,10 @@ export class Gui {
 			params.x,
 			params.y,
 			'h4',
-			`color: #ffffff; 
-			font-size: 30px; 
-			font-family: Grobold, Arial, sans-serif`,
+			Gui.sectionTitleStyle,
 			params.text
 		);
 	}
-
 
 	public static customText(params: { 
 		scene: Phaser.Scene; 
@@ -156,13 +169,9 @@ export class Gui {
 			params.x,
 			params.y,
 			'p',
-			`color: #ffffff; 
-			font-size: 20px; 
-			text-align: center; 
-			font-family: Grobold, Arial, sans-serif`,
+			Gui.basicTextStyle,
 			params.text
 		);
 	}
-
 
 }

@@ -1,10 +1,10 @@
 /**
-* The first part of the file (from the entry to the output property) is just 
-* telling webpack where our project starts, where the compiled version 
-* should be output, and how to resolve TypeScript files. 
-* The latter part, under plugins, defines some of the webpack additions it 
-* needs in order to work with Phaser.
-**/
+ * The first part of the file (from the entry to the output property) is just 
+ * telling webpack where our project starts, where the compiled version 
+ * should be output, and how to resolve TypeScript files. 
+ * The latter part, under plugins, defines some of the webpack additions it 
+ * needs in order to work with Phaser.
+ */
 
 const path = require('path');
 const webpack = require('webpack');
@@ -38,8 +38,7 @@ module.exports = {
 	mode: 'development',
 
 	devServer: {
-		contentBase: path.resolve(__dirname, 'dist'),
-		//https: true
+		contentBase: path.resolve(__dirname, 'dist')
 	},
 
 	plugins: [

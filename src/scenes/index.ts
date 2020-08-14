@@ -1,7 +1,7 @@
-import { BootScene } from './boot-scene';
-import { MenuScene } from './menu-scene';
-import { GameScene } from './game-scene';
-import { GameoverScene } from './gameover-scene';
+import { BootScene } from './BootScene';
+import { MenuScene } from './MenuScene';
+import { GameScene } from './GameScene';
+import { GameoverScene } from './GameoverScene';
 
 export default [
 	BootScene,

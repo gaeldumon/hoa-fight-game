@@ -1,6 +1,6 @@
-import { Projectile } from './projectile';
-import { HealthBar } from './healthBar';
-import { Character } from './character';
+import { Projectile } from './Projectile';
+import { HealthBar } from './HealthBar';
+import { Character } from './Character';
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
 
@@ -102,7 +102,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 			this._projectiles.add(
 				new Projectile({
 					scene: this.scene,
-					// Changing bullet starting point if sprite is flipped on X axis
+					// Changing bullet starting point if sprite is flipped on X axis.
 					x: (!this.flipX) ? this.x + 20 : this.x - 20,
 					y: this.y + 11,
 					// Bullet direction (left/right) based on last pressed key
@@ -112,7 +112,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 				})
 			);
 			this.lastShoot = this.scene.time.now + 500;
-			// Playing sound here ensures us it is played only once every shoot
+			// Playing sound here ensures us it is played only once every shoot.
 			this.shootSound.play();
 		}
 	}
@@ -122,13 +122,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 	 */
 	private handleSpriteFlipping(): void {
 		if (this.lastPressedKey === this.leftKey) {
-			// Changed sprite orientation: facing left
+			// Changed sprite orientation: facing left.
 			this.flipX = true;
 		} else if (this.lastPressedKey === this.rightKey) {
-			// Original sprite orientation: facing right
+			// Original sprite orientation: facing right.
 			this.flipX = false;
 		} else {
-			// Original sprite orientation: facing right
+			// Original sprite orientation: facing right.
 			this.flipX = false;
 		}
 	}
@@ -151,7 +151,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 		this.setVelocityX(0);
 		this.anims.play(`${this.texture.key}IDLE`, true);
 
-		// Idling-Shooting
+		// Idling-Shooting.
 		if (this.shootKey.isDown) {
 			this.anims.play(`${this.texture.key}IDLE_SHOOT`, true);
 			this.shoot();
@@ -239,24 +239,17 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 				delay: 1000,
 				loop: false,
 				callback: () => {
-
 					this.setState(this.STATES.ALIVE);
-
 				}
 			});
 
 		} else if (this.state === this.STATES.DEAD) {
-
 			// We don't reset state to ALIVE cause it's end of the game
-
 			this.anims.play(`${this.texture.key}DEAD`, true);
-
 			this.setVelocityX(0);
-
+			
 		} else {
-
 			throw new Error("Unknown Player State");
-
 		}
 	}
 }

@@ -1,17 +1,15 @@
 import { getGameWidth, getGameHeight } from '../helpers';
-import { Level } from '../objects/level';
-import { User } from '../objects/user';
-import { Character } from '../objects/character';
-import { Gui } from '../objects/gui';
+import { Level } from '../objects/Level';
+import { User } from '../objects/User';
+import { Character } from '../objects/Character';
+import { Gui } from '../objects/Gui';
 import { parsedStorage } from '../storage';
-
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 	active: false,
 	visible: false,
 	key: 'Boot'
 };
-
 
 export class BootScene extends Phaser.Scene {
 
@@ -24,13 +22,11 @@ export class BootScene extends Phaser.Scene {
 	private background: Phaser.GameObjects.Image;
 	private musicTheme: Phaser.Sound.BaseSound;
 	
-
 	constructor() {
 		super(sceneConfig);
 	}
 
 	init() {
-
 		this.levels = [
 			new Level({
 				id: 1,
@@ -95,11 +91,9 @@ export class BootScene extends Phaser.Scene {
 		this.data.set('users', this.users);
 		this.data.set('characters', this.characters);
 		this.data.set('levels', this.levels);
-
 	}
 
 	preload() {
-
 		this.load.pack(
 			"preload",
 			"assets/pack.json",
@@ -116,11 +110,9 @@ export class BootScene extends Phaser.Scene {
 				`assets/images/characters/character${n}/character${n}-atlas.json`
 			);
 		}
-		
 	}
 
 	create() {
-
 		this.musicTheme = this.sound.add('menuTheme');
 		this.musicTheme.play();
 
@@ -149,9 +141,8 @@ export class BootScene extends Phaser.Scene {
 			stopSounds: false,
 			scenePlugin: this.scene,
 			newSceneKey: 'Menu',
-			// Passing this scene data to the destination scene.
+			// Passing this scene data to the menu scene.
 			sceneData: this.data.getAll()
 		});
-		
 	}
 }

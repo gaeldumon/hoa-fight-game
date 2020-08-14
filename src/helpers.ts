@@ -1,6 +1,5 @@
 import * as Phaser from 'phaser';
 
-
 /**
  * Return the width of the current scene.
  * Which is generally equal to the width of the "screen"/canvas but not always.
@@ -10,7 +9,6 @@ export const getGameWidth = (scene: Phaser.Scene) => {
 	return scene.game.scale.width;
 };
 
-
 /**
  * Return the height of the current scene.
  * Which is generally equal to the height of the "screen"/canvas but not always.
@@ -19,7 +17,6 @@ export const getGameWidth = (scene: Phaser.Scene) => {
 export const getGameHeight = (scene: Phaser.Scene) => {
 	return scene.game.scale.height;
 };
-
 
 /**
  * Load a file in ajax and return its response text.
@@ -47,7 +44,6 @@ export const loadFile = (pFilePath: string): string => {
 	return result;
 }
 
-
 /**
  * Returns a 2d-array of strings from a whole text file given as input.
  * Works best if the input text is only composed of single chars and '\n'.
@@ -59,33 +55,28 @@ export const loadStrings = (pFilePath: string): string[][] => {
 	return rawGrid.split('\n').map(item => item.split(''));
 }
 
-
 export const COLORS = {
-	customBlue: { string: '#4346f9', hex: 0x4346f9 },
-	customGreen: { string:  '#76ea64', hex: 0x76ea64 },
-	vibrantGreen: { string: '#25f945', hex: 0x25f945 },
-	customRed: { string: '#ea2d23', hex: 0xea2d23 },
-	white: { string: '#ffffff', hex: 0xffffff }
+	customBlue: 	{ string: '#4346f9', hex: 0x4346f9 },
+	customGreen: 	{ string: '#76ea64', hex: 0x76ea64 },
+	vibrantGreen: 	{ string: '#25f945', hex: 0x25f945 },
+	customRed: 		{ string: '#ea2d23', hex: 0xea2d23 },
+	white: 			{ string: '#ffffff', hex: 0xffffff }
 }
-
-// Note -- we can add multiple keys at once : 
-// this.keys = this.input.keyboard.addKeys('ENTER,W,A,S,D')
-// And then do : this.keys.ENTER.isDown...
 
 export const CONTROLKEYS = {
 	PLAYER: {
 		SET1: {
-			right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
-			left: Phaser.Input.Keyboard.KeyCodes.LEFT,
-			jump: Phaser.Input.Keyboard.KeyCodes.UP,
-			shoot: Phaser.Input.Keyboard.KeyCodes.SHIFT
+			right: 	Phaser.Input.Keyboard.KeyCodes.RIGHT,
+			left: 	Phaser.Input.Keyboard.KeyCodes.LEFT,
+			jump: 	Phaser.Input.Keyboard.KeyCodes.UP,
+			shoot: 	Phaser.Input.Keyboard.KeyCodes.SHIFT
 		},
 
 		SET2: {
-			right: Phaser.Input.Keyboard.KeyCodes.D,
-			left: Phaser.Input.Keyboard.KeyCodes.Q,
-			jump: Phaser.Input.Keyboard.KeyCodes.S,
-			shoot: Phaser.Input.Keyboard.KeyCodes.SPACE
+			right: 	Phaser.Input.Keyboard.KeyCodes.D,
+			left: 	Phaser.Input.Keyboard.KeyCodes.Q,
+			jump: 	Phaser.Input.Keyboard.KeyCodes.S,
+			shoot: 	Phaser.Input.Keyboard.KeyCodes.SPACE
 		}
 	}
 }

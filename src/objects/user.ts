@@ -1,7 +1,7 @@
-import { Player } from "./player";
-import { Character } from "./character";
-import { Level } from "./level";
-import { Gui } from "../objects/gui";
+import { Player } from "./Player";
+import { Character } from "./Character";
+import { Level } from "./Level";
+import { Gui } from "./Gui";
 
 
 export class User {

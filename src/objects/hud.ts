@@ -1,5 +1,5 @@
 import { getGameWidth } from '../helpers';
-import { User } from './user';
+import { User } from './User';
 
 export class Hud {
 
@@ -51,9 +51,7 @@ export class Hud {
 				this.textStyle,
 				`${params.user.username} | Ratio ${params.user.ratio}%`
 			).setOrigin(1,0);
-
 		}
-
 	}
 
 }

@@ -8,16 +8,13 @@ export class Character {
 
 	// Very important field, tightly linked to the keys you provide in pack.json
 	private readonly id: number;
-
 	private details: object;
 	private stats: object;
-
 	// Fields built upon the Id provided at instanciation.
 	private _textureKey: string;
 	// Character's avatar
 	private _thumbnailKey: string;
 	private _soundKey: string;
-
 
 	public get textureKey(): string {
 		return this._textureKey;
@@ -31,7 +28,6 @@ export class Character {
 		return this._soundKey;
 	}
 
-
 	constructor(params: {
 		id: number;
 		details?: object;
@@ -41,7 +37,6 @@ export class Character {
 		this.id = params.id;
 		this.details = params.details;
 		this.stats = params.stats;
-
 		this._textureKey = `character${this.id}`;
 		this._thumbnailKey = `character${this.id}Avatar`;
 		this._soundKey = `character${this.id}Sound`;
