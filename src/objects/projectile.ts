@@ -1,47 +1,52 @@
-import { getGameWidth, getGameHeight } from '../helpers';
+/** @format */
+
+import { getGameWidth, getGameHeight } from "../helpers";
 
 export class Projectile extends Phaser.Physics.Arcade.Sprite {
-	private vx: number;
-	private direction: number;
+    private vx: number;
+    private direction: number;
 
-	private isOut(): boolean {
-		if (this.x > getGameWidth(this.scene) || this.y > getGameHeight(this.scene) || this.x < 0 || this.y < 0) {
-			return true;
-		}
-		return false;
-	}
+    private isOut(): boolean {
+        if (
+            this.x > getGameWidth(this.scene) ||
+            this.y > getGameHeight(this.scene) ||
+            this.x < 0 ||
+            this.y < 0
+        ) {
+            return true;
+        }
+        return false;
+    }
 
-	private initAnimations(): void {
-		this.scene.anims.create({
-			key: 'collisionEffect1',
-			frames: this.scene.anims.generateFrameNumbers('collisionEffect1', {
-				start: 0,
-				end: 1
-			}),
-			repeat: 1
-		});
-	}
+    private initAnimations(): void {
+        this.scene.anims.create({
+            key: "collisionEffect1",
+            frames: this.scene.anims.generateFrameNumbers("collisionEffect1", {
+                start: 0,
+                end: 1,
+            }),
+            repeat: 1,
+        });
+    }
 
-	constructor(params) {
-		super(params.scene, params.x, params.y, params.textureKey);
+    constructor(params) {
+        super(params.scene, params.x, params.y, params.textureKey);
 
-		this.scene.physics.world.enable(this);
-		this.scene.add.existing(this);
+        this.scene.physics.world.enable(this);
+        this.scene.add.existing(this);
 
-		this.vx = 700;
-		this.direction = params.direction;
-		
-		this.initAnimations();
+        this.vx = 700;
+        this.direction = params.direction;
 
-		this.setVelocityX(this.direction * this.vx);
-	}
+        this.initAnimations();
 
-	update(): void {
-		if (this.isOut()) {
+        this.setVelocityX(this.direction * this.vx);
+    }
 
-			this.destroy();
-			console.log('Projectile destroyed cause out of world bounds');
-			
-		}
-	}
+    update(): void {
+        if (this.isOut()) {
+            this.destroy();
+            console.log("Projectile destroyed cause out of world bounds");
+        }
+    }
 }

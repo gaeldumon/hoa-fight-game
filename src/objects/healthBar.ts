@@ -1,13 +1,14 @@
-import { COLORS } from '../helpers';
+/** @format */
+
+import { COLORS } from "../helpers";
 
 export class HealthBar {
-
-	private bar: Phaser.GameObjects.Graphics;
-	private x: number;
+    private bar: Phaser.GameObjects.Graphics;
+    private x: number;
     private y: number;
     private width: number;
     private height: number;
-	private healthValue: number;
+    private healthValue: number;
     private percentage: number;
 
     public decrease(pAmount: number): boolean {
@@ -19,7 +20,7 @@ export class HealthBar {
 
         this.draw();
 
-        return (this.healthValue === 0);
+        return this.healthValue === 0;
     }
 
     private draw(): void {
@@ -36,11 +37,11 @@ export class HealthBar {
         }
 
         let healthWidth = Math.floor(this.percentage * this.healthValue);
-		// The actual health jauge you see decreasing
+        // The actual health jauge you see decreasing
         this.bar.fillRect(this.x, this.y, healthWidth, this.height);
     }
 
-    constructor(params: { scene: Phaser.Scene; x: number; y: number; }) {
+    constructor(params: { scene: Phaser.Scene; x: number; y: number }) {
         // Equivalent to this.bar = params.scene.add.graphics()
         this.bar = new Phaser.GameObjects.Graphics(params.scene);
         this.x = params.x;
@@ -48,7 +49,7 @@ export class HealthBar {
         this.width = 100;
         this.height = 12;
         this.healthValue = 100;
-        this.percentage = 100/100;
+        this.percentage = 100 / 100;
 
         this.draw();
 

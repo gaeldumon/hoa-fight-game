@@ -1,7 +1,6 @@
 {
 	"preload": {
 		"files": [
-
 			{
 				"type": "tilemapTiledJSON",
 				"key": "level1",
@@ -31,15 +30,11 @@
 				"key": "level1Theme",
 				"url": "assets/levels/level1/sand-castle-1.mp3"
 			},
-
-
-
 			{
 				"type": "tilemapTiledJSON",
 				"key": "level2",
 				"url": "assets/levels/level2/level2.json"
 			},
-
 			{
 				"type": "spritesheet",
 				"key": "level2Tilesheet",
@@ -64,7 +59,6 @@
 				"key": "level2Theme",
 				"url": "assets/levels/level2/sand-castle-3.mp3"
 			},
-			
 			{
 				"type": "image",
 				"key": "backgroundForGUIScenes",
@@ -75,7 +69,6 @@
 				"key": "mainLogo",
 				"url": "assets/images/backgrounds/main-logo.png"
 			},
-
 			{
 				"type": "spritesheet",
 				"key": "collisionEffect1",
@@ -85,55 +78,46 @@
 					"frameHeight": 32
 				}
 			},
-
 			{
 				"type": "image",
 				"key": "projectile",
 				"url": "assets/images/objects/projectile.png"
 			},
-
 			{
 				"type": "image",
 				"key": "bomb",
 				"url": "assets/images/objects/bomb.png"
 			},
-
 			{
 				"type": "audio",
 				"key": "jumpSound",
 				"url": "assets/sounds/jump.wav"
 			},
-
 			{
 				"type": "audio",
 				"key": "shootSound",
 				"url": "assets/sounds/shoot.mp3"
 			},
-
 			{
 				"type": "audio",
 				"key": "clickSound",
 				"url": "assets/sounds/click.mp3"
 			},
-
 			{
 				"type": "audio",
 				"key": "launchGameSound",
 				"url": "assets/sounds/launch-game.mp3"
 			},
-
 			{
 				"type": "audio",
 				"key": "menuTheme",
 				"url": "assets/sounds/menu-theme.mp3"
 			},
-
 			{
 				"type": "audio",
 				"key": "alternativeTheme",
 				"url": "assets/sounds/alternative-theme.mp3"
 			},
-
 			{
 				"type": "image",
 				"key": "character1Avatar",
@@ -164,7 +148,6 @@
 				"key": "character6Avatar",
 				"url": "assets/images/characters/character6/character6-avatar.png"
 			}
-			
 		]
 	}
 }
