@@ -1,0 +1,12 @@
+@font-face {
+	font-family: "Grobold";
+	src: url("../assets/fonts/grobold.ttf") format("ttf")
+}
+
+body {
+	background-color: #000;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 680px;
+}

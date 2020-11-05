@@ -2,6 +2,11 @@
 	"preload": {
 		"files": [
 			{
+				"type": "font",
+				"key": "fontGrobold",
+				"url": "assets/fonts/grobold.bmp"
+			},
+			{
 				"type": "tilemapTiledJSON",
 				"key": "level1",
 				"url": "assets/levels/level1/level1.json"
