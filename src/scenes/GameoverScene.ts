@@ -58,8 +58,8 @@ export class GameoverScene extends Phaser.Scene {
 
         Gui.customText({
             scene: this,
-            x: getGameWidth(this) / 2,
-            y: 200,
+            x: getGameWidth(this)/2,
+            y: getGameHeight(this)/2,
             text: this.mainMessage,
         });
 

@@ -67,7 +67,21 @@ export class GameScene extends Phaser.Scene {
                 this.player2.hurt();
                 this.player1.projectiles.getFirstAlive().destroy();
             }
-        );
+		);
+		this.physics.add.collider(
+			this.player1.projectiles,
+			this.tilemap.mainLayer,
+			() => {
+				this.player1.projectiles.getFirstAlive().destroy();
+			}
+		);
+		this.physics.add.collider(
+			this.player2.projectiles,
+			this.tilemap.mainLayer,
+			() => {
+				this.player2.projectiles.getFirstAlive().destroy();
+			}
+		);
     }
 
     constructor() {
@@ -116,8 +130,7 @@ export class GameScene extends Phaser.Scene {
             controlKeys: CONTROLKEYS.PLAYER.SET2,
             healthBar: new HealthBar({
                 scene: this,
-                x: 60,
-                y: 40,
+                side: "left"
             }),
         });
 
@@ -129,8 +142,7 @@ export class GameScene extends Phaser.Scene {
             controlKeys: CONTROLKEYS.PLAYER.SET1,
             healthBar: new HealthBar({
                 scene: this,
-                x: getGameWidth(this) - 162,
-                y: 40,
+                side: "right"
             }),
         });
 

@@ -78,8 +78,8 @@ export const CONTROLKEYS = {
         SET2: {
             right: Phaser.Input.Keyboard.KeyCodes.D,
             left: Phaser.Input.Keyboard.KeyCodes.Q,
-            jump: Phaser.Input.Keyboard.KeyCodes.Z,
-            shoot: Phaser.Input.Keyboard.KeyCodes.SPACE,
+            jump: Phaser.Input.Keyboard.KeyCodes.SPACE,
+            shoot: Phaser.Input.Keyboard.KeyCodes.E,
         },
     },
 };
