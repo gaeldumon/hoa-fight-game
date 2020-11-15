@@ -10,7 +10,7 @@ import { getGameWidth, getGameHeight } from "../helpers";
 export class Gui {
     public static readonly mainBtnStyle = `
 		height: 50px; 
-		font-family: Grobold,Arial; 
+		font-family: Grobold, monospace, Arial; 
 		color: #000000; 
 		font-size: 25px; 
 		border-radius: 4px;
@@ -21,7 +21,7 @@ export class Gui {
     public static readonly secondaryBtnStyle = `
 		width: 100px; 
 		height: 33px; 
-		font-family: Grobold, Arial, sans-serif; 
+		font-family: Grobold, monospace, Arial; 
 		color: #000000; 
 		font-size: 17px; 
 		border-radius: 4px;
@@ -42,7 +42,6 @@ export class Gui {
     public static readonly basicTextStyle = `
 		color: #ffffff; 
 		font-size: 20px; 
-		text-align: center; 
 		font-family: Grobold, Arial, sans-serif
 	`;
 
@@ -62,7 +61,7 @@ export class Gui {
         params.scene.add
             .dom(
                 getGameWidth(params.scene) / 2,
-                getGameHeight(params.scene) - 100,
+                getGameHeight(params.scene) - 90,
                 "button",
                 Gui.mainBtnStyle,
                 params.text

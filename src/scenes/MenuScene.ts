@@ -48,8 +48,22 @@ export class MenuScene extends Phaser.Scene {
     }
 
     private printTexts(): void {
+		const player1Keys = `
+			Right  : D
+			Left   : Q
+			Shoot  : E
+			Jump   : SPACE
+		`;
+		const player2Keys = `
+			Right  : →
+			Left   : ←
+			Shoot  : SHIFT
+			Jump   : ↑
+		`;
         Gui.customText({ scene: this, x: 650, y: 210, text: "PLAYER 1" });
-        Gui.customText({ scene: this, x: 850, y: 210, text: "PLAYER 2" });
+		Gui.customText({ scene: this, x: 850, y: 210, text: "PLAYER 2" });
+		Gui.customText({ scene: this, x: 650, y: 420, text: player1Keys });
+		Gui.customText({ scene: this, x: 850, y: 420, text: player2Keys });
     }
 
     // Initialized the choices on the 1st elements of the terrain and the
