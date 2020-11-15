@@ -6,6 +6,7 @@ import { User } from "../objects/User";
 import { Character } from "../objects/Character";
 import { Gui } from "../objects/Gui";
 import { parsedStorage } from "../storage";
+import { LoadingBar } from "../objects/LoadingBar";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
     active: false,
@@ -22,6 +23,7 @@ export class BootScene extends Phaser.Scene {
     private btn: Phaser.GameObjects.DOMElement;
     private background: Phaser.GameObjects.Image;
     private musicTheme: Phaser.Sound.BaseSound;
+	private loadingBar: LoadingBar;
 
     constructor() {
         super(sceneConfig);
@@ -106,7 +108,19 @@ export class BootScene extends Phaser.Scene {
                 `assets/images/characters/character${n}/character${n}-spritesheet.png`,
                 `assets/images/characters/character${n}/character${n}-atlas.json`
             );
-        }
+		}
+		
+		this.loadingBar = new LoadingBar({ scene: this });
+
+        this.load.on("progress", (value) => {
+			this.loadingBar.draw(value);
+			this.loadingBar.progressText.setText((Math.floor(value*100)) + "%");
+		});
+		
+        this.load.on("complete", () => {
+			this.loadingBar.destroy();
+		});
+
     }
 
     create() {
