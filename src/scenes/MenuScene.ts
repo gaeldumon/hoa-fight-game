@@ -43,13 +43,13 @@ export class MenuScene extends Phaser.Scene {
 
     private printTitles(): void {
         Gui.title({ scene: this, text: "MENU" });
-        Gui.sectionTitle({ scene: this, x: 200, y: 130, text: "Terrain" });
-        Gui.sectionTitle({ scene: this, x: 750, y: 130, text: "Personnages" });
+        Gui.sectionTitle({ scene: this, x: 200, y: 130, text: "TERRAIN" });
+        Gui.sectionTitle({ scene: this, x: 750, y: 130, text: "CHARACTERS" });
     }
 
     private printTexts(): void {
-        Gui.customText({ scene: this, x: 650, y: 210, text: "Joueur 1" });
-        Gui.customText({ scene: this, x: 850, y: 210, text: "Joueur 2" });
+        Gui.customText({ scene: this, x: 650, y: 210, text: "PLAYER 1" });
+        Gui.customText({ scene: this, x: 850, y: 210, text: "PLAYER 2" });
     }
 
     // Initialized the choices on the 1st elements of the terrain and the
@@ -90,7 +90,7 @@ export class MenuScene extends Phaser.Scene {
             scene: this,
             x: 200,
             y: 450,
-            text: "Suivant",
+            text: "NEXT",
             img: this.levelThumb,
             textureKeys: this.data.values.levels.map(
                 (level) => level.thumbnailKey
@@ -111,7 +111,7 @@ export class MenuScene extends Phaser.Scene {
             scene: this,
             x: 650,
             y: 370,
-            text: "Suivant",
+            text: "NEXT",
             img: this.characterThumbs[0],
             textureKeys: this.data.values.characters.map((c) => c.thumbnailKey),
             callback: () => {
@@ -131,7 +131,7 @@ export class MenuScene extends Phaser.Scene {
             scene: this,
             x: 850,
             y: 370,
-            text: "Suivant",
+            text: "NEXT",
             img: this.characterThumbs[1],
             textureKeys: this.data.values.characters.map((c) => c.thumbnailKey),
             callback: () => {

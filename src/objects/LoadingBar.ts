@@ -65,7 +65,7 @@ export class LoadingBar {
 		this.text = this.scene.make.text({
 			x: getGameWidth(this.scene)/2,
 			y: (getGameHeight(this.scene)/2) + 40,
-			text: "Chargement...",
+			text: "Loading...",
 			style: {
 				font: '20px monospace',
 				fill: COLORS.white.string

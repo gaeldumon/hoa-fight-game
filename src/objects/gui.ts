@@ -9,8 +9,7 @@ import { getGameWidth, getGameHeight } from "../helpers";
  */
 export class Gui {
     public static readonly mainBtnStyle = `
-		width: 150px; 
-		height: 49px; 
+		height: 50px; 
 		font-family: Grobold,Arial; 
 		color: #000000; 
 		font-size: 25px; 

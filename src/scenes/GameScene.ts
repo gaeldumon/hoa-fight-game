@@ -113,7 +113,7 @@ export class GameScene extends Phaser.Scene {
             x: 300,
             y: 300,
             textureKey: this.data.values.users[0].characterInstance.textureKey,
-            controlKeys: CONTROLKEYS.PLAYER.SET1,
+            controlKeys: CONTROLKEYS.PLAYER.SET2,
             healthBar: new HealthBar({
                 scene: this,
                 x: 60,
@@ -126,7 +126,7 @@ export class GameScene extends Phaser.Scene {
             x: 900,
             y: 300,
             textureKey: this.data.values.users[1].characterInstance.textureKey,
-            controlKeys: CONTROLKEYS.PLAYER.SET2,
+            controlKeys: CONTROLKEYS.PLAYER.SET1,
             healthBar: new HealthBar({
                 scene: this,
                 x: getGameWidth(this) - 162,

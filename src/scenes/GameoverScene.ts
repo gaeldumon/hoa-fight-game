@@ -40,10 +40,10 @@ export class GameoverScene extends Phaser.Scene {
     init(gameSceneData) {
         if (gameSceneData.winner) {
             this.data.set("winner", gameSceneData.winner);
-            this.mainMessage = `${this.data.values.winner.username} remporte la partie !`;
+            this.mainMessage = `${this.data.values.winner.username} WON !`;
             this.handlingStorage();
         } else {
-            this.mainMessage = "Oups on dirait qu'il n'y ai pas de gagnant !";
+            this.mainMessage = "IT'S A DRAW !";
         }
     }
 
@@ -54,7 +54,7 @@ export class GameoverScene extends Phaser.Scene {
             "backgroundForGUIScenes"
         );
 
-        Gui.title({ scene: this, text: "Fin De Partie" });
+        Gui.title({ scene: this, text: "END OF GAME" });
 
         Gui.customText({
             scene: this,
@@ -65,7 +65,7 @@ export class GameoverScene extends Phaser.Scene {
 
         Gui.mainBtn({
             scene: this,
-            text: "REJOUER",
+            text: "PLAY AGAIN",
             stopSounds: false,
             scenePlugin: this.scene,
             newSceneKey: "Menu",
