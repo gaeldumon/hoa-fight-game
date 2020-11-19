@@ -72,14 +72,28 @@ export const CONTROLKEYS = {
             right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
             left: Phaser.Input.Keyboard.KeyCodes.LEFT,
             jump: Phaser.Input.Keyboard.KeyCodes.UP,
-            shoot: Phaser.Input.Keyboard.KeyCodes.SHIFT,
+			shoot: Phaser.Input.Keyboard.KeyCodes.SHIFT,
+			displayString: `
+				Right  : D
+				Left   : Q
+				Shoot  : S
+				Jump   : SPACE
+			`
         },
 
         SET2: {
             right: Phaser.Input.Keyboard.KeyCodes.D,
             left: Phaser.Input.Keyboard.KeyCodes.Q,
             jump: Phaser.Input.Keyboard.KeyCodes.SPACE,
-            shoot: Phaser.Input.Keyboard.KeyCodes.E,
+			shoot: Phaser.Input.Keyboard.KeyCodes.S,
+			displayString: `
+				Right  : →
+				Left   : ←
+				Shoot  : SHIFT
+				Jump   : ↑
+			`
         },
     },
 };
+
+export const DEFAULT_FONT_FAMILIES = "Grobold, monospace, Arial";

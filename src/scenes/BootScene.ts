@@ -1,6 +1,6 @@
 /** @format */
 
-import { getGameWidth, getGameHeight } from "../helpers";
+import { getGameWidth, getGameHeight, COLORS } from "../helpers";
 import { Level } from "../objects/Level";
 import { User } from "../objects/User";
 import { Character } from "../objects/Character";
@@ -141,12 +141,12 @@ export class BootScene extends Phaser.Scene {
             "mainLogo"
         );
 
-        Gui.customText({
+        Gui.simpleParagraph({
             scene: this,
             x: this.logo.x,
-            y: this.logo.y + 84,
+            y: this.logo.y + 90,
             text: "Welcome to the fight !",
-        });
+		});
 
         Gui.mainBtn({
             scene: this,

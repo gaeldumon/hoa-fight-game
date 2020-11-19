@@ -1,6 +1,6 @@
 @font-face {
 	font-family: "Grobold";
-	src: url("../assets/fonts/grobold.ttf") format("ttf")
+	src: url(./fonts/grobold.ttf) format("truetype");
 }
 
 body {

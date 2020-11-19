@@ -1,6 +1,6 @@
 /** @format */
 
-import { getGameWidth } from "../helpers";
+import { COLORS, DEFAULT_FONT_FAMILIES, getGameWidth } from "../helpers";
 import { User } from "./User";
 
 export class Hud {
@@ -10,10 +10,10 @@ export class Hud {
 
     constructor(params: { scene: Phaser.Scene; user: User }) {
         this.textStyle = `
-			font-family: Grobold, Arial; 
+			font-family: ${DEFAULT_FONT_FAMILIES}; 
 			margin: 0; 
 			font-size: 18px; 
-			color: #fff;
+			color: ${COLORS.white.string};
 			padding: 10px
 		`;
 

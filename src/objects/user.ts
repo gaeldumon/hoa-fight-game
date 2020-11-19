@@ -63,6 +63,10 @@ export class User {
         this._levelInstance = v;
 	}
 
+	public set ratio(v: number) {
+		this._ratio = v;
+	}
+
     constructor(params: {
         id: number;
         username: string;

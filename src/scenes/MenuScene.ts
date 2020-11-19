@@ -1,6 +1,6 @@
 /** @format */
 
-import { getGameWidth, getGameHeight } from "../helpers";
+import { getGameWidth, getGameHeight, CONTROLKEYS } from "../helpers";
 import { Gui } from "../objects/Gui";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -26,46 +26,6 @@ export class MenuScene extends Phaser.Scene {
         );
     }
 
-    private initThumbnails(data): void {
-        // Init the terrain thumbnail on the 1st level.
-        this.levelThumb = this.add.image(
-            200,
-            300,
-            data.values.levels[0].thumbnailKey
-        );
-
-        // Init the 2 characters thumbnails on the 1st character.
-        this.characterThumbs = [
-            this.add.image(650, 270, data.values.characters[0].thumbnailKey),
-            this.add.image(850, 270, data.values.characters[0].thumbnailKey),
-        ];
-    }
-
-    private printTitles(): void {
-        Gui.title({ scene: this, text: "MENU" });
-        Gui.sectionTitle({ scene: this, x: 200, y: 130, text: "TERRAIN" });
-        Gui.sectionTitle({ scene: this, x: 750, y: 130, text: "CHARACTERS" });
-    }
-
-    private printTexts(): void {
-        const player1Keys = `
-			Right  : D
-			Left   : Q
-			Shoot  : E
-			Jump   : SPACE
-		`;
-        const player2Keys = `
-			Right  : →
-			Left   : ←
-			Shoot  : SHIFT
-			Jump   : ↑
-		`;
-        Gui.customText({ scene: this, x: 650, y: 210, text: "PLAYER 1" });
-        Gui.customText({ scene: this, x: 850, y: 210, text: "PLAYER 2" });
-        Gui.customText({ scene: this, x: 650, y: 420, text: player1Keys });
-        Gui.customText({ scene: this, x: 850, y: 420, text: player2Keys });
-    }
-
     // Initialized the choices on the 1st elements of the terrain and the
     // characters. This way if the players doesn't click on anything they still
     // have terrain and characters instances attached.
@@ -74,6 +34,90 @@ export class MenuScene extends Phaser.Scene {
             user.levelInstance = pLevels[0];
             user.characterInstance = pCharacters[0];
         }
+    }
+
+    private makeTerrainSection(params: { x: number; y: number }): void {
+		Gui.simpleParagraph({
+            scene: this,
+            x: params.x,
+            y: params.y,
+            text: "TERRAIN",
+		});
+		
+        // Init the terrain thumbnail on the 1st level.
+        this.levelThumb = this.add.image(
+            params.x,
+            params.y + 138,
+            this.data.get("levels")[0].thumbnailKey
+        );
+
+        Gui.slideBtn({
+            scene: this,
+            x: params.x,
+            y: params.y + 143 + 136,
+            text: "NEXT",
+            img: this.levelThumb,
+            textureKeys: this.data
+                .get("levels")
+                .map((level) => level.thumbnailKey),
+            callback: () => {
+                for (const level of this.data.get("levels")) {
+                    if (level.thumbnailKey === this.levelThumb.texture.key) {
+                        this.data.get("users")[0].levelInstance = level;
+                        this.data.get("users")[1].levelInstance = level;
+                    }
+                }
+            },
+        });
+    }
+
+    private makeCharacterSection(params: {
+        x: number;
+        y: number;
+        title: string;
+        controlKeys: string;
+        id: number;
+    }): void {
+        Gui.simpleParagraph({
+            scene: this,
+            x: params.x,
+            y: params.y,
+            text: params.title,
+        });
+        // Init character thumbnail to the 1st one
+        this.characterThumbs.push(
+            this.add.image(
+                params.x,
+                params.y + 70,
+                this.data.get("characters")[0].thumbnailKey
+            )
+        );
+        Gui.slideBtn({
+            scene: this,
+            x: params.x,
+            y: params.y + 70 + 60,
+            text: "NEXT",
+            img: this.characterThumbs[params.id],
+            textureKeys: this.data.get("characters").map((c) => c.thumbnailKey),
+            callback: () => {
+                for (const ch of this.data.get("characters")) {
+                    if (
+                        ch.thumbnailKey ===
+                        this.characterThumbs[params.id].texture.key
+                    ) {
+                        this.data.get("users")[
+                            params.id
+                        ].characterInstance = ch;
+                    }
+                }
+            },
+        });
+        Gui.simpleParagraph({
+            scene: this,
+            x: params.x,
+            y: params.y + 70 + 60 + 72,
+            text: params.controlKeys,
+        });
     }
 
     constructor() {
@@ -93,74 +137,35 @@ export class MenuScene extends Phaser.Scene {
             this.data.get("users"),
             this.data.get("levels"),
             this.data.get("characters")
-        );
+		);
+		
+		this.characterThumbs = [];
     }
 
     create() {
+		Gui.title({ scene: this, text: "MENU" });
+
         this.drawBackground();
-        this.initThumbnails(this.data);
-        this.printTitles();
-        this.printTexts();
 
-        // Slide button n°1. This is where User 1 or 2 choose the level.
-        // Modifies the level thumbnail texture (with texture keys) on click.
-        Gui.slideBtn({
-            scene: this,
-            x: 200,
-            y: 450,
-            text: "NEXT",
-            img: this.levelThumb,
-            textureKeys: this.data
-                .get("levels")
-                .map((level) => level.thumbnailKey),
-            callback: () => {
-                for (const level of this.data.get("levels")) {
-                    if (level.thumbnailKey === this.levelThumb.texture.key) {
-                        this.data.get("users")[0].levelInstance = level;
-                        this.data.get("users")[1].levelInstance = level;
-                    }
-                }
-            },
+        this.makeTerrainSection({ 
+			x: 200, 
+			y: 192 
+		});
+
+        this.makeCharacterSection({
+            x: 700,
+            y: 192,
+            title: "PLAYER 1",
+            controlKeys: CONTROLKEYS.PLAYER.SET1.displayString,
+            id: 0,
         });
 
-        // Slide button n°2. This is where User 1 choose its character.
-        // Modifies the texture of the character thumbnail n°1 on click.
-        Gui.slideBtn({
-            scene: this,
-            x: 650,
-            y: 330,
-            text: "NEXT",
-            img: this.characterThumbs[0],
-            textureKeys: this.data.get("characters").map((c) => c.thumbnailKey),
-            callback: () => {
-                for (const ch of this.data.get("characters")) {
-                    if (
-                        ch.thumbnailKey === this.characterThumbs[0].texture.key
-                    ) {
-                        this.data.get("users")[0].characterInstance = ch;
-                    }
-                }
-            },
-        });
-
-        // Slide button n°3. This is where User 2 choose its character.
-        // Modifies the texture of the character thumbnail n°2 on click.
-        Gui.slideBtn({
-            scene: this,
-            x: 850,
-            y: 330,
-            text: "NEXT",
-            img: this.characterThumbs[1],
-            textureKeys: this.data.get("characters").map((c) => c.thumbnailKey),
-            callback: () => {
-                for (const ch of this.data.get("characters")) {
-                    if (
-                        ch.thumbnailKey === this.characterThumbs[1].texture.key
-                    ) {
-                        this.data.get("users")[1].characterInstance = ch;
-                    }
-                }
-            },
+        this.makeCharacterSection({
+            x: 900,
+            y: 192,
+            title: "PLAYER 2",
+            controlKeys: CONTROLKEYS.PLAYER.SET2.displayString,
+            id: 1,
         });
 
         // Set the MODIFIED users data from the boot scene to this actual scene.
@@ -174,7 +179,6 @@ export class MenuScene extends Phaser.Scene {
             stopSounds: true,
             scenePlugin: this.scene,
             newSceneKey: "Game",
-            // Sending this scene's data (= users) to the game scene.
             sceneData: this.data.getAll(),
         });
     }

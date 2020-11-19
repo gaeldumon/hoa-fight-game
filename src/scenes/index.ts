@@ -5,4 +5,9 @@ import { MenuScene } from "./MenuScene";
 import { GameScene } from "./GameScene";
 import { GameoverScene } from "./GameoverScene";
 
-export default [BootScene, MenuScene, GameScene, GameoverScene];
+export default [
+	BootScene, 
+	MenuScene, 
+	GameScene, 
+	GameoverScene
+];

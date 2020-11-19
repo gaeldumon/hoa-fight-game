@@ -1,6 +1,6 @@
 /** @format */
 
-import { getGameWidth, getGameHeight } from "../helpers";
+import { getGameWidth, getGameHeight, COLORS, DEFAULT_FONT_FAMILIES } from "../helpers";
 
 /**
  * This class is used for GUI elements such as actions buttons and titles.
@@ -10,42 +10,43 @@ import { getGameWidth, getGameHeight } from "../helpers";
 export class Gui {
     public static readonly mainBtnStyle = `
 		height: 50px; 
-		font-family: Grobold, monospace, Arial; 
-		color: #000000; 
 		font-size: 25px; 
 		border-radius: 4px;
-		background-color: #fff; 
-		border: 2px solid #000
+		font-family: ${DEFAULT_FONT_FAMILIES}; 
+		color: ${COLORS.black.string}; 
+		background-color: ${COLORS.white.string}; 
+		border: 2px solid ${COLORS.black.string}
 	`;
 
     public static readonly secondaryBtnStyle = `
 		width: 100px; 
 		height: 33px; 
-		font-family: Grobold, monospace, Arial; 
-		color: #000000; 
 		font-size: 17px; 
 		border-radius: 4px;
-		background-color: #fff; 
-		border: 2px solid #000
+		font-family: ${DEFAULT_FONT_FAMILIES}; 
+		color: ${COLORS.black.string}; 
+		background-color: ${COLORS.white.string}; 
+		border: 2px solid ${COLORS.black.string}
 	`;
 
 	public static readonly titleStyle = `
-		color: #ffffff; 
 		font-size: 40px; 
-		font-family: Grobold, monospace, Arial`;
+		margin: 0;
+		color: ${COLORS.white.string}; 
+		font-family: ${DEFAULT_FONT_FAMILIES}`;
 
     public static readonly sectionTitleStyle = `
-		color: #ffffff; 
-		font-size: 30px; 
-		font-family: Grobold, monospace, Arial
+		font-size: 30px;
+		margin: 0;
+		color: ${COLORS.white.string}; 
+		font-family: ${DEFAULT_FONT_FAMILIES}
 	`;
 
     public static readonly basicTextStyle = `
-		color: #ffffff; 
 		font-size: 20px; 
-		margin-top: 0;
-		margin-bottom: 0;
-		font-family: Grobold, monospace, Arial
+		margin: 0;
+		color: ${COLORS.white.string}; 
+		font-family: ${DEFAULT_FONT_FAMILIES}
 	`;
 
     /**
@@ -127,7 +128,7 @@ export class Gui {
     public static title(params: { scene: Phaser.Scene; text: string }): void {
         params.scene.add.dom(
             getGameWidth(params.scene) / 2,
-            24,
+            64,
             "h3",
             Gui.titleStyle,
             params.text
@@ -149,7 +150,7 @@ export class Gui {
         );
     }
 
-    public static customText(params: {
+    public static simpleParagraph(params: {
         scene: Phaser.Scene;
         x: number;
         y: number;
