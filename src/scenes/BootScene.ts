@@ -5,7 +5,6 @@ import { Level } from "../objects/Level";
 import { User } from "../objects/User";
 import { Character } from "../objects/Character";
 import { Gui } from "../objects/Gui";
-import { parsedStorage } from "../storage";
 import { LoadingBar } from "../objects/LoadingBar";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -43,20 +42,22 @@ export class BootScene extends Phaser.Scene {
 
         this.users = [
             new User({
-                id: parsedStorage()?.mainUser?.id || 0,
-                username: parsedStorage()?.mainUser?.username || "PoolGhoul",
-                ratio: parsedStorage()?.mainUser?.ratio || 0,
+                id: 1,
+                username: "PoolGhoul",
+				ratio: 0,
+				games: [],
                 screenSide: "left",
             }),
 
             new User({
-                id: parsedStorage()?.secondaryUser?.id || 0,
-                username: parsedStorage()?.secondaryUser?.username || "JollyClever",
-                ratio: parsedStorage()?.secondaryUser?.ratio || 0,
+                id: 2,
+                username: "JollyClever",
+				ratio: 0,
+				games: [],
                 screenSide: "right",
             }),
-        ];
-
+		];
+		
         this.characters = [
             new Character({
                 id: 1,
@@ -101,8 +102,9 @@ export class BootScene extends Phaser.Scene {
 
         // Preload all characters atlases : a json file that acts as
         // as a "map"/"link" to a png spritesheet.
-        // Used for drawing PLayer texture and set animations.
-        for (let n = 1; n <= 6; n++) {
+		// Used for drawing PLayer texture and set animations.
+		const NUMBER_OF_CHARACTERS = 6;
+        for (let n = 1; n <= NUMBER_OF_CHARACTERS; n++) {
             this.load.atlas(
                 `character${n}`,
                 `assets/images/characters/character${n}/character${n}-spritesheet.png`,

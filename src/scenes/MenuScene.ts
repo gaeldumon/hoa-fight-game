@@ -36,8 +36,8 @@ export class MenuScene extends Phaser.Scene {
 
         // Init the 2 characters thumbnails on the 1st character.
         this.characterThumbs = [
-            this.add.image(650, 300, data.values.characters[0].thumbnailKey),
-            this.add.image(850, 300, data.values.characters[0].thumbnailKey),
+            this.add.image(650, 270, data.values.characters[0].thumbnailKey),
+            this.add.image(850, 270, data.values.characters[0].thumbnailKey),
         ];
     }
 
@@ -48,31 +48,31 @@ export class MenuScene extends Phaser.Scene {
     }
 
     private printTexts(): void {
-		const player1Keys = `
+        const player1Keys = `
 			Right  : D
 			Left   : Q
 			Shoot  : E
 			Jump   : SPACE
 		`;
-		const player2Keys = `
+        const player2Keys = `
 			Right  : →
 			Left   : ←
 			Shoot  : SHIFT
 			Jump   : ↑
 		`;
         Gui.customText({ scene: this, x: 650, y: 210, text: "PLAYER 1" });
-		Gui.customText({ scene: this, x: 850, y: 210, text: "PLAYER 2" });
-		Gui.customText({ scene: this, x: 650, y: 420, text: player1Keys });
-		Gui.customText({ scene: this, x: 850, y: 420, text: player2Keys });
+        Gui.customText({ scene: this, x: 850, y: 210, text: "PLAYER 2" });
+        Gui.customText({ scene: this, x: 650, y: 420, text: player1Keys });
+        Gui.customText({ scene: this, x: 850, y: 420, text: player2Keys });
     }
 
     // Initialized the choices on the 1st elements of the terrain and the
     // characters. This way if the players doesn't click on anything they still
     // have terrain and characters instances attached.
-    private initUsersChoices(data): void {
-        for (const user of data.values.users) {
-            user.levelInstance = data.values.levels[0];
-            user.characterInstance = data.values.characters[0];
+    private initUsersChoices(pUsers, pLevels, pCharacters): void {
+        for (const user of pUsers) {
+            user.levelInstance = pLevels[0];
+            user.characterInstance = pCharacters[0];
         }
     }
 
@@ -82,14 +82,18 @@ export class MenuScene extends Phaser.Scene {
 
     init(bootSceneData) {
         // Using ES2020 optionnal chaining (i.e the ?) to check if the data
-        // object coming from the boot scene has the right users, characters and
+        // object coming from the boot scene has users, characters and
         // levels fields.
         // Setting the data from the boot scene to this scene's data.
         this.data.set("users", bootSceneData?.users);
         this.data.set("characters", bootSceneData?.characters);
         this.data.set("levels", bootSceneData?.levels);
 
-        this.initUsersChoices(this.data);
+        this.initUsersChoices(
+            this.data.get("users"),
+            this.data.get("levels"),
+            this.data.get("characters")
+        );
     }
 
     create() {
@@ -106,14 +110,14 @@ export class MenuScene extends Phaser.Scene {
             y: 450,
             text: "NEXT",
             img: this.levelThumb,
-            textureKeys: this.data.values.levels.map(
-                (level) => level.thumbnailKey
-            ),
+            textureKeys: this.data
+                .get("levels")
+                .map((level) => level.thumbnailKey),
             callback: () => {
-                for (const level of this.data.values.levels) {
+                for (const level of this.data.get("levels")) {
                     if (level.thumbnailKey === this.levelThumb.texture.key) {
-                        this.data.values.users[0].levelInstance = level;
-                        this.data.values.users[1].levelInstance = level;
+                        this.data.get("users")[0].levelInstance = level;
+                        this.data.get("users")[1].levelInstance = level;
                     }
                 }
             },
@@ -124,16 +128,16 @@ export class MenuScene extends Phaser.Scene {
         Gui.slideBtn({
             scene: this,
             x: 650,
-            y: 370,
+            y: 330,
             text: "NEXT",
             img: this.characterThumbs[0],
-            textureKeys: this.data.values.characters.map((c) => c.thumbnailKey),
+            textureKeys: this.data.get("characters").map((c) => c.thumbnailKey),
             callback: () => {
-                for (const ch of this.data.values.characters) {
+                for (const ch of this.data.get("characters")) {
                     if (
                         ch.thumbnailKey === this.characterThumbs[0].texture.key
                     ) {
-                        this.data.values.users[0].characterInstance = ch;
+                        this.data.get("users")[0].characterInstance = ch;
                     }
                 }
             },
@@ -144,16 +148,16 @@ export class MenuScene extends Phaser.Scene {
         Gui.slideBtn({
             scene: this,
             x: 850,
-            y: 370,
+            y: 330,
             text: "NEXT",
             img: this.characterThumbs[1],
-            textureKeys: this.data.values.characters.map((c) => c.thumbnailKey),
+            textureKeys: this.data.get("characters").map((c) => c.thumbnailKey),
             callback: () => {
-                for (const ch of this.data.values.characters) {
+                for (const ch of this.data.get("characters")) {
                     if (
                         ch.thumbnailKey === this.characterThumbs[1].texture.key
                     ) {
-                        this.data.values.users[1].characterInstance = ch;
+                        this.data.get("users")[1].characterInstance = ch;
                     }
                 }
             },
@@ -162,7 +166,7 @@ export class MenuScene extends Phaser.Scene {
         // Set the MODIFIED users data from the boot scene to this actual scene.
         // Modified, because level and characters instances has been linked to
         // each users thanks to the slide buttons callbacks and the thumbnails.
-        this.data.set("users", this.data.values.users);
+        this.data.set("users", this.data.get("users"));
 
         Gui.mainBtn({
             scene: this,

@@ -26,7 +26,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     private bulletProof: boolean;
 
     private readonly STATES = {
-        ALIVE: "ALIVE",
+        NORMAL: "NORMAL",
         HURT: "HURT",
         DEAD: "DEAD",
     };
@@ -45,7 +45,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
                 this.health -= 20;
                 this.healthBar.decrease(20);
 
-                this.setState(this.STATES.HURT);
+				if (this.state !== this.STATES.HURT) {
+					this.setState(this.STATES.HURT);
+				}
             }
         }
     }
@@ -205,13 +207,15 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         // Restrain the boundingBox
         this.setSize(20, 60);
 
-        this.setState(this.STATES.ALIVE);
+		this.setState(this.STATES.NORMAL);
     }
 
     update(): void {
-        if (this.isDead()) this.state = this.STATES.DEAD;
+		if (this.isDead()) {
+			this.state = this.STATES.DEAD;
+		}
 
-        if (this.state === this.STATES.ALIVE) {
+        if (this.state === this.STATES.NORMAL) {
             // This is detached from the other block because you can do anything
             // while jumping: walk/walk-shoot, idle/idle-shoot. So it isn't
             // dependant of whether you're pressing left or right or whatever.
@@ -223,22 +227,23 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
                 this.handleIdling();
             }
 
-            this.handleSpriteFlipping();
+			this.handleSpriteFlipping();
+			
         } else if (this.state === this.STATES.HURT) {
             this.anims.play(`${this.texture.key}HIT`, true);
 
             this.setVelocityX(0);
 
-            // This leads to hurt anim bug
+			// The only thing that make the player return to normal is time
             this.scene.time.addEvent({
                 delay: 1000,
                 loop: false,
                 callback: () => {
-                    this.setState(this.STATES.ALIVE);
+                    this.setState(this.STATES.NORMAL);
                 },
             });
         } else if (this.state === this.STATES.DEAD) {
-            // We don't reset state to ALIVE cause it's end of the game
+            // We don't reset state to NORMAL cause it's end of the game
             this.anims.play(`${this.texture.key}DEAD`, true);
             this.setVelocityX(0);
         } else {

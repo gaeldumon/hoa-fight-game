@@ -29,20 +29,23 @@ export class Gui {
 		border: 2px solid #000
 	`;
 
-    public static readonly titleStyle = `color: #ffffff; 
+	public static readonly titleStyle = `
+		color: #ffffff; 
 		font-size: 40px; 
-		font-family: Grobold, Arial, sans-serif`;
+		font-family: Grobold, monospace, Arial`;
 
     public static readonly sectionTitleStyle = `
 		color: #ffffff; 
 		font-size: 30px; 
-		font-family: Grobold, Arial, sans-serif
+		font-family: Grobold, monospace, Arial
 	`;
 
     public static readonly basicTextStyle = `
 		color: #ffffff; 
 		font-size: 20px; 
-		font-family: Grobold, Arial, sans-serif
+		margin-top: 0;
+		margin-bottom: 0;
+		font-family: Grobold, monospace, Arial
 	`;
 
     /**
