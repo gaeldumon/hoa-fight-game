@@ -2,7 +2,7 @@
 
 import { getGameWidth, getGameHeight } from "../helpers";
 import { Gui } from "../objects/Gui";
-import { parsedStorage } from "../storage";
+import { Storage } from "../Storage";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
     active: false,
@@ -15,36 +15,61 @@ export class GameoverScene extends Phaser.Scene {
 
     constructor() {
         super(sceneConfig);
-    }
+	}
+	
+	private displayReport() {
+		let usernameX = (getGameWidth(this)/2) - 200;
+		let usernameY = 280;
+		let badgeX = 88;
 
-    private handlingStorage() {
-        if (parsedStorage()) {
-            const parsedUsers = parsedStorage();
+		this.data.get("users").forEach(user => {
+			Gui.customText({
+				scene: this,
+				x: usernameX,
+				y: usernameY,
+				text: user.username + " :",
+			});
+	
+			user.games.forEach(game => {
+				this.add.image(
+					usernameX + badgeX,
+					usernameY,
+					(game.win === true) ? "star" : "tombstone"
+				);
+				badgeX += 40;
+			});
 
-            if (this.data.values.winner.id === parsedUsers.mainUser.id) {
-                parsedUsers?.mainUser?.matchs?.push({ win: true });
-                parsedUsers?.secondaryUser?.matchs?.push({ win: false });
-            } else if (
-                this.data.values.winner.id === parsedUsers.secondaryUser.id
-            ) {
-                parsedUsers?.secondaryUser?.matchs?.push({ win: true });
-                parsedUsers?.mainUser?.matchs?.push({ win: false });
-            }
-
-            // Serialize and set in storage the newly updated users objects
-            // with their corresponding matchs pushed entries.
-            localStorage.setItem("hoafight", JSON.stringify(parsedUsers));
-        }
-    }
+			usernameY += 56;
+			badgeX = 88;
+		});
+	}
 
     init(gameSceneData) {
+		this.data.set("users", gameSceneData.users);
+
         if (gameSceneData.winner) {
             this.data.set("winner", gameSceneData.winner);
-            this.mainMessage = `${this.data.values.winner.username} WON !`;
-            this.handlingStorage();
-        } else {
+			this.mainMessage = `${this.data.get("winner").username} WON !`;
+
+			if (this.data.get("winner").id === this.data.get("users")[0].id) {
+
+				this.data.get("users")[0].games.push({ win: true });
+				this.data.get("users")[1].games.push({ win: false });
+
+			} else if (this.data.get("winner").id === this.data.get("users")[1].id) {
+
+				this.data.get("users")[0].games.push({ win: false });
+				this.data.get("users")[1].games.push({ win: true });
+
+			}
+
+		} else {
             this.mainMessage = "IT'S A DRAW !";
-        }
+		}
+		
+		// DEBUG
+		console.log("users games = ", this.data.get("users").games);
+		// *****
     }
 
     create() {
@@ -59,9 +84,11 @@ export class GameoverScene extends Phaser.Scene {
         Gui.customText({
             scene: this,
             x: getGameWidth(this)/2,
-            y: getGameHeight(this)/2,
+            y: 200,
             text: this.mainMessage,
-        });
+		});
+		
+		this.displayReport();
 
         Gui.mainBtn({
             scene: this,
