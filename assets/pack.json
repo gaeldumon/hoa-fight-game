@@ -2,6 +2,36 @@
 	"preload": {
 		"files": [
 			{
+				"type": "image",
+				"key": "trampoline",
+				"url": "assets/images/objects/trampoline.png"
+			},
+			{
+				"type": "image",
+				"key": "pikes",
+				"url": "assets/images/objects/pikes.png"
+			},
+			{
+				"type": "image",
+				"key": "projectile",
+				"url": "assets/images/objects/projectile.png"
+			},
+			{
+				"type": "image",
+				"key": "star",
+				"url": "assets/images/objects/star.png"
+			},
+			{
+				"type": "image",
+				"key": "tombstone",
+				"url": "assets/images/objects/tombstone.png"
+			},
+			{
+				"type": "image",
+				"key": "bomb",
+				"url": "assets/images/objects/bomb.png"
+			},
+			{
 				"type": "font",
 				"key": "fontGrobold",
 				"url": "assets/fonts/grobold.bmp"
@@ -82,16 +112,6 @@
 					"frameWidth": 32,
 					"frameHeight": 32
 				}
-			},
-			{
-				"type": "image",
-				"key": "projectile",
-				"url": "assets/images/objects/projectile.png"
-			},
-			{
-				"type": "image",
-				"key": "bomb",
-				"url": "assets/images/objects/bomb.png"
 			},
 			{
 				"type": "audio",
