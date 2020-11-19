@@ -1,6 +1,6 @@
 /** @format */
 
-import { getGameWidth, CONTROLKEYS } from "../helpers";
+import { getGameWidth, CONTROLKEYS, getGameHeight } from "../helpers";
 import { Bomb } from "../objects/Bomb";
 import { Hud } from "../objects/Hud";
 import { Player } from "../objects/Player";
@@ -39,49 +39,57 @@ export class GameScene extends Phaser.Scene {
 
     private setColliders(): void {
         this.physics.add.collider(this.bombs, this.tilemap.mainLayer);
-        this.physics.add.collider(this.bombs, this.player1, () => {
+
+        this.physics.add.collider(this.bombs, this.player1, (bomb) => {
             this.player1.hurt();
-            this.bombs.getFirstAlive().destroy();
+            bomb.destroy();
         });
-        this.physics.add.collider(this.bombs, this.player2, () => {
+
+        this.physics.add.collider(this.bombs, this.player2, (bomb) => {
             this.player2.hurt();
-            this.bombs.getFirstAlive().destroy();
+            bomb.destroy();
         });
+
         this.physics.add.collider(this.player1, this.player2);
+
         this.physics.add.collider(
-            [this.player1, this.player2],
+			[this.player1, this.player2],
             this.tilemap.mainLayer
         );
+
         this.physics.add.collider(
-            this.player1,
             this.player2.projectiles,
-            () => {
+            this.player1,
+            (projectile) => {
                 this.player1.hurt();
-                this.player2.projectiles.getFirstAlive().destroy();
+                projectile.destroy();
             }
         );
+
         this.physics.add.collider(
-            this.player2,
             this.player1.projectiles,
-            () => {
+            this.player2,
+            (projectile) => {
                 this.player2.hurt();
-                this.player1.projectiles.getFirstAlive().destroy();
+                projectile.destroy();
             }
-		);
-		this.physics.add.collider(
-			this.player1.projectiles,
-			this.tilemap.mainLayer,
-			() => {
-				this.player1.projectiles.getFirstAlive().destroy();
-			}
-		);
-		this.physics.add.collider(
-			this.player2.projectiles,
-			this.tilemap.mainLayer,
-			() => {
-				this.player2.projectiles.getFirstAlive().destroy();
-			}
-		);
+        );
+
+        this.physics.add.collider(
+            this.player1.projectiles,
+            this.tilemap.mainLayer,
+            (projectile) => {
+                projectile.destroy();
+            }
+        );
+
+        this.physics.add.collider(
+            this.player2.projectiles,
+            this.tilemap.mainLayer,
+            (projectile) => {
+                projectile.destroy();
+            }
+        );
     }
 
     constructor() {
@@ -93,21 +101,21 @@ export class GameScene extends Phaser.Scene {
 
         Animations.createCharactersAnims({
             scene: this,
-            users: this.data.get("users"),
+            users: this.data.get("users")
         });
     }
 
     create() {
-        this.data.values.users[0].levelInstance.create(this);
+        this.data.get("users")[0].levelInstance.create(this);
 
-        this.tilemap = this.data.values.users[0].levelInstance.tilemap;
+        this.tilemap = this.data.get("users")[0].levelInstance.tilemap;
 
         this.bombs = this.add.group({
             runChildUpdate: true,
         });
 
         this.bombCreationEvent = this.time.addEvent({
-            delay: 2000,
+            delay: 5000,
             loop: true,
             callback: () => {
                 this.bombs.add(
@@ -126,11 +134,11 @@ export class GameScene extends Phaser.Scene {
             scene: this,
             x: 300,
             y: 300,
-            textureKey: this.data.values.users[0].characterInstance.textureKey,
+            textureKey: this.data.get("users")[0].characterInstance.textureKey,
             controlKeys: CONTROLKEYS.PLAYER.SET2,
             healthBar: new HealthBar({
                 scene: this,
-                side: "left"
+                side: "left",
             }),
         });
 
@@ -138,11 +146,11 @@ export class GameScene extends Phaser.Scene {
             scene: this,
             x: 900,
             y: 300,
-            textureKey: this.data.values.users[1].characterInstance.textureKey,
+            textureKey: this.data.get("users")[1].characterInstance.textureKey,
             controlKeys: CONTROLKEYS.PLAYER.SET1,
             healthBar: new HealthBar({
                 scene: this,
-                side: "right"
+                side: "right",
             }),
         });
 
@@ -159,10 +167,10 @@ export class GameScene extends Phaser.Scene {
         this.setColliders();
 
         // This is where we have user<-->player concordance
-        this.data.values.users[0].playerInstance = this.player1;
-        this.data.values.users[1].playerInstance = this.player2;
+        this.data.get("users")[0].playerInstance = this.player1;
+        this.data.get("users")[1].playerInstance = this.player2;
 
-        this.data.set("users", this.data.values.users);
+        this.data.set("users", this.data.get("users"));
     }
 
     update() {
@@ -179,11 +187,15 @@ export class GameScene extends Phaser.Scene {
             this.player2.makeBulletProof();
 
             // Deciding which one is the winner (the one not dead).
+			// Winners are users not players.
             if (this.player1.isDead() && !this.player2.isDead()) {
-                // Winners are users not players.
-                this.winner = this.data.values.users[1];
+
+				this.winner = this.data.get("users")[1];
+				
             } else if (!this.player1.isDead() && this.player2.isDead()) {
-                this.winner = this.data.values.users[0];
+
+				this.winner = this.data.get("users")[0];
+				
             } else if (this.player2.isDead() && this.player2.isDead()) {
                 // Nulling the winner if there's no winner at all
                 // Typically this shouldn't ever happen but who knows.
