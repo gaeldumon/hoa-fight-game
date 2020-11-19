@@ -1,17 +1,27 @@
-/**
- * Parse the hoafight serialized hoafight object from the local storage.
- * If there's no hoafight object present it returns null and fake users profiles
- * will be created instead.
- *
- * @format
- */
+/** @format */
 
-export function parsedStorage() {
-    if (localStorage.getItem("hoafight")) {
-        const hf = localStorage.getItem("hoafight");
-        const parsed = JSON.parse(hf);
-        return parsed;
-    } else {
-        return null;
-    }
+export class Storage {
+	private name = "hoafight";
+
+    public static getLocalStorage() {
+        if (localStorage.getItem(this.name)) {
+            return JSON.parse(localStorage.getItem(this.name));
+        } else {
+            return null;
+        }
+	}
+	
+	public static initLocalStorage(pContent) {
+		if (!localStorage.getItem(this.name)) {
+			try {
+				localStorage.setItem(this.name, JSON.stringify(pContent));
+				return true;
+			} catch {
+				return false;
+			}
+		} else {
+			return null;
+		}
+	}
+
 }
