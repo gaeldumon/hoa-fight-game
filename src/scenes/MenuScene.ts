@@ -37,13 +37,13 @@ export class MenuScene extends Phaser.Scene {
     }
 
     private makeTerrainSection(params: { x: number; y: number }): void {
-		Gui.simpleParagraph({
+        Gui.simpleParagraph({
             scene: this,
             x: params.x,
             y: params.y,
             text: "TERRAIN",
-		});
-		
+        });
+
         // Init the terrain thumbnail on the 1st level.
         this.levelThumb = this.add.image(
             params.x,
@@ -78,12 +78,14 @@ export class MenuScene extends Phaser.Scene {
         controlKeys: string;
         id: number;
     }): void {
+
         Gui.simpleParagraph({
             scene: this,
             x: params.x,
             y: params.y,
             text: params.title,
         });
+
         // Init character thumbnail to the 1st one
         this.characterThumbs.push(
             this.add.image(
@@ -92,6 +94,7 @@ export class MenuScene extends Phaser.Scene {
                 this.data.get("characters")[0].thumbnailKey
             )
         );
+
         Gui.slideBtn({
             scene: this,
             x: params.x,
@@ -101,17 +104,13 @@ export class MenuScene extends Phaser.Scene {
             textureKeys: this.data.get("characters").map((c) => c.thumbnailKey),
             callback: () => {
                 for (const ch of this.data.get("characters")) {
-                    if (
-                        ch.thumbnailKey ===
-                        this.characterThumbs[params.id].texture.key
-                    ) {
-                        this.data.get("users")[
-                            params.id
-                        ].characterInstance = ch;
+                    if (ch.thumbnailKey === this.characterThumbs[params.id].texture.key) {
+                        this.data.get("users")[params.id].characterInstance = ch;
                     }
                 }
             },
         });
+
         Gui.simpleParagraph({
             scene: this,
             x: params.x,
@@ -126,8 +125,7 @@ export class MenuScene extends Phaser.Scene {
 
     init(bootSceneData) {
         // Using ES2020 optionnal chaining (i.e the ?) to check if the data
-        // object coming from the boot scene has users, characters and
-        // levels fields.
+        // object coming from the boot scene has users, characters and levels fields.
         // Setting the data from the boot scene to this scene's data.
         this.data.set("users", bootSceneData?.users);
         this.data.set("characters", bootSceneData?.characters);
@@ -137,20 +135,20 @@ export class MenuScene extends Phaser.Scene {
             this.data.get("users"),
             this.data.get("levels"),
             this.data.get("characters")
-		);
-		
-		this.characterThumbs = [];
+        );
+
+        this.characterThumbs = [];
     }
 
     create() {
-		Gui.title({ scene: this, text: "MENU" });
+        Gui.title({ scene: this, text: "MENU" });
 
         this.drawBackground();
 
-        this.makeTerrainSection({ 
-			x: 200, 
-			y: 192 
-		});
+        this.makeTerrainSection({
+            x: 200,
+            y: 192
+        });
 
         this.makeCharacterSection({
             x: 700,

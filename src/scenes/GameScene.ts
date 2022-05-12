@@ -53,7 +53,7 @@ export class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.player1, this.player2);
 
         this.physics.add.collider(
-			[this.player1, this.player2],
+            [this.player1, this.player2],
             this.tilemap.mainLayer
         );
 
@@ -187,15 +187,15 @@ export class GameScene extends Phaser.Scene {
             this.player2.makeBulletProof();
 
             // Deciding which one is the winner (the one not dead).
-			// Winners are users not players.
+            // Winners are users not players.
             if (this.player1.isDead() && !this.player2.isDead()) {
 
-				this.winner = this.data.get("users")[1];
-				
+                this.winner = this.data.get("users")[1];
+
             } else if (!this.player1.isDead() && this.player2.isDead()) {
 
-				this.winner = this.data.get("users")[0];
-				
+                this.winner = this.data.get("users")[0];
+
             } else if (this.player2.isDead() && this.player2.isDead()) {
                 // Nulling the winner if there's no winner at all
                 // Typically this shouldn't ever happen but who knows.

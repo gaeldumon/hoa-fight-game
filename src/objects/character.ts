@@ -28,13 +28,13 @@ export class Character {
 
     public get soundKey(): string {
         return this._soundKey;
-	}
-	
-	public get details(): any {
-		return this._details;
-	}
+    }
 
-    constructor(params: { id: number; details?: {nickname: string}; stats?: object }) {
+    public get details(): any {
+        return this._details;
+    }
+
+    constructor(params: { id: number; details?: { nickname: string }; stats?: object }) {
         this.id = params.id;
         this._details = params.details;
         this.stats = params.stats;

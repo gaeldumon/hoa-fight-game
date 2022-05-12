@@ -2,16 +2,18 @@
  * This tells TypeScript which files it should try to compile and which version
  * of JavaScript to shoot for.
  */
-
 {
     "compilerOptions": {
         "target": "es5",
         "sourceMap": true
     },
-
-    "include": ["src/**/*.ts"],
-
-    "typeRoots": ["./node_modules/phaser/types"],
-
-    "types": ["Phaser"]
+    "include": [
+        "src/**/*.ts"
+    ],
+    "typeRoots": [
+        "./node_modules/phaser/types"
+    ],
+    "types": [
+        "Phaser"
+    ]
 }

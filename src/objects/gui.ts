@@ -9,44 +9,59 @@ import { getGameWidth, getGameHeight, COLORS, DEFAULT_FONT_FAMILIES } from "../h
  */
 export class Gui {
     public static readonly mainBtnStyle = `
-		height: 50px; 
+		height: 50px;
 		font-size: 25px; 
 		border-radius: 4px;
 		font-family: ${DEFAULT_FONT_FAMILIES}; 
 		color: ${COLORS.black.string}; 
 		background-color: ${COLORS.white.string}; 
-		border: 2px solid ${COLORS.black.string}
+		border: 2px solid ${COLORS.black.string};
 	`;
 
     public static readonly secondaryBtnStyle = `
-		width: 100px; 
 		height: 33px; 
 		font-size: 17px; 
 		border-radius: 4px;
 		font-family: ${DEFAULT_FONT_FAMILIES}; 
 		color: ${COLORS.black.string}; 
 		background-color: ${COLORS.white.string}; 
-		border: 2px solid ${COLORS.black.string}
+		border: 2px solid ${COLORS.black.string};
 	`;
 
-	public static readonly titleStyle = `
+    public static readonly titleStyle = `
 		font-size: 40px; 
 		margin: 0;
 		color: ${COLORS.white.string}; 
-		font-family: ${DEFAULT_FONT_FAMILIES}`;
+		font-family: ${DEFAULT_FONT_FAMILIES};
+        text-shadow: 
+            -1px -1px 0 ${COLORS.black.string}, 
+            1px -1px 0 ${COLORS.black.string}, 
+            -1px 1px 0 ${COLORS.black.string}, 
+            1px 1px 0 ${COLORS.black.string};
+    `;
 
     public static readonly sectionTitleStyle = `
 		font-size: 30px;
 		margin: 0;
 		color: ${COLORS.white.string}; 
-		font-family: ${DEFAULT_FONT_FAMILIES}
+		font-family: ${DEFAULT_FONT_FAMILIES};
+        text-shadow: 
+            -1px -1px 0 ${COLORS.black.string}, 
+            1px -1px 0 ${COLORS.black.string}, 
+            -1px 1px 0 ${COLORS.black.string}, 
+            1px 1px 0 ${COLORS.black.string};
 	`;
 
     public static readonly basicTextStyle = `
 		font-size: 20px; 
 		margin: 0;
 		color: ${COLORS.white.string}; 
-		font-family: ${DEFAULT_FONT_FAMILIES}
+		font-family: ${DEFAULT_FONT_FAMILIES};
+        text-shadow: 
+            -1px -1px 0 ${COLORS.black.string}, 
+            1px -1px 0 ${COLORS.black.string}, 
+            -1px 1px 0 ${COLORS.black.string}, 
+            1px 1px 0 ${COLORS.black.string};
 	`;
 
     /**

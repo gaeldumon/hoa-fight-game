@@ -6,8 +6,8 @@ import { GameScene } from "./GameScene";
 import { GameoverScene } from "./GameoverScene";
 
 export default [
-	BootScene, 
-	MenuScene, 
-	GameScene, 
-	GameoverScene
+    BootScene,
+    MenuScene,
+    GameScene,
+    GameoverScene
 ];

@@ -1,7 +1,7 @@
 /** @format */
 
 export class Storage {
-	private name = "hoafight";
+    private name = "hoafight";
 
     public static getLocalStorage() {
         if (localStorage.getItem(this.name)) {
@@ -9,19 +9,19 @@ export class Storage {
         } else {
             return null;
         }
-	}
-	
-	public static initLocalStorage(pContent) {
-		if (!localStorage.getItem(this.name)) {
-			try {
-				localStorage.setItem(this.name, JSON.stringify(pContent));
-				return true;
-			} catch {
-				return false;
-			}
-		} else {
-			return null;
-		}
-	}
+    }
+
+    public static initLocalStorage(pContent) {
+        if (!localStorage.getItem(this.name)) {
+            try {
+                localStorage.setItem(this.name, JSON.stringify(pContent));
+                return true;
+            } catch {
+                return false;
+            }
+        } else {
+            return null;
+        }
+    }
 
 }

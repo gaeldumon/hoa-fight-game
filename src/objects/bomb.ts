@@ -4,14 +4,10 @@ import { getGameWidth, getGameHeight } from "../helpers";
 
 export class Bomb extends Phaser.Physics.Arcade.Image {
     private isOut(): boolean {
-        if (
-            this.x > getGameWidth(this.scene) ||
-            this.y > getGameHeight(this.scene) ||
-            this.x < 0 ||
-            this.y < 0
-        ) {
+        if (this.x > getGameWidth(this.scene) || this.y > getGameHeight(this.scene) || this.x < 0 || this.y < 0) {
             return true;
         }
+
         return false;
     }
 

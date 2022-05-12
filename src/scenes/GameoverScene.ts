@@ -15,75 +15,75 @@ export class GameoverScene extends Phaser.Scene {
 
     constructor() {
         super(sceneConfig);
-	}
-	
-	private displayReport():void {
-		let usernameX = (getGameWidth(this)/2) - 200;
-		let usernameY = 280;
-		let badgeX = 100;
-		const badgeSpacing = 40;
-		const badgeLimit =  getGameWidth(this) - 80;
-		const interline = 56;
+    }
 
-		function resetBadgeX() {
-			badgeX = 100;
-		}
+    private displayReport(): void {
+        let usernameX = (getGameWidth(this) / 2) - 200;
+        let usernameY = 280;
+        let badgeX = 100;
+        const badgeSpacing = 40;
+        const badgeLimit = getGameWidth(this) - 80;
+        const interline = 56;
 
-		this.data.get("users").forEach(user => {
-			Gui.simpleParagraph({
-				scene: this,
-				x: usernameX,
-				y: usernameY,
-				text: user.username
-			});
-	
-			user.games.forEach(game => {
-				if (badgeX < badgeLimit){
-					this.add.image(
-						usernameX + badgeX,
-						usernameY,
-						(game.win === true) ? "star" : "tombstone"
-					);
-					badgeX += badgeSpacing;
-				}
-			});
+        function resetBadgeX() {
+            badgeX = 100;
+        }
 
-			usernameY += interline;
-			resetBadgeX();
-		});
-	}
+        this.data.get("users").forEach(user => {
+            Gui.simpleParagraph({
+                scene: this,
+                x: usernameX,
+                y: usernameY,
+                text: user.username
+            });
 
-	private setRatios():void {
-		this.data.get("users").forEach(user => {
-			let wonGames = user.games.filter(game => game.win === true).length;
-			let totalGames = user.games.length;
-			user.ratio = Math.floor((wonGames / totalGames) * 100);
-		});
-	}
+            user.games.forEach(game => {
+                if (badgeX < badgeLimit) {
+                    this.add.image(
+                        usernameX + badgeX,
+                        usernameY,
+                        (game.win === true) ? "star" : "tombstone"
+                    );
+                    badgeX += badgeSpacing;
+                }
+            });
 
-	private logGame(): void {
-		if (this.data.get("winner").id === this.data.get("users")[0].id) {
-			this.data.get("users")[0].games.push({ win: true });
-			this.data.get("users")[1].games.push({ win: false });
-		} else if (this.data.get("winner").id === this.data.get("users")[1].id) {
-			this.data.get("users")[0].games.push({ win: false });
-			this.data.get("users")[1].games.push({ win: true });
-		}
-	}
+            usernameY += interline;
+            resetBadgeX();
+        });
+    }
+
+    private setRatios(): void {
+        this.data.get("users").forEach(user => {
+            let wonGames = user.games.filter(game => game.win === true).length;
+            let totalGames = user.games.length;
+            user.ratio = Math.floor((wonGames / totalGames) * 100);
+        });
+    }
+
+    private logGame(): void {
+        if (this.data.get("winner").id === this.data.get("users")[0].id) {
+            this.data.get("users")[0].games.push({ win: true });
+            this.data.get("users")[1].games.push({ win: false });
+        } else if (this.data.get("winner").id === this.data.get("users")[1].id) {
+            this.data.get("users")[0].games.push({ win: false });
+            this.data.get("users")[1].games.push({ win: true });
+        }
+    }
 
     init(gameSceneData) {
-		this.data.set("users", gameSceneData.users);
+        this.data.set("users", gameSceneData.users);
 
         if (gameSceneData.winner) {
 
-			this.data.set("winner", gameSceneData.winner);
-			this.mainMessage = `${this.data.get("winner").username} WON THIS GAME !`;
-			this.logGame();
-			this.setRatios();
+            this.data.set("winner", gameSceneData.winner);
+            this.mainMessage = `${this.data.get("winner").username} WON THIS GAME !`;
+            this.logGame();
+            this.setRatios();
 
-		} else {
+        } else {
             this.mainMessage = "IT'S A DRAW !";
-		}
+        }
 
     }
 
@@ -98,12 +98,12 @@ export class GameoverScene extends Phaser.Scene {
 
         Gui.simpleParagraph({
             scene: this,
-            x: getGameWidth(this)/2,
+            x: getGameWidth(this) / 2,
             y: 200,
             text: this.mainMessage,
-		});
-		
-		this.displayReport();
+        });
+
+        this.displayReport();
 
         Gui.mainBtn({
             scene: this,

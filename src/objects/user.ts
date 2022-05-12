@@ -8,11 +8,11 @@ export class User {
     private _id: number;
     private _username: string;
     private _ratio: number;
-	private _screenSide: string;
+    private _screenSide: string;
     private _characterInstance: Character;
     private _playerInstance: Player;
     private _levelInstance: Level;
-	public games: Array<object>;
+    public games: Array<object>;
 
     public get id(): number {
         return this._id;
@@ -28,7 +28,7 @@ export class User {
 
     public get screenSide(): string {
         return this._screenSide;
-	}
+    }
 
     /**
      * Character the user has chosen in the Menu.
@@ -61,23 +61,23 @@ export class User {
 
     public set levelInstance(v: Level) {
         this._levelInstance = v;
-	}
+    }
 
-	public set ratio(v: number) {
-		this._ratio = v;
-	}
+    public set ratio(v: number) {
+        this._ratio = v;
+    }
 
     constructor(params: {
         id: number;
         username: string;
         ratio: number;
-		screenSide: string;
-		games: Array<object>;
+        screenSide: string;
+        games: Array<object>;
     }) {
         this._id = params.id;
         this._username = params.username;
         this._ratio = params.ratio;
-		this._screenSide = params.screenSide;
-		this.games = params.games;
+        this._screenSide = params.screenSide;
+        this.games = params.games;
     }
 }

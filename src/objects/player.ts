@@ -45,9 +45,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
                 this.health -= 20;
                 this.healthBar.decrease(20);
 
-				if (this.state !== this.STATES.HURT) {
-					this.setState(this.STATES.HURT);
-				}
+                if (this.state !== this.STATES.HURT) {
+                    this.setState(this.STATES.HURT);
+                }
             }
         }
     }
@@ -207,13 +207,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         // Restrain the boundingBox
         this.setSize(20, 60);
 
-		this.setState(this.STATES.NORMAL);
+        this.setState(this.STATES.NORMAL);
     }
 
     update(): void {
-		if (this.isDead()) {
-			this.state = this.STATES.DEAD;
-		}
+        if (this.isDead()) {
+            this.state = this.STATES.DEAD;
+        }
 
         if (this.state === this.STATES.NORMAL) {
             // This is detached from the other block because you can do anything
@@ -227,14 +227,14 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
                 this.handleIdling();
             }
 
-			this.handleSpriteFlipping();
-			
+            this.handleSpriteFlipping();
+
         } else if (this.state === this.STATES.HURT) {
             this.anims.play(`${this.texture.key}HIT`, true);
 
             this.setVelocityX(0);
 
-			// The only thing that make the player return to normal is time
+            // The only thing that make the player return to normal is time
             this.scene.time.addEvent({
                 delay: 1000,
                 loop: false,

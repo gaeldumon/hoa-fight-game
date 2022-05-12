@@ -22,7 +22,7 @@ export class BootScene extends Phaser.Scene {
     private btn: Phaser.GameObjects.DOMElement;
     private background: Phaser.GameObjects.Image;
     private musicTheme: Phaser.Sound.BaseSound;
-	private loadingBar: LoadingBar;
+    private loadingBar: LoadingBar;
 
     constructor() {
         super(sceneConfig);
@@ -44,20 +44,20 @@ export class BootScene extends Phaser.Scene {
             new User({
                 id: 1,
                 username: "PoolGhoul",
-				ratio: 0,
-				games: [],
+                ratio: 0,
+                games: [],
                 screenSide: "left",
             }),
 
             new User({
                 id: 2,
                 username: "JollyClever",
-				ratio: 0,
-				games: [],
+                ratio: 0,
+                games: [],
                 screenSide: "right",
             }),
-		];
-		
+        ];
+
         this.characters = [
             new Character({
                 id: 1,
@@ -102,26 +102,27 @@ export class BootScene extends Phaser.Scene {
 
         // Preload all characters atlases : a json file that acts as
         // as a "map"/"link" to a png spritesheet.
-		// Used for drawing PLayer texture and set animations.
-		const NUMBER_OF_CHARACTERS = 6;
+        // Used for drawing PLayer texture and set animations.
+        const NUMBER_OF_CHARACTERS = this.characters.length;
+        
         for (let n = 1; n <= NUMBER_OF_CHARACTERS; n++) {
             this.load.atlas(
                 `character${n}`,
                 `assets/images/characters/character${n}/character${n}-spritesheet.png`,
                 `assets/images/characters/character${n}/character${n}-atlas.json`
             );
-		}
-		
-		this.loadingBar = new LoadingBar({ scene: this });
+        }
+
+        this.loadingBar = new LoadingBar({ scene: this });
 
         this.load.on("progress", (value) => {
-			this.loadingBar.draw(value);
-			this.loadingBar.progressText.setText((Math.floor(value*100)) + "%");
-		});
-		
+            this.loadingBar.draw(value);
+            this.loadingBar.progressText.setText((Math.floor(value * 100)) + "%");
+        });
+
         this.load.on("complete", () => {
-			this.loadingBar.destroy();
-		});
+            this.loadingBar.destroy();
+        });
 
     }
 
@@ -146,7 +147,7 @@ export class BootScene extends Phaser.Scene {
             x: this.logo.x,
             y: this.logo.y + 90,
             text: "Welcome to the fight !",
-		});
+        });
 
         Gui.mainBtn({
             scene: this,

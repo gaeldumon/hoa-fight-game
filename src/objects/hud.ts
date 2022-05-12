@@ -14,7 +14,12 @@ export class Hud {
 			margin: 0; 
 			font-size: 18px; 
 			color: ${COLORS.white.string};
-			padding: 10px
+			padding: 10px;
+            text-shadow: 
+                -1px -1px 0 ${COLORS.black.string}, 
+                1px -1px 0 ${COLORS.black.string}, 
+                -1px 1px 0 ${COLORS.black.string}, 
+                1px 1px 0 ${COLORS.black.string};
 		`;
 
         if (params.user.screenSide === "left") {
@@ -28,9 +33,9 @@ export class Hud {
                     0,
                     "h5",
                     this.textStyle,
-					params.user.characterInstance.details.nickname + " | " + 
-					params.user.username + 
-					" | Ratio " + params.user.ratio + "%"
+                    params.user.characterInstance.details.nickname + " | " +
+                    params.user.username +
+                    " | Ratio " + params.user.ratio + "%"
                 )
                 .setOrigin(0, 0);
         } else if (params.user.screenSide === "right") {
@@ -48,9 +53,9 @@ export class Hud {
                     0,
                     "h5",
                     this.textStyle,
-					params.user.characterInstance.details.nickname +  " | " + 
-					params.user.username + 
-					" | Ratio " + params.user.ratio + "%"
+                    params.user.characterInstance.details.nickname + " | " +
+                    params.user.username +
+                    " | Ratio " + params.user.ratio + "%"
                 )
                 .setOrigin(1, 0);
         }
