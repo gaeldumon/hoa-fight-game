@@ -1,7 +1,5 @@
-/** @format */
-
-import { Tilemap } from "./Tilemap";
-import { getGameWidth, getGameHeight } from "../helpers";
+import { Tilemap } from "./tilemap";
+import { gameWidth, gameHeight } from "../helpers";
 
 /**
  * A Level consists of : a background + a music theme + a tilemap + a name +
@@ -42,8 +40,8 @@ export class Level {
         this.scene = scene;
 
         this.scene.add.image(
-            getGameWidth(this.scene) / 2,
-            getGameHeight(this.scene) / 2,
+            gameWidth(this.scene) / 2,
+            gameHeight(this.scene) / 2,
             this.backgroundKey
         );
 

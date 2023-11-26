@@ -1,5 +1,3 @@
-<!-- @format -->
-
 # Hoa Fight
 
 ### Local 1v1 shooter-combat game in the browser

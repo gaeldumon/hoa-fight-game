@@ -1,12 +1,14 @@
-@font-face {
-    font-family: "Grobold";
-    src: url(./fonts/grobold.ttf) format("truetype");
-}
-
+html,
 body {
-    background-color: #000;
+    height: 100vh;
+    overflow: hidden;
+    background-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 680px;
+}
+
+canvas {
+    border: 2px solid white;
+    border-radius: 5px;
 }

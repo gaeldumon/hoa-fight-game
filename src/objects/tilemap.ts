@@ -1,24 +1,16 @@
-/** @format */
-
-import { getGameHeight } from "../helpers";
-import { Trampoline } from "./Trampoline";
+import { gameHeight } from "../helpers";
 
 export class Tilemap {
     private map: Phaser.Tilemaps.Tilemap;
     private tileset: Phaser.Tilemaps.Tileset;
-    private _mainLayer: Phaser.Tilemaps.StaticTilemapLayer;
-    private subLayer: Phaser.Tilemaps.StaticTilemapLayer;
-    private _trampoline: Trampoline;
+    private _mainLayer: Phaser.Tilemaps.TilemapLayer;
+    private subLayer: Phaser.Tilemaps.TilemapLayer;
 
     /**
      * Getter for the layer that collides: 'collides' set to true in Tiled.
      */
-    get mainLayer(): Phaser.Tilemaps.StaticTilemapLayer {
+    get mainLayer(): Phaser.Tilemaps.TilemapLayer {
         return this._mainLayer;
-    }
-
-    get trampoline(): Trampoline {
-        return this._trampoline;
     }
 
     constructor(params: { scene: Phaser.Scene; id: number }) {
@@ -32,7 +24,7 @@ export class Tilemap {
             `level${params.id}Tilesheet`
         );
 
-        this._mainLayer = this.map.createStaticLayer(
+        this._mainLayer = this.map.createLayer(
             "mainLayer",
             this.tileset,
             0,
@@ -43,17 +35,11 @@ export class Tilemap {
             collides: true,
         });
 
-        this.subLayer = this.map.createStaticLayer(
+        this.subLayer = this.map.createLayer(
             "subLayer",
             this.tileset,
             0,
             0
         );
-
-        this._trampoline = new Trampoline({
-            scene: params.scene,
-            x: 400,
-            y: getGameHeight(params.scene) - this.tileset.tileHeight * 2.5
-        });
     }
 }

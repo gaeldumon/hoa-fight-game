@@ -4,7 +4,6 @@
  * texture keys, metadata, voices etc. Nothing to be controlled with your
  * keyboard here.
  *
- * @format
  */
 
 export class Character {

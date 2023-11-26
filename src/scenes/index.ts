@@ -1,5 +1,3 @@
-/** @format */
-
 import { BootScene } from "./BootScene";
 import { MenuScene } from "./MenuScene";
 import { GameScene } from "./GameScene";

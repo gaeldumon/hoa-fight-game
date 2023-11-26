@@ -1,27 +1,16 @@
-/** @format */
+import { StoreGame } from './types/store';
 
-export class Storage {
-    private name = "hoafight";
+export function getLocalStorage(): { games: StoreGame[] } {
+    const data = localStorage.getItem('hoafight');
+    if (data) return JSON.parse(data);
+    return { games: [] };
+}
 
-    public static getLocalStorage() {
-        if (localStorage.getItem(this.name)) {
-            return JSON.parse(localStorage.getItem(this.name));
-        } else {
-            return null;
-        }
-    }
+export function setLocalStorage(games: StoreGame[]): void {
+    localStorage.setItem('hoafight', JSON.stringify({ games }));
+}
 
-    public static initLocalStorage(pContent) {
-        if (!localStorage.getItem(this.name)) {
-            try {
-                localStorage.setItem(this.name, JSON.stringify(pContent));
-                return true;
-            } catch {
-                return false;
-            }
-        } else {
-            return null;
-        }
-    }
-
+export function getUserRatio(user: 'user1' | 'user2'): number {
+    const { games } = getLocalStorage();
+    return Math.round((games.filter((game) => game.winner === user).length / games.length) * 100);
 }

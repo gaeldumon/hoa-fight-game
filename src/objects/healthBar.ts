@@ -1,6 +1,4 @@
-/** @format */
-
-import { COLORS, getGameWidth } from "../helpers";
+import { COLORS, gameWidth } from "../helpers";
 
 export class HealthBar {
     private bar: Phaser.GameObjects.Graphics;
@@ -47,13 +45,11 @@ export class HealthBar {
         this.healthValue = 200;
 
         if (params.side === "left") {
-            this.x = 60;
-            this.y = 40;
+            this.x = 74;
+            this.y = 54;
         } else if (params.side === "right") {
-            this.x = (getGameWidth(params.scene)) - this.width - 64;
-            this.y = 40;
-        } else {
-            throw new Error("Side must be 'right' or 'left'");
+            this.x = (gameWidth(params.scene)) - this.width - 78;
+            this.y = 54;
         }
 
         this.draw();

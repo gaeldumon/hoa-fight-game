@@ -1,32 +1,16 @@
-/** @format */
-
-import { getGameWidth, getGameHeight } from "../helpers";
+import { gameWidth, gameHeight } from "../helpers";
 
 export class Projectile extends Phaser.Physics.Arcade.Sprite {
     private vx: number;
     private direction: number;
 
     private isOut(): boolean {
-        if (
-            this.x > getGameWidth(this.scene) ||
-            this.y > getGameHeight(this.scene) ||
+        return (
+            this.x > gameWidth(this.scene) ||
+            this.y > gameHeight(this.scene) ||
             this.x < 0 ||
             this.y < 0
-        ) {
-            return true;
-        }
-        return false;
-    }
-
-    private initAnimations(): void {
-        this.scene.anims.create({
-            key: "collisionEffect1",
-            frames: this.scene.anims.generateFrameNumbers("collisionEffect1", {
-                start: 0,
-                end: 1,
-            }),
-            repeat: 1,
-        });
+        );
     }
 
     constructor(params) {
@@ -37,8 +21,6 @@ export class Projectile extends Phaser.Physics.Arcade.Sprite {
 
         this.vx = 700;
         this.direction = params.direction;
-
-        this.initAnimations();
 
         this.setVelocityX(this.direction * this.vx);
     }

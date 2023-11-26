@@ -1,11 +1,9 @@
-/** @format */
-
-import { getGameWidth, getGameHeight, COLORS } from "../helpers";
-import { Level } from "../objects/Level";
-import { User } from "../objects/User";
-import { Character } from "../objects/Character";
-import { Gui } from "../objects/Gui";
-import { LoadingBar } from "../objects/LoadingBar";
+import { gameWidth, gameHeight, DEFAULT_FONT_FAMILIES, COLORS } from "../helpers";
+import { Level } from "../objects/level";
+import { User } from "../objects/user";
+import { Character } from "../objects/character";
+import { LoadingBar } from "../objects/loading";
+import { getUserRatio } from "../storage";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
     active: false,
@@ -15,13 +13,9 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class BootScene extends Phaser.Scene {
     private levels: Array<Level>;
-    private users: Array<User>;
+    private user1: User;
+    private user2: User;
     private characters: Array<Character>;
-
-    private logo: Phaser.GameObjects.Image;
-    private btn: Phaser.GameObjects.DOMElement;
-    private background: Phaser.GameObjects.Image;
-    private musicTheme: Phaser.Sound.BaseSound;
     private loadingBar: LoadingBar;
 
     constructor() {
@@ -29,70 +23,37 @@ export class BootScene extends Phaser.Scene {
     }
 
     init() {
+        this.user1 = new User({ 
+            id: 1, 
+            username: "Player 1", 
+            ratio: getUserRatio("user1"), 
+            screenSide: "left" 
+        });
+
+        this.user2 = new User({ 
+            id: 2, 
+            username: "Player 2", 
+            ratio: getUserRatio("user2"), 
+            screenSide: "right" 
+        });
+
         this.levels = [
-            new Level({
-                id: 1,
-                name: "Cimetiere",
-            }),
-            new Level({
-                id: 2,
-                name: "Prairie",
-            }),
-        ];
-
-        this.users = [
-            new User({
-                id: 1,
-                username: "PoolGhoul",
-                ratio: 0,
-                games: [],
-                screenSide: "left",
-            }),
-
-            new User({
-                id: 2,
-                username: "JollyClever",
-                ratio: 0,
-                games: [],
-                screenSide: "right",
-            }),
+            new Level({ id: 1, name: "Cimetiere" }),
+            new Level({ id: 2, name: "Prairie" }),
         ];
 
         this.characters = [
-            new Character({
-                id: 1,
-                details: { nickname: "Stevie" },
-                stats: {},
-            }),
-            new Character({
-                id: 2,
-                details: { nickname: "Caroline" },
-                stats: {},
-            }),
-            new Character({
-                id: 3,
-                details: { nickname: "Kristof" },
-                stats: {},
-            }),
-            new Character({
-                id: 4,
-                details: { nickname: "Kristy" },
-                stats: {},
-            }),
-            new Character({
-                id: 5,
-                details: { nickname: "Oron" },
-                stats: {},
-            }),
-            new Character({
-                id: 6,
-                details: { nickname: "Alexa" },
-                stats: {},
-            }),
+            new Character({ id: 1, details: { nickname: "Stew" }, stats: {} }),
+            new Character({ id: 2, details: { nickname: "Caroline" }, stats: {} }),
+            new Character({ id: 3, details: { nickname: "Kristof" }, stats: {} }),
+            new Character({ id: 4, details: { nickname: "Claudia" }, stats: {} }),
+            new Character({ id: 5, details: { nickname: "Steven" }, stats: {} }),
+            new Character({ id: 6, details: { nickname: "Zoya" }, stats: {} }),
         ];
 
         // Using the scene Data Manager to store data on a scene level.
-        this.data.set("users", this.users);
+        this.data.set("user1", this.user1);
+        this.data.set("user2", this.user2);
         this.data.set("characters", this.characters);
         this.data.set("levels", this.levels);
     }
@@ -100,12 +61,7 @@ export class BootScene extends Phaser.Scene {
     preload() {
         this.load.pack("preload", "assets/pack.json", "preload");
 
-        // Preload all characters atlases : a json file that acts as
-        // as a "map"/"link" to a png spritesheet.
-        // Used for drawing PLayer texture and set animations.
-        const NUMBER_OF_CHARACTERS = this.characters.length;
-        
-        for (let n = 1; n <= NUMBER_OF_CHARACTERS; n++) {
+        for (let n = 1; n <= this.characters.length; n++) {
             this.load.atlas(
                 `character${n}`,
                 `assets/images/characters/character${n}/character${n}-spritesheet.png`,
@@ -113,9 +69,15 @@ export class BootScene extends Phaser.Scene {
             );
         }
 
+        this.load.bitmapFont(
+            'Grobold',
+            'assets/fonts/grobold/grobold.png',
+            'assets/fonts/grobold/grobold.fnt'
+        );
+
         this.loadingBar = new LoadingBar({ scene: this });
 
-        this.load.on("progress", (value) => {
+        this.load.on("progress", (value: number) => {
             this.loadingBar.draw(value);
             this.loadingBar.progressText.setText((Math.floor(value * 100)) + "%");
         });
@@ -123,40 +85,43 @@ export class BootScene extends Phaser.Scene {
         this.load.on("complete", () => {
             this.loadingBar.destroy();
         });
-
     }
 
     create() {
-        this.musicTheme = this.sound.add("menuTheme");
-        this.musicTheme.play();
+        this.sound.add("menuTheme").play();
 
-        this.background = this.add.image(
-            getGameWidth(this) / 2,
-            getGameHeight(this) / 2,
-            "backgroundForGUIScenes"
-        );
+        this.add.image(gameWidth(this) / 2, gameHeight(this) / 2, "backgroundMenu");
+        this.add.image(gameWidth(this) / 2, (gameHeight(this) / 2) - 50, "mainLogo");
+        this.add.image(gameWidth(this) / 2, 52, "borderTop");
+        this.add.image(gameWidth(this) / 2, gameHeight(this) - 52, "borderBottom");
 
-        this.logo = this.add.image(
-            getGameWidth(this) / 2,
-            getGameHeight(this) / 2.5,
-            "mainLogo"
-        );
+        const nextSceneButton = this.add.image(gameWidth(this) / 2, gameHeight(this) - 214, "textButtonWood")
+            .setInteractive({ cursor: "pointer" })
+            .on("pointerover", () => {
+                nextSceneButton.setTexture("textButtonWoodSelected");
+            })
+            .on("pointerout", () => {
+                nextSceneButton.setTexture("textButtonWood");
+            })
+            .on("pointerdown", () => {
+                this.sound.add("clickSound").play();
+                this.cameras.main.fadeOut();
+                this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                    this.scene.start("Menu", this.data.getAll());
+                });
+            });
 
-        Gui.simpleParagraph({
-            scene: this,
-            x: this.logo.x,
-            y: this.logo.y + 90,
-            text: "Welcome to the fight !",
-        });
-
-        Gui.mainBtn({
-            scene: this,
-            text: "Menu",
-            stopSounds: false,
-            scenePlugin: this.scene,
-            newSceneKey: "Menu",
-            // Passing this scene data to the menu scene.
-            sceneData: this.data.getAll(),
-        });
+        // The text on main button
+        this.make.text({
+            x: gameWidth(this) / 2,
+            y: gameHeight(this) - 214,
+            text: "START",
+            style: {
+                fontSize: "32px",
+                fontFamily: DEFAULT_FONT_FAMILIES,
+                align: "center",
+                color: COLORS.white.string,
+            },
+        }).setOrigin(0.5, 0.5);
     }
 }

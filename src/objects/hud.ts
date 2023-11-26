@@ -1,63 +1,35 @@
-/** @format */
-
-import { COLORS, DEFAULT_FONT_FAMILIES, getGameWidth } from "../helpers";
-import { User } from "./User";
+import { COLORS, DEFAULT_FONT_FAMILIES, gameWidth } from "../helpers";
+import { User } from "./user";
 
 export class Hud {
-    private avatar: Phaser.GameObjects.Image;
-    private text: Phaser.GameObjects.DOMElement;
-    private textStyle: string;
+    constructor(scene: Phaser.Scene, user: User) {
+        if (user.screenSide === "left") {
+            scene.add.image(0, 0, user.characterInstance.thumbnailKey).setOrigin(0, 0).setScale(0.40);
 
-    constructor(params: { scene: Phaser.Scene; user: User }) {
-        this.textStyle = `
-			font-family: ${DEFAULT_FONT_FAMILIES}; 
-			margin: 0; 
-			font-size: 18px; 
-			color: ${COLORS.white.string};
-			padding: 10px;
-            text-shadow: 
-                -1px -1px 0 ${COLORS.black.string}, 
-                1px -1px 0 ${COLORS.black.string}, 
-                -1px 1px 0 ${COLORS.black.string}, 
-                1px 1px 0 ${COLORS.black.string};
-		`;
+            scene.make.text({
+                x: 74,
+                y: 15,
+                text: `${user.characterInstance.details.nickname} | ${user.username} | Ratio ${user.ratio}%`,
+                style: {
+                    fontSize: "18px",
+                    fontFamily: DEFAULT_FONT_FAMILIES,
+                    color: COLORS.white.string,
+                },
+            });
 
-        if (params.user.screenSide === "left") {
-            this.avatar = params.scene.add
-                .image(0, 35, params.user.characterInstance.thumbnailKey)
-                .setOrigin(0, 0);
+        } else if (user.screenSide === "right") {
+            scene.add.image(gameWidth(scene), 0, user.characterInstance.thumbnailKey).setOrigin(1, 0).setScale(0.40);
 
-            this.text = params.scene.add
-                .dom(
-                    0,
-                    0,
-                    "h5",
-                    this.textStyle,
-                    params.user.characterInstance.details.nickname + " | " +
-                    params.user.username +
-                    " | Ratio " + params.user.ratio + "%"
-                )
-                .setOrigin(0, 0);
-        } else if (params.user.screenSide === "right") {
-            this.avatar = params.scene.add
-                .image(
-                    getGameWidth(params.scene),
-                    35,
-                    params.user.characterInstance.thumbnailKey
-                )
-                .setOrigin(1, 0);
-
-            this.text = params.scene.add
-                .dom(
-                    getGameWidth(params.scene),
-                    0,
-                    "h5",
-                    this.textStyle,
-                    params.user.characterInstance.details.nickname + " | " +
-                    params.user.username +
-                    " | Ratio " + params.user.ratio + "%"
-                )
-                .setOrigin(1, 0);
+            scene.make.text({
+                x: gameWidth(scene) - 78,
+                y: 15,
+                text: `${user.characterInstance.details.nickname} | ${user.username} | Ratio ${user.ratio}%`,
+                style: {
+                    fontSize: "18px",
+                    fontFamily: DEFAULT_FONT_FAMILIES,
+                    color: COLORS.white.string,
+                },
+            }).setOrigin(1, 0);
         }
     }
 }

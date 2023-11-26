@@ -1,8 +1,6 @@
-/** @format */
-
-import { Projectile } from "./Projectile";
-import { HealthBar } from "./HealthBar";
-import { Character } from "./Character";
+import { Projectile } from "./projectile";
+import { HealthBar } from "./healthBar";
+import { Character } from "./character";
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
     private _projectiles: Phaser.GameObjects.Group;
@@ -16,6 +14,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
     private jumpSound: Phaser.Sound.BaseSound;
     private shootSound: Phaser.Sound.BaseSound;
+    private hitVoice: Phaser.Sound.BaseSound;
 
     private lastShoot: number;
     private health: number;
@@ -24,15 +23,25 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     private jumpVelocity: number;
     private bounce: number;
     private bulletProof: boolean;
+    private _collectedStuff: number;
 
     private readonly STATES = {
         NORMAL: "NORMAL",
         HURT: "HURT",
         DEAD: "DEAD",
+        JUMPING: "JUMPING",
     };
 
     public get projectiles(): Phaser.GameObjects.Group {
         return this._projectiles;
+    }
+
+    public get collectedStuff(): number {
+        return this._collectedStuff;
+    }
+
+    public collectStuff() {
+        this._collectedStuff++;
     }
 
     public isDead(): boolean {
@@ -40,15 +49,11 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     public hurt(): void {
-        if (this.bulletProof === false) {
-            if (this.health > 0) {
-                this.health -= 20;
-                this.healthBar.decrease(20);
-
-                if (this.state !== this.STATES.HURT) {
-                    this.setState(this.STATES.HURT);
-                }
-            }
+        if (!this.bulletProof && this.health > 0) {
+            this.setState(this.STATES.HURT);
+            this.health -= 20;
+            this.healthBar.decrease(20);
+            this.hitVoice.play();
         }
     }
 
@@ -59,6 +64,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     private initSounds(): void {
         this.jumpSound = this.scene.sound.add("jumpSound");
         this.shootSound = this.scene.sound.add("shootSound");
+        this.hitVoice = this.scene.sound.add("hitVoice");
     }
 
     private initVitals(): void {
@@ -69,8 +75,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     private initPhysics(): void {
         this.gravityY = 1000;
         this.jumpVelocity = -600;
-        this.vx = 150;
-        this.bounce = 0.5;
+        this.vx = 200;
+        this.bounce = 0.2;
     }
 
     private applyPhysics(): void {
@@ -196,6 +202,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         super(params.scene, params.x, params.y, params.textureKey);
 
         this.scene.add.existing(this);
+
         this.initPhysics();
         this.applyPhysics();
         this.initSounds();
@@ -203,6 +210,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         this.initHealthBar(params.healthBar);
         this.initShooting();
         this.initControls(params.controlKeys);
+
+        this._collectedStuff = 0;
 
         // Restrain the boundingBox
         this.setSize(20, 60);
@@ -216,24 +225,19 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         if (this.state === this.STATES.NORMAL) {
-            // This is detached from the other block because you can do anything
-            // while jumping: walk/walk-shoot, idle/idle-shoot. So it isn't
-            // dependant of whether you're pressing left or right or whatever.
             this.handleJumping();
+            this.handleSpriteFlipping();
 
             if (this.rightKey.isDown || this.leftKey.isDown) {
                 this.handleWalking();
             } else {
                 this.handleIdling();
             }
+        }
 
-            this.handleSpriteFlipping();
-
-        } else if (this.state === this.STATES.HURT) {
+        if (this.state === this.STATES.HURT) {
             this.anims.play(`${this.texture.key}HIT`, true);
-
             this.setVelocityX(0);
-
             // The only thing that make the player return to normal is time
             this.scene.time.addEvent({
                 delay: 1000,
@@ -242,12 +246,12 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
                     this.setState(this.STATES.NORMAL);
                 },
             });
-        } else if (this.state === this.STATES.DEAD) {
+        }
+
+        if (this.state === this.STATES.DEAD) {
             // We don't reset state to NORMAL cause it's end of the game
             this.anims.play(`${this.texture.key}DEAD`, true);
             this.setVelocityX(0);
-        } else {
-            throw new Error("Unknown Player State");
         }
     }
 }

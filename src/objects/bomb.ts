@@ -1,17 +1,7 @@
-/** @format */
+import { gameWidth, gameHeight } from "../helpers";
 
-import { getGameWidth, getGameHeight } from "../helpers";
-
-export class Bomb extends Phaser.Physics.Arcade.Image {
-    private isOut(): boolean {
-        if (this.x > getGameWidth(this.scene) || this.y > getGameHeight(this.scene) || this.x < 0 || this.y < 0) {
-            return true;
-        }
-
-        return false;
-    }
-
-    constructor(params) {
+export class Bomb extends Phaser.Physics.Arcade.Sprite {
+    constructor(params: { scene: Phaser.Scene; x: number; y: number; textureKey: string }) {
         super(params.scene, params.x, params.y, params.textureKey);
 
         this.scene.physics.world.enable(this);
@@ -22,10 +12,20 @@ export class Bomb extends Phaser.Physics.Arcade.Image {
         this.setGravityY(1000);
     }
 
-    update(): void {
-        if (this.isOut()) {
-            this.destroy();
-            console.log("Bomb destroyed cause out of world bounds");
+    private isOut(): boolean {
+        return this.y > gameHeight(this.scene) || this.y < 0;
+    }
+
+    private handleReposition(): void {
+        if (this.x > gameWidth(this.scene)) {
+            this.x = 0;
+        } else if (this.x < 0) {
+            this.x = gameWidth(this.scene);
         }
+    }
+
+    update(): void {
+        this.handleReposition();
+        if (this.isOut()) this.destroy();
     }
 }
