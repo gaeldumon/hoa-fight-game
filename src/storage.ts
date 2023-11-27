@@ -12,5 +12,8 @@ export function setLocalStorage(games: StoreGame[]): void {
 
 export function getUserRatio(user: 'user1' | 'user2'): number {
     const { games } = getLocalStorage();
-    return Math.round((games.filter((game) => game.winner === user).length / games.length) * 100);
+    const won = games.filter((game) => game.winner === user).length;
+    const all = games.length;
+    const ratio = ((won / all) * 100) || 0;
+    return Math.round(ratio);
 }
