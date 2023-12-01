@@ -31,4 +31,4 @@ export const CONTROL_P2 = {
     shoot: Phaser.Input.Keyboard.KeyCodes.S
 };
 
-export const DEFAULT_FONT_FAMILIES = "Grobold, monospace, Arial";
+export const DEFAULT_FONT_FAMILIES = "Grobold, Marker Felt, fantasy, Comic Sans MS, Comic Sans, cursive";

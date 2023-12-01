@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'Grobold';
+    src: url('./../assets/fonts/grobold/GROBOLD.ttf') format('truetype'),
+        url('./../assets/fonts/grobold/GROBOLD.woff') format('woff'),
+}
+
 html,
 body {
     height: 100vh;
