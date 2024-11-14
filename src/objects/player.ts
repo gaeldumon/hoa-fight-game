@@ -1,6 +1,7 @@
-import { Projectile } from "./projectile";
-import { HealthBar } from "./healthBar";
-import { Character } from "./character";
+import { CONTROL_P1 } from './../helpers';
+import { Projectile } from './projectile';
+import { HealthBar } from './healthBar';
+import { gameWidth, gameHeight } from '../helpers';
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
     private _projectiles: Phaser.GameObjects.Group;
@@ -26,10 +27,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     private _collectedStuff: number;
 
     private readonly STATES = {
-        NORMAL: "NORMAL",
-        HURT: "HURT",
-        DEAD: "DEAD",
-        JUMPING: "JUMPING",
+        NORMAL: 'NORMAL',
+        HURT: 'HURT',
+        DEAD: 'DEAD',
+        JUMPING: 'JUMPING',
     };
 
     public get projectiles(): Phaser.GameObjects.Group {
@@ -38,6 +39,18 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
     public get collectedStuff(): number {
         return this._collectedStuff;
+    }
+
+    private handleReposition(): void {
+        if (this.x > gameWidth(this.scene)) {
+            this.x = 0;
+        } else if (this.x < 0) {
+            this.x = gameWidth(this.scene);
+        }
+
+        if (this.y > gameHeight(this.scene)) {
+            this.y = 0;
+        }
     }
 
     public collectStuff() {
@@ -62,9 +75,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     private initSounds(): void {
-        this.jumpSound = this.scene.sound.add("jumpSound");
-        this.shootSound = this.scene.sound.add("shootSound");
-        this.hitVoice = this.scene.sound.add("hitVoice");
+        this.jumpSound = this.scene.sound.add('jumpSound');
+        this.shootSound = this.scene.sound.add('shootSound');
+        this.hitVoice = this.scene.sound.add('hitVoice');
     }
 
     private initVitals(): void {
@@ -83,14 +96,16 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.physics.world.enable(this);
         this.setGravityY(this.gravityY);
         this.setBounce(this.bounce);
-        this.setCollideWorldBounds(true);
+        this.setCollideWorldBounds(false);
     }
 
-    private initControls(pKeys): void {
-        this.jumpKey = this.scene.input.keyboard.addKey(pKeys["jump"]);
-        this.rightKey = this.scene.input.keyboard.addKey(pKeys["right"]);
-        this.leftKey = this.scene.input.keyboard.addKey(pKeys["left"]);
-        this.shootKey = this.scene.input.keyboard.addKey(pKeys["shoot"]);
+    private initControls(pKeys: typeof CONTROL_P1): void {
+        if (this.scene.input.keyboard) {
+            this.jumpKey = this.scene.input.keyboard.addKey(pKeys.jump);
+            this.rightKey = this.scene.input.keyboard.addKey(pKeys.right);
+            this.leftKey = this.scene.input.keyboard.addKey(pKeys.left);
+            this.shootKey = this.scene.input.keyboard.addKey(pKeys.shoot);
+        }
     }
 
     private initHealthBar(pHealthBar: HealthBar): void {
@@ -115,7 +130,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
                     // Bullet direction (left/right) based on last pressed key
                     // (i.e direction of the player). Default: goes right.
                     direction: this.lastPressedKey === this.leftKey ? -1 : 1,
-                    textureKey: "projectile",
+                    textureKey: 'projectile',
                 })
             );
             this.lastShoot = this.scene.time.now + 500;
@@ -142,7 +157,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
     private handleJumping(): void {
         if (this.jumpKey.isDown) {
-            if (this.body.blocked.down || this.body.touching.down) {
+            if (this.body?.blocked.down || this.body?.touching.down) {
                 this.setVelocityY(this.jumpVelocity);
                 this.jumpSound.play();
             }
@@ -191,14 +206,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    constructor(params: {
-        scene: Phaser.Scene;
-        x: number;
-        y: number;
-        textureKey: string;
-        controlKeys: object;
-        healthBar: HealthBar;
-    }) {
+    constructor(params: { scene: Phaser.Scene; x: number; y: number; textureKey: string; controlKeys: typeof CONTROL_P1; healthBar: HealthBar }) {
         super(params.scene, params.x, params.y, params.textureKey);
 
         this.scene.add.existing(this);
@@ -220,6 +228,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(): void {
+        this.handleReposition();
+
         if (this.isDead()) {
             this.state = this.STATES.DEAD;
         }

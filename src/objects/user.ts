@@ -1,6 +1,6 @@
-import { Player } from "./player";
-import { Character } from "./character";
-import { Level } from "./level";
+import { Player } from './player';
+import { Character } from './character';
+import { Level } from './level';
 
 export class User {
     private _id: number;
@@ -11,12 +11,7 @@ export class User {
     private _playerInstance: Player;
     private _levelInstance: Level;
 
-    constructor(params: {
-        id: number;
-        username: string;
-        ratio: number;
-        screenSide: string;
-    }) {
+    constructor(params: { id: number; username: string; ratio: number; screenSide: string }) {
         this._id = params.id;
         this._username = params.username;
         this._ratio = params.ratio;

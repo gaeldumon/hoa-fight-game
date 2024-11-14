@@ -1,18 +1,18 @@
-import { CONTROL_P1, CONTROL_P2, gameHeight, gameWidth } from "../helpers";
-import { Bomb } from "../objects/bomb";
-import { Hud } from "../objects/hud";
-import { Player } from "../objects/player";
-import { HealthBar } from "../objects/healthBar";
-import { Level } from "../objects/level";
-import { User } from "../objects/user";
-import { Animations } from "../Animations";
-import { Character } from "../objects/character";
-import { StoreGame } from "../types/store";
+import { CONTROL_P1, CONTROL_P2, gameWidth } from '../helpers';
+import { Bomb } from '../objects/bomb';
+import { Hud } from '../objects/hud';
+import { Player } from '../objects/player';
+import { HealthBar } from '../objects/healthBar';
+import { Level } from '../objects/level';
+import { User } from '../objects/user';
+import { Animations } from '../Animations';
+import { Character } from '../objects/character';
+import { StoreGame } from '../types/store';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
     active: false,
     visible: false,
-    key: "Game",
+    key: 'Game',
 };
 
 /**
@@ -31,7 +31,7 @@ export class GameScene extends Phaser.Scene {
     private player2: Player;
     private hud1: Hud;
     private hud2: Hud;
-    private tilemap: Level["tilemap"];
+    private tilemap: Level['tilemap'];
     private bombs: Phaser.GameObjects.Group;
     private collectables: Phaser.Physics.Arcade.Group;
     private bombCreationEvent: Phaser.Time.TimerEvent;
@@ -57,63 +57,40 @@ export class GameScene extends Phaser.Scene {
 
         this.physics.add.collider(this.collectables, this.tilemap.mainLayer);
 
-        this.physics.add.overlap(
-            [this.player1, this.player2],
-            this.collectables,
-            (player: Player, star) => {
-                player.collectStuff();
-                star.destroy();
-                this.collectSound.play();
-            }
-        );
+        this.physics.add.overlap([this.player1, this.player2], this.collectables, (player: Player, star) => {
+            player.collectStuff();
+            star.destroy();
+            this.collectSound.play();
+        });
 
         this.physics.add.collider(this.player1, this.player2);
 
-        this.physics.add.collider(
-            [this.player1, this.player2],
-            this.tilemap.mainLayer
-        );
+        this.physics.add.collider([this.player1, this.player2], this.tilemap.mainLayer);
 
-        this.physics.add.collider(
-            this.player2.projectiles,
-            this.player1,
-            (projectile) => {
-                this.player1.hurt();
-                projectile.destroy();
-            }
-        );
+        this.physics.add.collider(this.player2.projectiles, this.player1, (projectile) => {
+            this.player1.hurt();
+            projectile.destroy();
+        });
 
-        this.physics.add.collider(
-            this.player1.projectiles,
-            this.player2,
-            (projectile) => {
-                this.player2.hurt();
-                projectile.destroy();
-            }
-        );
+        this.physics.add.collider(this.player1.projectiles, this.player2, (projectile) => {
+            this.player2.hurt();
+            projectile.destroy();
+        });
 
-        this.physics.add.collider(
-            this.player1.projectiles,
-            this.tilemap.mainLayer,
-            (projectile) => {
-                projectile.destroy();
-            }
-        );
+        this.physics.add.collider(this.player1.projectiles, this.tilemap.mainLayer, (projectile) => {
+            projectile.destroy();
+        });
 
-        this.physics.add.collider(
-            this.player2.projectiles,
-            this.tilemap.mainLayer,
-            (projectile) => {
-                projectile.destroy();
-            }
-        );
+        this.physics.add.collider(this.player2.projectiles, this.tilemap.mainLayer, (projectile) => {
+            projectile.destroy();
+        });
     }
 
     constructor() {
         super(sceneConfig);
     }
 
-    init(menuSceneData: { user1: User; user2: User; characters: Character[]; levels: Level[]; }) {
+    init(menuSceneData: { user1: User; user2: User; characters: Character[]; levels: Level[] }) {
         this.user1 = menuSceneData.user1;
         this.user2 = menuSceneData.user2;
 
@@ -125,14 +102,14 @@ export class GameScene extends Phaser.Scene {
             time: Date.now(),
             user1Collect: 0,
             user2Collect: 0,
-        }
+        };
     }
 
     create() {
         this.user1.levelInstance.create(this);
         this.tilemap = this.user1.levelInstance.tilemap;
 
-        this.collectSound = this.sound.add("collectSound");
+        this.collectSound = this.sound.add('collectSound');
 
         this.collectables = this.physics.add.group({
             key: 'diamondPurple',
@@ -144,8 +121,8 @@ export class GameScene extends Phaser.Scene {
             setXY: {
                 x: Math.floor(Math.random() * (150 - 15 + 1)) + 15,
                 y: 0,
-                stepX: 70
-            }
+                stepX: 70,
+            },
         });
 
         this.bombs = this.add.group({ runChildUpdate: true });
@@ -159,7 +136,7 @@ export class GameScene extends Phaser.Scene {
                         scene: this,
                         x: Phaser.Math.Between(50, gameWidth(this) - 50),
                         y: 0,
-                        textureKey: "bomb",
+                        textureKey: 'bomb',
                     })
                 );
             },
@@ -174,7 +151,7 @@ export class GameScene extends Phaser.Scene {
             controlKeys: CONTROL_P1,
             healthBar: new HealthBar({
                 scene: this,
-                side: "left",
+                side: 'left',
             }),
         });
 
@@ -186,7 +163,7 @@ export class GameScene extends Phaser.Scene {
             controlKeys: CONTROL_P2,
             healthBar: new HealthBar({
                 scene: this,
-                side: "right",
+                side: 'right',
             }),
         });
 
@@ -216,30 +193,26 @@ export class GameScene extends Phaser.Scene {
             // Deciding which one is the winner (the one not dead).
             // Winners are users not players.
             if (this.player1.isDead() && !this.player2.isDead()) {
-
                 this.winner = this.user2;
-                this.currentGame.winner = "user2";
-
+                this.currentGame.winner = 'user2';
             } else if (!this.player1.isDead() && this.player2.isDead()) {
-
                 this.winner = this.user1;
-                this.currentGame.winner = "user1";
-
+                this.currentGame.winner = 'user1';
             } else if (this.player2.isDead() && this.player2.isDead()) {
                 // Nulling the winner if there's no winner at all
                 // Typically this shouldn't ever happen but who knows.
                 // Check in next scene if winner is truthy, printing alt text
                 // if not (like if null).
                 this.winner = null;
-                this.currentGame.winner = "none";
+                this.currentGame.winner = 'none';
             }
 
             this.currentGame.user1Collect = this.player1.collectedStuff;
             this.currentGame.user2Collect = this.player2.collectedStuff;
 
-            this.data.set("winner", this.winner);
-            this.data.set("user1", this.user1);
-            this.data.set("user2", this.user2);
+            this.data.set('winner', this.winner);
+            this.data.set('user1', this.user1);
+            this.data.set('user2', this.user2);
             this.data.set('currentGame', this.currentGame);
 
             // Three seconds delay before launching the next scene
@@ -247,7 +220,7 @@ export class GameScene extends Phaser.Scene {
                 delay: 3000,
                 callback: () => {
                     this.sound.stopAll();
-                    this.scene.start("Gameover", this.data.getAll());
+                    this.scene.start('Gameover', this.data.getAll());
                 },
             });
         }

@@ -1,16 +1,11 @@
-import { gameWidth, gameHeight } from "../helpers";
+import { gameWidth, gameHeight } from '../helpers';
 
 export class Projectile extends Phaser.Physics.Arcade.Sprite {
     private vx: number;
     private direction: number;
 
     private isOut(): boolean {
-        return (
-            this.x > gameWidth(this.scene) ||
-            this.y > gameHeight(this.scene) ||
-            this.x < 0 ||
-            this.y < 0
-        );
+        return this.x > gameWidth(this.scene) || this.y > gameHeight(this.scene) || this.x < 0 || this.y < 0;
     }
 
     constructor(params) {
@@ -28,7 +23,7 @@ export class Projectile extends Phaser.Physics.Arcade.Sprite {
     update(): void {
         if (this.isOut()) {
             this.destroy();
-            console.log("Projectile destroyed cause out of world bounds");
+            console.log('Projectile destroyed cause out of world bounds');
         }
     }
 }

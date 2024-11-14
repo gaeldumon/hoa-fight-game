@@ -33,7 +33,7 @@ export class Character {
         return this._details;
     }
 
-    constructor(params: { id: number; details?: { nickname: string }; stats?: object }) {
+    constructor(params: { id: number; details: { nickname: string }; stats: object }) {
         this.id = params.id;
         this._details = params.details;
         this.stats = params.stats;

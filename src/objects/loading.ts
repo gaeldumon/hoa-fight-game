@@ -1,4 +1,4 @@
-import { COLORS, gameHeight, gameWidth } from "../helpers";
+import { COLORS, gameHeight, gameWidth } from '../helpers';
 
 export class LoadingBar {
     private scene: Phaser.Scene;
@@ -45,16 +45,16 @@ export class LoadingBar {
         this.bar = this.scene.add.graphics();
         this.barWidth = 400;
         this.barHeight = 30;
-        this.barX = (gameWidth(this.scene) / 2) - (this.barWidth / 2);
-        this.barY = (gameHeight(this.scene) / 2) - (this.barHeight / 2);
+        this.barX = gameWidth(this.scene) / 2 - this.barWidth / 2;
+        this.barY = gameHeight(this.scene) / 2 - this.barHeight / 2;
         this.barColor = COLORS.customBlue.hex;
         this.barAlpha = 0.8;
 
         this.box = this.scene.add.graphics();
         this.boxWidth = this.barWidth + 10;
         this.boxHeight = this.barHeight + 10;
-        this.boxX = (gameWidth(this.scene) / 2) - (this.boxWidth / 2);
-        this.boxY = (gameHeight(this.scene) / 2) - (this.boxHeight / 2);
+        this.boxX = gameWidth(this.scene) / 2 - this.boxWidth / 2;
+        this.boxY = gameHeight(this.scene) / 2 - this.boxHeight / 2;
         this.boxColor = COLORS.white.hex;
         this.boxAlpha = 0.3;
 
@@ -63,21 +63,21 @@ export class LoadingBar {
 
         this.text = this.scene.make.text({
             x: gameWidth(this.scene) / 2,
-            y: (gameHeight(this.scene) / 2) + 40,
-            text: "Loading...",
+            y: gameHeight(this.scene) / 2 + 40,
+            text: 'Loading...',
             style: {
-                font: '20px monospace'
-            }
+                font: '20px monospace',
+            },
         });
         this.text.setOrigin(0.5, 0.5);
 
         this._progressText = this.scene.make.text({
-            x: (gameWidth(this.scene) / 2),
-            y: (gameHeight(this.scene) / 2),
-            text: "0%",
+            x: gameWidth(this.scene) / 2,
+            y: gameHeight(this.scene) / 2,
+            text: '0%',
             style: {
-                font: '18px monospace'
-            }
+                font: '18px monospace',
+            },
         });
         this._progressText.setOrigin(0.5, 0.5);
     }

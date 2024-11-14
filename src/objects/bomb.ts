@@ -1,4 +1,4 @@
-import { gameWidth, gameHeight } from "../helpers";
+import { gameWidth, gameHeight } from '../helpers';
 
 export class Bomb extends Phaser.Physics.Arcade.Sprite {
     constructor(params: { scene: Phaser.Scene; x: number; y: number; textureKey: string }) {
